@@ -1,0 +1,14 @@
+.hover:hover {
+    border-color: rgb(8, 8, 8);
+    cursor: pointer;
+}
+
+.hover {
+    border: 3px solid rgb(224, 220, 220);
+}
+
+.story {
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
