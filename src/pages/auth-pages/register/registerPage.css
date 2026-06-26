@@ -1,0 +1,10 @@
+.rainbow {
+    background: linear-gradient(90deg,
+            #ff0055,
+            #ff7a00,
+            #ffee00,
+            #00ff85,
+            #00cfff,
+            #7a5cff,
+            #ff00c8);
+}
