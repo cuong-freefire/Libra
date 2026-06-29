@@ -29,6 +29,18 @@ const router = createBrowserRouter(
         <Route path="/books/detail" element={<BookDetail />} />
         <Route path="/my-borrowings" element={<MyBorrowing />} />
       </Route>
+
+  {/*Route Admin*/}
+     <Route path="/admin" element={<AdminLayout/>}>
+        <Route path="books" element={<AdminBookList/>} />
+        <Route path="readers" element={<AdminReaderList/>} />
+        <Route path="dashboard" element={<AdminDashboard/>} />
+        <Route path="book-views" element={<AdminBooksView/>} />
+        <Route path="books/detail" element={<AdminBookDetail />} />
+        <Route path="books/borrowers" element={<AdminBookBorrowers />} />
+        <Route path="profile" element={<AdminProfile/>} />        
+        <Route path="borrowing" element={<AdminBorrowing/>} />        
+      </Route>
     </>
   )
 )
