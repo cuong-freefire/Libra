@@ -1,4 +1,4 @@
-import { House } from 'lucide-react';
+import { BookOpen, House, LayoutDashboard, Users } from 'lucide-react';
 import { BookMarked } from 'lucide-react';
 import { FileText } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -19,11 +19,13 @@ export default function Navbar() {
         { name: "Sách của tôi", link: "/books", icon: <BookMarked />, isSelect: pathName.pathname.split('/')[1] === 'books' ? true : false },
         { name: "Đơn mượn", link: "/my-borrowings", icon: <FileText />, isSelect: pathName.pathname.split('/')[1] === 'my-borrowings' ? true : false }
     ]
-
+    
     const adminItem = [
-        { name: "Trang chủ A", link: "/", icon: <House />, isSelect: pathName.pathname === '/' ? true : false },
-        { name: "Sách của tôi A", link: "/books", icon: <BookMarked />, isSelect: pathName.pathname.split('/')[1] === 'books' ? true : false },
-        { name: "Đơn mượn A", link: "/my-borrowings", icon: <FileText />, isSelect: pathName.pathname.split('/')[1] === 'my-borrowings' ? true : false }
+        { name: "Sách", link: "/admin/book-views", icon: <BookOpen size={20} />, isSelect: pathName.pathname === '/admin/book-views' ? true : false },
+        { name: "Tổng quan", link: "/admin/dashboard", icon: <LayoutDashboard size={20} />, isSelect: pathName.pathname === '/admin/dashboard' ? true : false },
+        { name: "Phiếu mượn", link: "/admin/borrowing", icon: <FileText size={20} />, isSelect: pathName.pathname === '/admin/borrowing' ? true : false },
+        { name: "Quản lý sách", link: "/admin/books", icon: <BookMarked size={20} />, isSelect: pathName.pathname === '/admin/books' ? true : false },
+        { name: "Quản lý Reader", link: "/admin/readers", icon: <Users size={20} />, isSelect: pathName.pathname === '/admin/readers' ? true : false }
     ]
     return (
         <div className="container-fluid bg-dark d-flex align-items-center py-3 m-0 fixed-top row">

@@ -25,10 +25,14 @@ export default function useLoginPage() {
             setIsLoading(true);
             const user = await LoginService(data);
             saveUser(user);
-            console.log("Đăng nhập thành công: ", user.name)
+            console.log("Đăng nhập thành công: ", user.name);
+            //Chỉnh sửa để sau khi đăng nhập admin thì chuyển sang trang dashboard.
+            if (user.role === "admin") {
+                navigate("/admin/dashboard", { replace: true });
+            } else {
             navigate('/', { replace: true });
-        }
-        catch (error) {
+            }
+        }catch (error) {
             toast.error(error.message || 'Đăng nhập thất bại.');
             toast.clearWaitingQueue(); // Clear những toast trong hàng chờ khác
             console.log("Đăng nhập thất bại.")
