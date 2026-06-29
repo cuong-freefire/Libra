@@ -45,13 +45,10 @@ export default function AdminLayout() {
                         )
                     })}
                 </ul>
-                
-                {/* <hr className="text-secondary" /> */}
-
+                                
                 <div className="d-flex align-items-center justify-content-between mt-2">
-                    
+                
                 </div>
-
                 <div className="border-top pt-3 mt-auto d-flex align-items-center justify-content-between">
                     <div className="d-flex align-items-center">
                         <Link to="/admin/profile" className="text-decoration-none">
@@ -68,8 +65,6 @@ export default function AdminLayout() {
 
                     <button className="btn btn-outline-light btn-sm" onClick={() => LogOutAction(removeUser,navigate)}>Đăng xuất</button>
                 </div>
-                
-                
 
             </div>
 
