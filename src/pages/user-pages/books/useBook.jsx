@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { getBookList } from "../../../services/userService";
+import { getBookList } from "../../../services/bookService";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export default function useBookList() {
+export default function useBook() {
 
     const [searchParams] = useSearchParams();
     const page = Number(searchParams.get('page')) || 1;

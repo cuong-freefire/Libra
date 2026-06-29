@@ -52,6 +52,7 @@ export async function getBookById(id) {
     params.append('_where', JSON.stringify({
         id: { eq: id }
     }));
+    console.log('Dữ liệu của Params: ', params);
     try {
 
         const res = await axiosApi.get('books', {

@@ -14,10 +14,16 @@ export default function Navbar() {
         { name: "Đăng nhập", link: "/login" },
         { name: "Đăng ký", link: "/register" }
     ]
-    const navItem = [
+    const userItem = [
         { name: "Trang chủ", link: "/", icon: <House />, isSelect: pathName.pathname === '/' ? true : false },
         { name: "Sách của tôi", link: "/books", icon: <BookMarked />, isSelect: pathName.pathname.split('/')[1] === 'books' ? true : false },
-        { name: "Đơn mượn", link: "/my-borrowings", icon: <FileText />, isSelect:  pathName.pathname.split('/')[1] === 'my-borrowings' ? true : false }
+        { name: "Đơn mượn", link: "/my-borrowings", icon: <FileText />, isSelect: pathName.pathname.split('/')[1] === 'my-borrowings' ? true : false }
+    ]
+
+    const adminItem = [
+        { name: "Trang chủ A", link: "/", icon: <House />, isSelect: pathName.pathname === '/' ? true : false },
+        { name: "Sách của tôi A", link: "/books", icon: <BookMarked />, isSelect: pathName.pathname.split('/')[1] === 'books' ? true : false },
+        { name: "Đơn mượn A", link: "/my-borrowings", icon: <FileText />, isSelect: pathName.pathname.split('/')[1] === 'my-borrowings' ? true : false }
     ]
     return (
         <div className="container-fluid bg-dark d-flex align-items-center py-3 m-0 fixed-top row">
@@ -28,14 +34,23 @@ export default function Navbar() {
                 <span className='text-light'><h1>Libra</h1></span>
             </div>
             <ul className='d-flex justify-content-evenly align-items-center m-0 p-0 col-6 list-unstyled'>
-                {navItem.map(item =>
-                    <li key={item.name} className={`navItem py-3 px-3 ${item.isSelect ? 'border border-white rounded' : ''}`}>
-                        <Link to={item.link} className='text-decoration-none text-light'>
-                            <span className='me-2'>{item.icon}</span>
-                            <span>{item.name}</span>
-                        </Link>
-                    </li>
-                )
+                {(user && user.role === 'reader') || !user ?
+                    userItem.map(item =>
+                        <li key={item.name} className={`navItem py-3 px-3 ${item.isSelect ? 'border border-white rounded' : ''}`}>
+                            <Link to={item.link} className='text-decoration-none text-light'>
+                                <span className='me-2'>{item.icon}</span>
+                                <span>{item.name}</span>
+                            </Link>
+                        </li>
+                    ) :
+                    adminItem.map(item =>
+                        <li key={item.name} className={`navItem py-3 px-3 ${item.isSelect ? 'border border-white rounded' : ''}`}>
+                            <Link to={item.link} className='text-decoration-none text-light'>
+                                <span className='me-2'>{item.icon}</span>
+                                <span>{item.name}</span>
+                            </Link>
+                        </li>
+                    )
                 }
             </ul >
             <div className='col-3 d-flex justify-content-end'>

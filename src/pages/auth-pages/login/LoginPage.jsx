@@ -2,6 +2,8 @@ import { ZodiacLibra } from "lucide-react";
 import useOnlineStatus from "../../../hooks/useOnlineStatus"
 import useLoginPage from "./useLoginPage"
 import { Loader } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { House } from 'lucide-react';
 
 export default function LoginPage() {
     const { register, errors, submitHandler, isLoading } = useLoginPage();
@@ -14,6 +16,7 @@ export default function LoginPage() {
                 {/* Cột trái: Giới thiệu hệ thống */}
                 <div className="col-md-5 d-flex flex-column justify-content-between p-5" style={{ backgroundColor: "#e5e7eb", color: "#111827" }}>
                     <div>
+                        <Link to={'/'} className="btn btn-dark mb-3"><House /> Home</Link>
                         <div className="d-flex align-items-center gap-2 mb-5">
                             <div className='col-3 d-flex align-items-center gap-2'>
                                 <span className='bg-success px-2 py-2 rounded-2 rainbow'>
