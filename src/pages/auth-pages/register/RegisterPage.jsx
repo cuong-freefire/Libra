@@ -1,4 +1,4 @@
-import { ZodiacLibra } from "lucide-react";
+import { House, ZodiacLibra } from "lucide-react";
 import useOnlineStatus from "../../../hooks/useOnlineStatus"
 import useRegisterPage from "./useRegisterPage"
 import { Link } from "react-router-dom"
@@ -14,6 +14,7 @@ export default function RegisterPage() {
                 {/* Cột trái: Giới thiệu hệ thống */}
                 <div className="col-md-5 d-flex flex-column justify-content-between p-5" style={{ backgroundColor: "#e5e7eb", color: "#111827" }}>
                     <div>
+                        <Link to={'/'} className="btn btn-dark mb-3"><House /> Home</Link>
                         <div className="d-flex align-items-center gap-2 mb-5">
                             {/* Icon chìa khóa SVG tối giản */}
                             <div className='col-3 d-flex align-items-center gap-2'>

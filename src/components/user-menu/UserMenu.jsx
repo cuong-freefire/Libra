@@ -78,7 +78,7 @@ export default function UserMenu({ user }) {
                                 <Link to={item.link} className={item.class}>{item.icon} {item.name}</Link>
                             </li>)}
                             <li className="w-100">
-                                <button className="btn btn-outline-light text-decoration-none w-100" onClick={() => LogOutAction(navigate, removeUser)}><LogOut /> Đăng xuất</button>
+                                <button className="btn btn-outline-light text-decoration-none w-100" onClick={() => LogOutAction(removeUser, navigate)}><LogOut /> Đăng xuất</button>
                             </li>
                         </ul>
                     </div>

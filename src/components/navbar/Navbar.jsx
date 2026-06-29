@@ -1,4 +1,4 @@
-import { House } from 'lucide-react';
+import { BookOpen, House, LayoutDashboard, Users } from 'lucide-react';
 import { BookMarked } from 'lucide-react';
 import { FileText } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -14,10 +14,18 @@ export default function Navbar() {
         { name: "Đăng nhập", link: "/login" },
         { name: "Đăng ký", link: "/register" }
     ]
-    const navItem = [
+    const userItem = [
         { name: "Trang chủ", link: "/", icon: <House />, isSelect: pathName.pathname === '/' ? true : false },
         { name: "Sách của tôi", link: "/books", icon: <BookMarked />, isSelect: pathName.pathname.split('/')[1] === 'books' ? true : false },
-        { name: "Đơn mượn", link: "/my-borrowings", icon: <FileText />, isSelect:  pathName.pathname.split('/')[1] === 'my-borrowings' ? true : false }
+        { name: "Đơn mượn", link: "/my-borrowings", icon: <FileText />, isSelect: pathName.pathname.split('/')[1] === 'my-borrowings' ? true : false }
+    ]
+    
+    const adminItem = [
+        { name: "Sách", link: "/admin/book-views", icon: <BookOpen size={20} />, isSelect: pathName.pathname === '/admin/book-views' ? true : false },
+        { name: "Tổng quan", link: "/admin/dashboard", icon: <LayoutDashboard size={20} />, isSelect: pathName.pathname === '/admin/dashboard' ? true : false },
+        { name: "Phiếu mượn", link: "/admin/borrowing", icon: <FileText size={20} />, isSelect: pathName.pathname === '/admin/borrowing' ? true : false },
+        { name: "Quản lý sách", link: "/admin/books", icon: <BookMarked size={20} />, isSelect: pathName.pathname === '/admin/books' ? true : false },
+        { name: "Quản lý Reader", link: "/admin/readers", icon: <Users size={20} />, isSelect: pathName.pathname === '/admin/readers' ? true : false }
     ]
     return (
         <div className="container-fluid bg-dark d-flex align-items-center py-3 m-0 fixed-top row">
@@ -28,14 +36,23 @@ export default function Navbar() {
                 <span className='text-light'><h1>Libra</h1></span>
             </div>
             <ul className='d-flex justify-content-evenly align-items-center m-0 p-0 col-6 list-unstyled'>
-                {navItem.map(item =>
-                    <li key={item.name} className={`navItem py-3 px-3 ${item.isSelect ? 'border border-white rounded' : ''}`}>
-                        <Link to={item.link} className='text-decoration-none text-light'>
-                            <span className='me-2'>{item.icon}</span>
-                            <span>{item.name}</span>
-                        </Link>
-                    </li>
-                )
+                {(user && user.role === 'reader') || !user ?
+                    userItem.map(item =>
+                        <li key={item.name} className={`navItem py-3 px-3 ${item.isSelect ? 'border border-white rounded' : ''}`}>
+                            <Link to={item.link} className='text-decoration-none text-light'>
+                                <span className='me-2'>{item.icon}</span>
+                                <span>{item.name}</span>
+                            </Link>
+                        </li>
+                    ) :
+                    adminItem.map(item =>
+                        <li key={item.name} className={`navItem py-3 px-3 ${item.isSelect ? 'border border-white rounded' : ''}`}>
+                            <Link to={item.link} className='text-decoration-none text-light'>
+                                <span className='me-2'>{item.icon}</span>
+                                <span>{item.name}</span>
+                            </Link>
+                        </li>
+                    )
                 }
             </ul >
             <div className='col-3 d-flex justify-content-end'>

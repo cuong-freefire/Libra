@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getBookById } from "../../../services/userService";
+import { getBookById } from "../../../services/bookService";
 import { toast } from "react-toastify";
 
 export default function useBookDetail({ id }) {
