@@ -1,9 +1,8 @@
 import React from "react";
 import {
-    createBrowserRouter,
-    createRoutesFromElements,
-    RouterProvider,
-    Route
+    Route,
+    BrowserRouter,
+    Routes
 } from "react-router-dom";
 import LoginPage from "./pages/auth-pages/login/LoginPage";
 import RegisterPage from "./pages/auth-pages/register/RegisterPage";
@@ -25,53 +24,44 @@ import AdminBookBorrowers from "./pages/admin-pages/AdminBookBorrowers"
 import AdminProfile from "./pages/admin-pages/AdminProfile"
 import AdminBorrowing from "./pages/admin-pages/AdminBorrowing"
 
-const routeAuth =
-    <Route element={<AuthLayout />}>
-        <Route path="login" element={<LoginPage />} />
-        <Route path="register" element={<RegisterPage />} />
-    </Route>
-
-const routerUser = createBrowserRouter(
-    createRoutesFromElements(
-        <>
-            {routeAuth}
-            <Route path="/" element={<UserLayout />}>
-                <Route index element={<UserHome />} />
-                <Route path="/books" element={<BookPage />} />
-                <Route path="/books/detail" element={<BookDetail />} />
-                <Route path="/my-borrowings" element={<BorrowingPage />} />
-            </Route>
-
-            <Route path="*" element={<NotFoundPage />} />
-        </>
-    )
-)
-
-const routerAdmin = createBrowserRouter(
-    createRoutesFromElements(
-        <>
-            {routeAuth}
-            <Route path="/admin" element={<AdminLayout />}>
-                <Route path="books" element={<AdminBookList />} />
-                <Route path="readers" element={<AdminReaderList />} />
-                <Route path="dashboard" element={<AdminDashboard />} />
-                <Route path="book-views" element={<AdminBooksView />} />
-                <Route path="books/detail" element={<AdminBookDetail />} />
-                <Route path="books/borrowers" element={<AdminBookBorrowers />} />
-                <Route path="profile" element={<AdminProfile />} />
-                <Route path="borrowing" element={<AdminBorrowing />} />
-            </Route>
-            <Route path="*" element={<NotFoundPage />} />
-        </>
-    )
-)
+// Cần thêm Route thì thêm ở đây tuyệt đối không được thêm nơi khác.
 
 export default function AppRouter() {
     const { isAuthenticated, user } = useAuthContext();
     return (
-        user?.role === 'reader' || !isAuthenticated ?
-            <RouterProvider router={routerUser} />
-            :
-            <RouterProvider router={routerAdmin} />
+        <BrowserRouter>
+            <Routes>
+                {user?.role === 'admin' || isAuthenticated ?
+                    (
+                        // Admin routes
+                        <Route path="/admin" element={<AdminLayout />}>
+                            <Route path="books" element={<AdminBookList />} />
+                            <Route path="readers" element={<AdminReaderList />} />
+                            <Route path="dashboard" element={<AdminDashboard />} />
+                            <Route path="book-views" element={<AdminBooksView />} />
+                            <Route path="books/detail" element={<AdminBookDetail />} />
+                            <Route path="books/borrowers" element={<AdminBookBorrowers />} />
+                            <Route path="profile" element={<AdminProfile />} />
+                            <Route path="borrowing" element={<AdminBorrowing />} />
+                        </Route>
+                    ) :
+                    (
+                        // User routes
+                        <Route path="/" element={<UserLayout />}>
+                            <Route index element={<UserHome />} />
+                            <Route path="/books" element={<BookPage />} />
+                            <Route path="/books/detail" element={<BookDetail />} />
+                            <Route path="/my-borrowings" element={<BorrowingPage />} />
+                        </Route>
+
+                    )
+                }
+                <Route element={<AuthLayout />}>
+                    <Route path="login" element={<LoginPage />} />
+                    <Route path="register" element={<RegisterPage />} />
+                </Route>
+                <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+        </BrowserRouter>
     );
 }

@@ -13,3 +13,29 @@
             #7a5cff,
             #ff00c8);
 }
+
+.royal-gold {
+    background: linear-gradient(
+        90deg,
+        #1c1c1c,
+        #3b2f2f,
+        #6b4f2a,
+        #b08d57,
+        #d4af37,
+        #b08d57,
+        #1c1c1c
+    );
+}
+
+.navy-champaing {
+    background: linear-gradient(
+        90deg,
+        #0b132b,
+        #1c2541,
+        #3a506b,
+        #c6a664,
+        #e6d3a3,
+        #3a506b,
+        #0b132b
+    );
+}
