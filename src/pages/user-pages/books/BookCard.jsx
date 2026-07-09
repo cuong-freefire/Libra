@@ -81,7 +81,7 @@ export default function BookCard({ book }) {
                         <span className="badge pill-rounded text-bg-info position-absolute top-0 end-0 p-2 mx-1 my-1">Chờ duyệt</span>
                         :
                         condition === 'borrowing' ?
-                            <span className="badge pill-rounded text-bg-success position-absolute top-0 end-0 p-2 mx-1 my-1">Đang mượn</span>
+                            <span className="badge pill-rounded text-bg-success position-absolute top-0 end-0 p-2 mx-1 my-1">Đã mượn</span>
                             :
                             <span className="badge pill-rounded text-bg-warning position-absolute top-0 end-0 p-2 mx-1 my-1">Sách khả dụng: {availableBook}</span>
             }
@@ -106,18 +106,20 @@ export default function BookCard({ book }) {
                             :
                             (availableBook <= 0) ?
                                 <div className="d-flex justify-content-center gap-3 ">
+                                    <Link className="btn btn-dark" to={`/books/detail?id=${book.id}`}>Xem chi tiêt</Link>
                                     <button className="btn btn-danger" disabled>Hết sách...</button>
                                 </div>
                                 :
                                 (condition === 'pending') ?
-                                    <div className="d-flex flex-column justify-content-center gap-3">
-                                        <button className="btn btn-primary shadow-lg">Bạn đang có đơn chờ duyệt...</button>
-                                        <button className="btn btn-danger shadow-lg mb-3" onClick={() => { oncancel() }}>Huỷ đơn</button>
+                                    <div className="d-flex justify-content-center gap-3">
+                                        <Link className="btn btn-dark" to={`/books/detail?id=${book.id}`}>Xem chi tiêt</Link>
+                                        <button className="btn btn-danger" onClick={() => { oncancel() }}>Huỷ đơn</button>
                                     </div>
                                     :
                                     (condition === 'borrowing') ?
                                         <div className="d-flex justify-content-center gap-3 ">
-                                            <button className="btn btn-success shadow-lg">Bạn đang mượn sách</button>
+                                            <Link className="btn btn-dark" to={`/books/detail?id=${book.id}`}>Xem chi tiêt</Link>
+                                            <button className="btn btn-success shadow-lg">Đã mượn</button>
                                         </div>
                                         :
                                         <div className="d-flex justify-content-center gap-3 ">
