@@ -31,7 +31,7 @@ export default function AppRouter() {
     return (
         <BrowserRouter>
             <Routes>
-                {user?.role === 'admin' || isAuthenticated ?
+                {user?.role === 'admin' && isAuthenticated ?
                     (
                         // Admin routes
                         <Route path="/admin" element={<AdminLayout />}>
