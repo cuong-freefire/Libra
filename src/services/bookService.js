@@ -1,6 +1,6 @@
 import { axiosApi } from "../api/axios";
 
-export async function getBookList(page, limit, query) {
+export async function getBookList(page, limit, query, category) {
     try {
         const conditions = {
             _page: page, // Số trang hiện tại
@@ -12,6 +12,7 @@ export async function getBookList(page, limit, query) {
                     { 'description': { 'contains': query } },
                     { 'author': { 'contains': query } },
                 ],
+                ...(category && { categoryId: { eq: category } }),
                 'is_active': { eq: true }
             })
         }

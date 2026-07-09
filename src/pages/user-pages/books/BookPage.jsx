@@ -4,12 +4,14 @@ import Search from "../../../components/search/Search";
 import useBook from "./useBook"
 import BookCard from "./BookCard";
 import './book.css'
+import CategoryFilter from "../../../components/category-filter/CategoryFilter";
 
 export default function BookPage() {
     const { books, isLoading, totalPage } = useBook();
     return (
         <div>
             <Search placeholder={'Nội dung tìm kiếm...'} />
+            <CategoryFilter/>
             {
                 isLoading ?
                     <h1>Đang tải dữ liệu...</h1> :

@@ -8,6 +8,7 @@ export default function useBook() {
     const [searchParams] = useSearchParams();
     const page = Number(searchParams.get('page')) || 1;
     const query = searchParams.get('query') || '';
+    const category = searchParams.get('category') || 0;
     const limit = 20;
     const [totalPage, setTotalPage] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
@@ -17,7 +18,7 @@ export default function useBook() {
         async function fetchData() {
             try {
                 setIsLoading(true);
-                const res = await getBookList(page, limit, query);
+                const res = await getBookList(page, limit, query, category);
                 console.log("API Response of BookList:", res.data);
                 setBooks(res.data);
                 setTotalPage(res.totalPage);
@@ -34,7 +35,7 @@ export default function useBook() {
             }
         }
         fetchData();
-    }, [page, query])
+    }, [page, query, category])
 
     return { books, isLoading, totalPage }
 }
