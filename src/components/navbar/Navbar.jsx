@@ -16,6 +16,7 @@ export default function Navbar() {
     ]
     const userItem = [
         { name: "Trang chủ", link: "/", icon: <House />, isSelect: pathName.pathname === '/' ? true : false },
+        { name: "Tổng quan", link: "/dashboard", icon: <LayoutDashboard />, isSelect: pathName.pathname === '/dashboard' ? true : false },
         { name: "Sách của tôi", link: "/books", icon: <BookMarked />, isSelect: pathName.pathname.split('/')[1] === 'books' ? true : false },
         { name: "Đơn mượn", link: "/my-borrowings", icon: <FileText />, isSelect: pathName.pathname.split('/')[1] === 'my-borrowings' ? true : false }
     ]

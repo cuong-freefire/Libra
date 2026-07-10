@@ -9,6 +9,7 @@ import RegisterPage from "./pages/auth-pages/register/RegisterPage";
 import AuthLayout from "./layouts/AuthLayout";
 import UserLayout from "./layouts/UserLayout";
 import UserHome from "./pages/user-pages/user-home/UserHome";
+import Dashboard from "./pages/user-pages/dashboard/Dashboard";
 import BookPage from "./pages/user-pages/books/BookPage";
 import BorrowingPage from "./pages/user-pages/my-borrowings/BorrowingPage";
 import BookDetail from "./pages/user-pages/books/BookDetail";
@@ -49,6 +50,7 @@ export default function AppRouter() {
                         // User routes
                         <Route path="/" element={<UserLayout />}>
                             <Route index element={<UserHome />} />
+                            <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/books" element={<BookPage />} />
                             <Route path="/books/detail" element={<BookDetail />} />
                             <Route path="/my-borrowings" element={<BorrowingPage />} />
