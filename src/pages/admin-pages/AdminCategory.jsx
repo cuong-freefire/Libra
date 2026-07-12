@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Search, Plus, Edit, Trash2, ChevronUp, ChevronDown } from "lucide-react";
+import { Search, Plus, Edit, Trash2, Eye, EyeOff, ChevronUp, ChevronDown } from "lucide-react";
 import { axiosApi } from "../../api/axios";
 import { toast } from "react-toastify";
 import Pagination from "../../components/pagination/Pagination";
@@ -18,8 +18,12 @@ export default function AdminCategory() {
 
     const [formData, setFormData] = useState({
         name: "",
-        description: ""
+        description: "",
+        is_active: true
     });
+
+    const visibleCategoriesCount = categories.filter((cat) => cat.is_active !== false).length;
+    const hiddenCategoriesCount = categories.length - visibleCategoriesCount;
 
     // Fetch categories
     useEffect(() => {
@@ -42,7 +46,7 @@ export default function AdminCategory() {
     // Search and sort categories
     useEffect(() => {
         let filtered = categories.filter(cat =>
-            cat.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            cat.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
             (cat.description && cat.description.toLowerCase().includes(searchTerm.toLowerCase()))
         );
 
@@ -70,14 +74,18 @@ export default function AdminCategory() {
             return;
         }
 
+        const payload = {
+            name: formData.name.trim(),
+            description: formData.description.trim(),
+            is_active: formData.is_active
+        };
+
         try {
             if (editingId) {
-                // Update
-                await axiosApi.put(`categories/${editingId}`, formData);
+                await axiosApi.put(`categories/${editingId}`, payload);
                 toast.success("Cập nhật thể loại thành công");
             } else {
-                // Create
-                await axiosApi.post("categories", formData);
+                await axiosApi.post("categories", payload);
                 toast.success("Thêm thể loại thành công");
             }
 
@@ -101,19 +109,32 @@ export default function AdminCategory() {
         }
     };
 
+    const handleToggleVisibility = async (category) => {
+        const nextValue = category.is_active === false ? true : false;
+
+        try {
+            await axiosApi.patch(`categories/${category.id}`, { is_active: nextValue });
+            toast.success(nextValue ? "Đã hiển thị thể loại cho bạn đọc" : "Đã ẩn thể loại khỏi bạn đọc");
+            loadCategories();
+        } catch (error) {
+            toast.error(error.message || "Lỗi cập nhật trạng thái hiển thị");
+        }
+    };
+
     // Handle edit
     const handleEdit = (category) => {
         setEditingId(category.id);
         setFormData({
             name: category.name,
-            description: category.description || ""
+            description: category.description || "",
+            is_active: category.is_active !== false
         });
         setShowModal(true);
     };
 
     // Reset form
     const resetForm = () => {
-        setFormData({ name: "", description: "" });
+        setFormData({ name: "", description: "", is_active: true });
         setEditingId(null);
         setShowModal(false);
     };
@@ -142,16 +163,16 @@ export default function AdminCategory() {
                 <div className="col-md-4">
                     <div className="card border-dark shadow-sm">
                         <div className="card-body text-center">
-                            <h3 className="text-dark fw-bold">{filteredCategories.length}</h3>
-                            <p className="text-muted mb-0">Thể loại tìm được</p>
+                            <h3 className="text-dark fw-bold">{visibleCategoriesCount}</h3>
+                            <p className="text-muted mb-0">Đang hiển thị</p>
                         </div>
                     </div>
                 </div>
                 <div className="col-md-4">
                     <div className="card border-dark shadow-sm">
                         <div className="card-body text-center">
-                            <h3 className="text-dark fw-bold">{filteredCategories.reduce((sum, cat) => sum + (cat.bookCount || 0), 0)}</h3>
-                            <p className="text-muted mb-0">Tổng sách</p>
+                            <h3 className="text-dark fw-bold">{hiddenCategoriesCount}</h3>
+                            <p className="text-muted mb-0">Đã ẩn</p>
                         </div>
                     </div>
                 </div>
@@ -224,6 +245,7 @@ export default function AdminCategory() {
                                 {sortBy === 'name' && (sortOrder === 'asc' ? <ChevronUp size={14} className="ms-1" style={{ display: 'inline' }} /> : <ChevronDown size={14} className="ms-1" style={{ display: 'inline' }} />)}
                             </th>
                             <th className="py-3">Mô tả</th>
+                            <th className="py-3 text-center">Trạng thái</th>
                             <th className="py-3 text-center">Số lượng</th>
                             <th className="py-3 text-end px-4">Thao tác</th>
                         </tr>
@@ -235,9 +257,21 @@ export default function AdminCategory() {
                                     <td className="px-3 fw-medium">{category.name}</td>
                                     <td>{category.description || "—"}</td>
                                     <td className="text-center">
+                                        <span className={`badge ${category.is_active === false ? "bg-secondary" : "bg-success"}`}>
+                                            {category.is_active === false ? "Đã ẩn" : "Đang hiển thị"}
+                                        </span>
+                                    </td>
+                                    <td className="text-center">
                                         <span className="badge bg-info text-dark">{category.bookCount || 0}</span>
                                     </td>
                                     <td className="text-end px-3">
+                                        <button
+                                            className={`btn btn-sm ${category.is_active === false ? "btn-outline-success" : "btn-outline-secondary"} me-2`}
+                                            onClick={() => handleToggleVisibility(category)}
+                                            title={category.is_active === false ? "Hiển thị cho bạn đọc" : "Ẩn khỏi bạn đọc"}
+                                        >
+                                            {category.is_active === false ? <Eye size={16} /> : <EyeOff size={16} />}
+                                        </button>
                                         <button
                                             className="btn btn-sm btn-outline-dark me-2"
                                             onClick={() => handleEdit(category)}
@@ -342,6 +376,25 @@ export default function AdminCategory() {
                                         maxLength="200"
                                     ></textarea>
                                     <small className="text-muted">{formData.description.length}/200</small>
+                                </div>
+
+                                <div className="mb-3">
+                                    <label className="form-label fw-bold">Trạng thái hiển thị</label>
+                                    <div className="form-check form-switch mt-2">
+                                        <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            role="switch"
+                                            id="category-visibility"
+                                            checked={formData.is_active}
+                                            onChange={(e) =>
+                                                setFormData({ ...formData, is_active: e.target.checked })
+                                            }
+                                        />
+                                        <label className="form-check-label" htmlFor="category-visibility">
+                                            {formData.is_active ? "Hiển thị cho bạn đọc" : "Ẩn khỏi bạn đọc"}
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
 
