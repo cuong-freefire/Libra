@@ -246,7 +246,7 @@ export default function AdminCategory() {
                             </th>
                             <th className="py-3">Mô tả</th>
                             <th className="py-3 text-center">Trạng thái</th>
-                            <th className="py-3 text-center">Số lượng</th>
+                            <th className="py-3 text-center">Trạng thái</th>
                             <th className="py-3 text-end px-4">Thao tác</th>
                         </tr>
                     </thead>
@@ -260,9 +260,6 @@ export default function AdminCategory() {
                                         <span className={`badge ${category.is_active === false ? "bg-secondary" : "bg-success"}`}>
                                             {category.is_active === false ? "Đã ẩn" : "Đang hiển thị"}
                                         </span>
-                                    </td>
-                                    <td className="text-center">
-                                        <span className="badge bg-info text-dark">{category.bookCount || 0}</span>
                                     </td>
                                     <td className="text-end px-3">
                                         <button
