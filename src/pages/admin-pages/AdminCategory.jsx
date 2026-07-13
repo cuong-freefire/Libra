@@ -33,9 +33,27 @@ export default function AdminCategory() {
     const loadCategories = async () => {
         try {
             setLoading(true);
-            const response = await axiosApi.get("categories");
-            setCategories(response.data || []);
-            setFilteredCategories(response.data || []);
+            // Fetch categories and books in parallel and compute book counts per category
+            const [catRes, bookRes] = await Promise.all([
+                axiosApi.get("categories"),
+                axiosApi.get("books")
+            ]);
+
+            const cats = catRes.data || [];
+            const books = Array.isArray(bookRes.data) ? bookRes.data : (bookRes.data?.data || []);
+
+            const counts = {};
+            books.forEach((b) => {
+                if (!b) return;
+                const cid = b.categoryId;
+                if (!cid) return;
+                counts[cid] = (counts[cid] || 0) + 1;
+            });
+
+            const catsWithCount = cats.map((c) => ({ ...c, bookCount: counts[c.id] || 0 }));
+
+            setCategories(catsWithCount);
+            setFilteredCategories(catsWithCount);
         } catch (error) {
             toast.error(error.message || "Lỗi tải danh sách thể loại");
         } finally {
@@ -246,7 +264,7 @@ export default function AdminCategory() {
                             </th>
                             <th className="py-3">Mô tả</th>
                             <th className="py-3 text-center">Trạng thái</th>
-                            <th className="py-3 text-center">Trạng thái</th>
+                            <th className="py-3 text-center">Số lượng</th>
                             <th className="py-3 text-end px-4">Thao tác</th>
                         </tr>
                     </thead>
@@ -260,6 +278,9 @@ export default function AdminCategory() {
                                         <span className={`badge ${category.is_active === false ? "bg-secondary" : "bg-success"}`}>
                                             {category.is_active === false ? "Đã ẩn" : "Đang hiển thị"}
                                         </span>
+                                    </td>
+                                    <td className="text-center">
+                                        <span className="badge bg-info text-dark">{category.bookCount || 0}</span>
                                     </td>
                                     <td className="text-end px-3">
                                         <button
@@ -288,7 +309,7 @@ export default function AdminCategory() {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="4" className="text-center py-4 text-muted">
+                                <td colSpan="5" className="text-center py-4 text-muted">
                                     Không có thể loại nào
                                 </td>
                             </tr>
