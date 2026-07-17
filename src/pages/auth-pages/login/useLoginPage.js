@@ -1,44 +1,48 @@
-import { useForm } from 'react-hook-form'
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginFormObject } from './LoginFormSchema';
-import { LoginService } from '../../../services/authService';
-import { useAuthContext } from '../../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { LoginFormObject } from "./LoginFormSchema";
+import { LoginService } from "../../../services/authService";
+import { useAuthContext } from "../../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function useLoginPage() {
-    const { saveUser } = useAuthContext();
-    const [isLoading, setIsLoading] = useState(false);
+  const { saveUser } = useAuthContext();
+  const [isLoading, setIsLoading] = useState(false);
 
-    const navigate = useNavigate();
-    const {
-        register,
-        handleSubmit,
-        formState: { errors }
-    } = useForm({
-        resolver: zodResolver(LoginFormObject)
-    })
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(LoginFormObject),
+  });
 
-    async function onSubmit(data) {
-        try {
-            setIsLoading(true);
-            const user = await LoginService(data);
-            saveUser(user);
-            console.log("Đăng nhập thành công: ", user.name)
-            navigate('/', { replace: true });
-        }
-        catch (error) {
-            toast.error(error.message || 'Đăng nhập thất bại.');
-            toast.clearWaitingQueue(); // Clear những toast trong hàng chờ khác
-            console.log("Đăng nhập thất bại.")
-        }
-        finally {
-            setIsLoading(false);
-        }
+  async function onSubmit(data) {
+    try {
+      setIsLoading(true);
+      const user = await LoginService(data);
+      saveUser(user);
+      console.log("Đăng nhập thành công: ", user.name);
+
+      // Kiểm tra role để điều hướng cho phù hợp
+      if (user.role === "admin") {
+        navigate("/admin/dashboard", { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
+    } catch (error) {
+      toast.error(error.message || "Đăng nhập thất bại.");
+      toast.clearWaitingQueue(); // Clear những toast trong hàng chờ khác
+      console.log("Đăng nhập thất bại.");
+    } finally {
+      setIsLoading(false);
     }
+  }
 
-    const submitHandler = handleSubmit(onSubmit);
+  const submitHandler = handleSubmit(onSubmit);
 
-    return { register, errors, submitHandler, isLoading }
+  return { register, errors, submitHandler, isLoading };
 }
