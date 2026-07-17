@@ -39,7 +39,7 @@ export default function AdminCategory() {
                 axiosApi.get("books")
             ]);
 
-            const cats = catRes.data || [];
+            const cats = Array.isArray(catRes.data) ? catRes.data : (catRes.data?.data || []);
             const books = Array.isArray(bookRes.data) ? bookRes.data : (bookRes.data?.data || []);
 
             const counts = {};
@@ -331,14 +331,6 @@ export default function AdminCategory() {
                         />
                     )}
                 </div>
-            )}
-
-            {totalPages > 1 && (
-                <Pagination
-                    totalPage={totalPages}
-                    currentPage={currentPage}
-                    onPageChange={setCurrentPage}
-                />
             )}
 
             {/* Modal */}
