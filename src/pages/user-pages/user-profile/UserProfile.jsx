@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useAuthContext } from "../../context/AuthContext";
-import { axiosApi } from "../../api/axios";
+import { useAuthContext } from "../../../context/AuthContext";
+import { axiosApi } from "../../../api/axios";
 import { toast } from "react-toastify";
 import { User, Lock, Image, Save } from "lucide-react";
 
-export default function AdminProfile() {
+
+export default function UserProfile() {
     const { user, saveUser } = useAuthContext();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -128,9 +129,9 @@ export default function AdminProfile() {
     return (
         <div className="container py-4">            
             {/* <div className="p-4"> */}
-                <h2 className="fw-bold text-uppercase text-secondary fs-6 mb-1">Admin</h2>
+                <h2 className="fw-bold text-uppercase text-secondary fs-6 mb-1">User</h2>
                 <h1 className="fw-bold fs-2 mb-2">Thông tin cá nhân</h1>
-                <p className="text-muted">Quản lý tài khoản Admin của bạn.</p>
+                <p className="text-muted">Quản lý tài khoản của bạn.</p>
             {/* </div> */}
             <div className="row g-4">
                 {/* CỘT BÊN TRÁI: ĐỔI THÔNG TIN VÀ AVATAR */}

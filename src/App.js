@@ -23,6 +23,7 @@ import AdminProfile from "./pages/admin-pages/AdminProfile";
 import AdminBorrowing from "./pages/admin-pages/AdminBorrowing";
 import AdminBookDetail from "./pages/admin-pages/AdminBookDetail";
 import AdminBookBorrowers from "./pages/admin-pages/AdminBookBorrowers";
+import UserProfile from "./pages/user-pages/user-profile/UserProfile";
 
 
 
@@ -41,6 +42,7 @@ const router = createBrowserRouter(
         <Route path="/books" element={<BookList />} />
         <Route path="/books/detail" element={<BookDetail />} />
         <Route path="/my-borrowings" element={<MyBorrowing />} />
+        <Route path="/profile" element={<UserProfile/>} />
       </Route>
 
       {/* --- THÊM KHỐI ROUTE CHO ADMIN --- */}

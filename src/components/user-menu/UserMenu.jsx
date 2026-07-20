@@ -10,7 +10,7 @@ export default function UserMenu({ user }) {
     const navigate = useNavigate();
     const { removeUser } = useAuthContext();
     const menuItem = [
-        { name: 'Thông tin cá nhân', link: '#', icon: <Info />, class: 'btn btn-info text-decoration-none text-light w-100' },
+        { name: 'Thông tin cá nhân', link: '/profile', icon: <Info />, class: 'btn btn-info text-decoration-none text-light w-100' },
     ]
     return (
         <div className="position-relative">
