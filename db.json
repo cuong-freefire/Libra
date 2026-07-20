@@ -788,10 +788,10 @@
       "bookId": "1",
       "borrowDate": "2026-05-28",
       "dueDate": "2026-06-11",
-      "returnDate": null,
-      "status": "borrowing",
+      "returnDate": "2026-07-18",
+      "status": "returned",
       "rejectReason": "",
-      "returnCondition": null,
+      "returnCondition": "normal",
       "returnNote": ""
     },
     {
@@ -1057,6 +1057,18 @@
       "returnCondition": null,
       "returnNote": "",
       "id": "M2HusJ9qWUM"
+    },
+    {
+      "userId": "2",
+      "bookId": "3",
+      "borrowDate": null,
+      "dueDate": null,
+      "returnDate": null,
+      "status": "pending",
+      "rejectReason": "",
+      "returnCondition": null,
+      "returnNote": "",
+      "id": "u0LUtG00_5I"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

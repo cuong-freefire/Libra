@@ -13,73 +13,25 @@ const statItems = [
 ]
 
 function Icon({ name }) {
-    // Simple inline SVG icons for the dashboard. Add or replace as needed.
     switch (name) {
         case 'book':
-            return (
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 6.5A2.5 2.5 0 015.5 4H19" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M3 19.5A2.5 2.5 0 015.5 17H19" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-            )
+            return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 6.5A2.5 2.5 0 015.5 4H19" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M3 19.5A2.5 2.5 0 015.5 17H19" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
         case 'users':
-            return (
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    <circle cx="9.5" cy="7" r="3" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M20 8v1" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-            )
+            return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><circle cx="9.5" cy="7" r="3" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M20 8v1" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
         case 'clipboard':
-            return (
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9 2h6v2H9z" fill="#f3f4f6"/>
-                    <rect x="7" y="4" width="10" height="16" rx="2" stroke="#6b7280" strokeWidth="1.5"/>
-                </svg>
-            )
+            return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 2h6v2H9z" fill="#f3f4f6"/><rect x="7" y="4" width="10" height="16" rx="2" stroke="#6b7280" strokeWidth="1.5"/></svg>
         case 'shelves':
-            return (
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 6h18" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
-                    <path d="M3 12h18" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
-                    <path d="M3 18h18" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
-                </svg>
-            )
+            return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/><path d="M3 12h18" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/><path d="M3 18h18" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/></svg>
         case 'check':
-            return (
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 6L9 17l-5-5" stroke="#6b7280" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-            )
+            return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 6L9 17l-5-5" stroke="#6b7280" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
         case 'thumbsDown':
-            return (
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 14V5a1 1 0 011-1h3l3 7v6a2 2 0 01-2 2H12" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M3 10h4v10H3z" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-            )
+            return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 14V5a1 1 0 011-1h3l3 7v6a2 2 0 01-2 2H12" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M3 10h4v10H3z" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
         case 'xCircle':
-            return (
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="9" stroke="#6b7280" strokeWidth="1.5"/>
-                    <path d="M15 9l-6 6M9 9l6 6" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-            )
+            return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="#6b7280" strokeWidth="1.5"/><path d="M15 9l-6 6M9 9l6 6" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
         case 'clock':
-            return (
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="9" stroke="#6b7280" strokeWidth="1.5"/>
-                    <path d="M12 7v6l4 2" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-            )
+            return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="#6b7280" strokeWidth="1.5"/><path d="M12 7v6l4 2" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
         case 'alert':
-            return (
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="#6b7280" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M12 9v4" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
-                    <path d="M12 17h.01" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
-                </svg>
-            )
+            return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="#6b7280" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/><path d="M12 9v4" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/><path d="M12 17h.01" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/></svg>
         default:
             return null
     }
