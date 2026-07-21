@@ -4,10 +4,13 @@
 }
 
 .admin-borrowing__heading {
+    align-items: flex-start;
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 1.8rem;
 }
 
-.admin-borrowing__heading>span {
+.admin-borrowing__heading span {
     color: #54749b;
     font-size: .78rem;
     font-weight: 800;
@@ -23,6 +26,33 @@
 .admin-borrowing__heading p {
     color: #627083;
     margin: 0;
+}
+
+.admin-borrowing__refresh {
+    align-items: center;
+    background: #1f2937;
+    border: 1px solid #1f2937;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font: inherit;
+    font-weight: 700;
+    gap: .45rem;
+    padding: .65rem .8rem;
+}
+
+.admin-borrowing__refresh:disabled {
+    cursor: wait;
+    opacity: .65;
+}
+
+.is-spinning {
+    animation: admin-borrowing-spin .8s linear infinite;
+}
+
+@keyframes admin-borrowing-spin {
+    to { transform: rotate(360deg); }
 }
 
 .admin-borrowing__filters {
@@ -100,15 +130,16 @@
     vertical-align: middle;
 }
 
-.admin-borrowing__table th:nth-child(1) { width: 12.5%; }
+.admin-borrowing__table th:nth-child(1) { width: 8%; }
 .admin-borrowing__table th:nth-child(2) { width: 11%; }
 .admin-borrowing__table th:nth-child(3) { width: 14%; }
-.admin-borrowing__table th:nth-child(4) { width: 12%; }
-.admin-borrowing__table th:nth-child(5),
+.admin-borrowing__table th:nth-child(4) { width: 9%; }
+.admin-borrowing__table th:nth-child(5) { width: 11%; }
 .admin-borrowing__table th:nth-child(6),
-.admin-borrowing__table th:nth-child(7) { width: 8%; }
-.admin-borrowing__table th:nth-child(8) { width: 6%; }
-.admin-borrowing__table th:nth-child(9) { width: 20.5%; }
+.admin-borrowing__table th:nth-child(7),
+.admin-borrowing__table th:nth-child(8) { width: 8%; }
+.admin-borrowing__table th:nth-child(9) { width: 6%; }
+.admin-borrowing__table th:nth-child(10) { width: 19%; }
 
 .admin-borrowing__table th:last-child,
 .admin-borrowing__table td:last-child {
@@ -323,6 +354,10 @@
 }
 
 @media (max-width: 576px) {
+    .admin-borrowing__heading {
+        gap: 1rem;
+    }
+
     .admin-borrowing__heading h1 {
         font-size: 1.65rem;
     }
