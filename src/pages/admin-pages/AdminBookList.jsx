@@ -1,155 +1,207 @@
-import { useState } from "react";
-import { Search, Plus, Edit, Trash2 } from "lucide-react";
-import Pagination from "../../components/pagination/Pagination";
+import { useEffect, useMemo, useState } from "react";
+import { Edit, Plus, Save, Search, Trash2, X } from "lucide-react";
+import { toast } from "react-toastify";
+import { axiosApi } from "../../api/axios";
+import "./adminManagement.css";
 
+const emptyForm = {
+    title: "", author: "", categoryId: "", shelfId: "", description: "",
+    totalCopies: 1, borrowedCopies: 0, pendingCopies: 0, damagedCopies: 0, lostCopies: 0,
+    coverImage: "", is_active: true
+};
 
 export default function AdminBookList() {
-    // State giả lập cho form thêm sách
-    const [showModal, setShowModal] = useState(false);
+    const [books, setBooks] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [shelves, setShelves] = useState([]);
+    const [borrowings, setBorrowings] = useState([]);
+    const [form, setForm] = useState(emptyForm);
+    const [editingId, setEditingId] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
+    const [query, setQuery] = useState("");
+    const [category, setCategory] = useState("");
+    const [shelf, setShelf] = useState("");
+    const [status, setStatus] = useState("");
+    const [quantity, setQuantity] = useState("");
+
+    const loadData = async () => {
+        setLoading(true);
+        try {
+            const [bookRes, categoryRes, shelfRes, borrowingRes] = await Promise.all([
+                axiosApi.get("books"), axiosApi.get("categories"), axiosApi.get("shelves"), axiosApi.get("borrowings")
+            ]);
+            setBooks(bookRes.data);
+            setCategories(categoryRes.data);
+            setShelves(shelfRes.data);
+            setBorrowings(borrowingRes.data);
+        } catch {
+            toast.error("Không thể tải dữ liệu quản lý sách.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => { loadData(); }, []);
+
+    const getCategory = id => categories.find(item => String(item.id) === String(id));
+    const getShelf = id => shelves.find(item => String(item.id) === String(id));
+    const available = book => Math.max(0, Number(book.totalCopies) - Number(book.borrowedCopies) - Number(book.damagedCopies) - Number(book.lostCopies));
+    const borrowingCount = (bookId, status) => borrowings.filter(item => String(item.bookId) === String(bookId) && item.status === status).length;
+
+    const filteredBooks = useMemo(() => books.filter(book => {
+        const keyword = query.trim().toLowerCase();
+        const matchesQuery = !keyword || `${book.title} ${book.author}`.toLowerCase().includes(keyword);
+        const matchesCategory = !category || String(book.categoryId) === category;
+        const matchesShelf = !shelf || String(book.shelfId) === shelf;
+        const matchesStatus = !status || (status === "active" ? book.is_active : !book.is_active);
+        const matchesQuantity = !quantity || (quantity === "available" ? available(book) > 0 : available(book) === 0);
+        return matchesQuery && matchesCategory && matchesShelf && matchesStatus && matchesQuantity;
+    }), [books, query, category, shelf, status, quantity]);
+
+    const onChange = event => {
+        const { name, value, type, checked } = event.target;
+        setForm(current => ({ ...current, [name]: type === "checkbox" ? checked : value }));
+    };
+
+    const resetForm = () => { setForm(emptyForm); setEditingId(null); };
+
+    const validate = () => {
+        if (!form.title.trim() || !form.author.trim() || !form.categoryId || !form.shelfId) {
+            toast.error("Vui lòng nhập tên sách, tác giả, thể loại và kệ sách.");
+            return false;
+        }
+        const counts = [form.totalCopies, form.borrowedCopies, form.damagedCopies, form.lostCopies].map(Number);
+        if (counts.some(value => value < 0) || counts.slice(1).reduce((sum, value) => sum + value, 0) > counts[0]) {
+            toast.error("Số bản đang mượn, hỏng và mất không được vượt quá tổng số bản.");
+            return false;
+        }
+        return true;
+    };
+
+    const handleSubmit = async event => {
+        event.preventDefault();
+        if (!validate()) return;
+        setSaving(true);
+        const { pendingCopies, ...formData } = form;
+        const payload = {
+            ...formData,
+            title: form.title.trim(), author: form.author.trim(), description: form.description.trim(),
+            totalCopies: Number(form.totalCopies), borrowedCopies: Number(form.borrowedCopies),
+            damagedCopies: Number(form.damagedCopies), lostCopies: Number(form.lostCopies)
+        };
+        try {
+            if (editingId) {
+                const response = await axiosApi.patch(`books/${editingId}`, payload);
+                setBooks(current => current.map(book => book.id === editingId ? response.data : book));
+                toast.success("Cập nhật sách thành công.");
+            } else {
+                const response = await axiosApi.post("books", payload);
+                setBooks(current => [response.data, ...current]);
+                toast.success("Thêm sách thành công.");
+            }
+            resetForm();
+        } catch {
+            toast.error("Không thể lưu thông tin sách.");
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    const editBook = book => {
+        setEditingId(book.id);
+        setForm({
+            ...emptyForm,
+            ...book,
+            borrowedCopies: borrowingCount(book.id, "borrowing"),
+            pendingCopies: borrowingCount(book.id, "pending")
+        });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    const toggleStatus = async book => {
+        try {
+            const response = await axiosApi.patch(`books/${book.id}`, { is_active: !book.is_active });
+            setBooks(current => current.map(item => item.id === book.id ? response.data : item));
+            toast.success(book.is_active ? "Đã ngừng phục vụ sách." : "Đã mở phục vụ sách.");
+        } catch {
+            toast.error("Không thể thay đổi trạng thái sách.");
+        }
+    };
+
+    const deleteBook = async book => {
+        const hasBorrowingHistory = borrowings.some(item => String(item.bookId) === String(book.id));
+        if (hasBorrowingHistory) {
+            toast.error("Sách đã có lịch sử phiếu mượn. Hãy dùng Ngừng phục vụ thay vì xóa.");
+            return;
+        }
+        if (!window.confirm(`Xóa vĩnh viễn sách “${book.title}”? Thao tác này không thể hoàn tác.`)) return;
+        try {
+            await axiosApi.delete(`books/${book.id}`);
+            setBooks(current => current.filter(item => item.id !== book.id));
+            if (editingId === book.id) resetForm();
+            toast.success("Đã xóa sách.");
+        } catch {
+            toast.error("Không thể xóa sách.");
+        }
+    };
 
     return (
-        <div>
-            <div className="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h2 className="fw-bold text-uppercase text-secondary fs-6 mb-1">Admin</h2>
-                    <h1 className="fw-bold fs-2 mb-0">Quản lý Sách</h1>
-                </div>
-                <button 
-                    className="btn btn-dark d-flex align-items-center gap-2 px-3 py-2 shadow"
-                    onClick={() => setShowModal(true)}
-                >
-                    <Plus size={20} /> Thêm sách mới
-                </button>
-            </div>
+        <div className="admin-management pb-5">
+            <header className="mb-4">
+                <div className="text-uppercase text-secondary fw-bold small">Admin</div>
+                <h1 className="fw-bold fs-2 mb-1">Quản lý sách</h1>
+                <p className="text-muted mb-0">Thêm, sửa, ẩn hoặc hiện lại sách trong danh mục.</p>
+            </header>
 
-            {/* Advanced Search Bar */}
-            <div className="card border-dark shadow mb-5 rounded-4">
-                <div className="card-body row g-3 p-4">
-                    <div className="col-12 col-md-4">
-                        <label className="form-label fw-bold">Từ khóa</label>
-                        <div className="input-group">
-                            <span className="input-group-text bg-white border-dark"><Search size={18}/></span>
-                            <input type="text" className="form-control border-dark" placeholder="Tên sách hoặc tác giả" />
+            <form className="card management-card mb-4" onSubmit={handleSubmit}>
+                <div className="card-body p-4">
+                    <div className="d-flex align-items-center justify-content-between mb-3">
+                        <h2 className="fs-5 fw-bold mb-0">{editingId ? "Cập nhật sách" : "Thêm sách mới"}</h2>
+                        {editingId && <button type="button" className="btn btn-sm btn-outline-secondary" onClick={resetForm}><X size={16} /> Hủy sửa</button>}
+                    </div>
+                    <div className="row g-3">
+                        <Field label="Tên sách" name="title" value={form.title} onChange={onChange} col="col-md-4" />
+                        <Field label="Tác giả" name="author" value={form.author} onChange={onChange} col="col-md-4" />
+                        <div className="col-md-4"><label className="form-label fw-semibold">Thể loại</label><select className="form-select" name="categoryId" value={form.categoryId} onChange={onChange}><option value="">Chọn thể loại</option>{categories.filter(c => c.is_active).map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select></div>
+                        <div className="col-md-4"><label className="form-label fw-semibold">Kệ sách</label><select className="form-select" name="shelfId" value={form.shelfId} onChange={onChange}><option value="">Chọn kệ sách</option>{shelves.filter(s => s.is_active).map(s => <option key={s.id} value={s.id}>{s.name} — {s.location}</option>)}</select></div>
+                        <NumberField label="Tổng bản" name="totalCopies" value={form.totalCopies} onChange={onChange} col="col-6 col-md-3" />
+                        <NumberField label="Đang mượn" name="borrowedCopies" value={form.borrowedCopies} onChange={onChange} col="col-6 col-md-3" disabled />
+                        <NumberField label="Chờ duyệt" name="pendingCopies" value={form.pendingCopies} onChange={onChange} col="col-6 col-md-3" disabled />
+                        <NumberField label="Hỏng" name="damagedCopies" value={form.damagedCopies} onChange={onChange} col="col-6 col-md-3" />
+                        <Field label="Ảnh bìa URL" name="coverImage" value={form.coverImage} onChange={onChange} col="col-12" />
+                        <div className="col-12"><label className="form-label fw-semibold">Mô tả</label><textarea className="form-control" rows="3" name="description" value={form.description} onChange={onChange} /></div>
+                        <div className="col-12 d-flex align-items-center justify-content-between">
+                            <div className="form-check form-switch"><input className="form-check-input" type="checkbox" name="is_active" checked={form.is_active} onChange={onChange} id="book-active" /><label className="form-check-label fw-semibold" htmlFor="book-active">Đang phục vụ</label></div>
+                            <button className="btn btn-dark px-4" disabled={saving}>{editingId ? <Save size={18} /> : <Plus size={18} />} {saving ? "Đang lưu..." : editingId ? "Lưu thay đổi" : "Thêm sách"}</button>
                         </div>
                     </div>
-                    <div className="col-12 col-md-3">
-                        <label className="form-label fw-bold">Thể loại</label>
-                        <select className="form-select border-dark">
-                            <option value="">Tất cả</option>
-                            <option value="IT">Công nghệ thông tin</option>
-                            <option value="Literature">Văn học</option>
-                        </select>
-                    </div>
-                    <div className="col-12 col-md-3">
-                        <label className="form-label fw-bold">Kệ sách</label>
-                        <select className="form-select border-dark">
-                            <option value="">Tất cả</option>
-                            <option value="A1">Kệ A - Tầng 1</option>
-                            <option value="B2">Kệ B - Tầng 2</option>
-                        </select>
-                    </div>
-                    <div className="col-12 col-md-2">
-                        <label className="form-label fw-bold">Trạng thái</label>
-                        <select className="form-select border-dark">
-                            <option value="">Tất cả</option>
-                            <option value="active">Đang phục vụ</option>
-                            <option value="inactive">Ngưng phục vụ</option>
-                        </select>
-                    </div>
                 </div>
-            </div>
+            </form>
 
-            {/* Chỗ này bạn có thể map danh sách sách ra dưới dạng Table hoặc Card tùy ý. Dưới đây là ví dụ dạng Table cho hợp Admin */}
-            <div className="table-responsive rounded-4 shadow border border-dark mb-4">
-                <table className="table table-hover align-middle mb-0">
-                    <thead className="table-dark">
-                        <tr>
-                            <th className="py-3 px-3">Tên sách</th>
-                            <th className="py-3">Tác giả</th>
-                            <th className="py-3">Thể loại</th>
-                            <th className="py-3">Kệ - Vị trí</th>
-                            <th className="py-3 text-center">Số lượng</th>
-                            <th className="py-3 text-center">Trạng thái</th>
-                            <th className="py-3 text-end px-4">Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/* Map dữ liệu giả */}
-                        <tr>
-                            <td className="px-3 fw-medium">Clean Code</td>
-                            <td>Robert C. Martin</td>
-                            <td>CNTT</td>
-                            <td>Kệ A - Tầng 1</td>
-                            <td className="text-center">5</td>
-                            <td className="text-center"><span className="badge bg-success px-2 py-2">Đang phục vụ</span></td>
-                            <td className="text-end px-3">
-                                <button className="btn btn-sm btn-outline-dark me-2"><Edit size={16}/></button>
-                                <button className="btn btn-sm btn-outline-danger"><Trash2 size={16}/></button>
-                            </td>
-                        </tr>
-                    </tbody>
+            <div className="card management-card mb-3"><div className="card-body p-3"><div className="row g-2">
+                <div className="col-lg-4 position-relative"><Search className="filter-icon" size={18} /><input className="form-control ps-5" placeholder="Tìm sách theo tên hoặc tác giả" value={query} onChange={e => setQuery(e.target.value)} /></div>
+                <Filter value={category} onChange={setCategory} label="Tất cả thể loại" items={categories} />
+                <Filter value={shelf} onChange={setShelf} label="Tất cả kệ" items={shelves} />
+                <Filter value={status} onChange={setStatus} label="Tất cả trạng thái" items={[{id:"active",name:"Đang phục vụ"},{id:"inactive",name:"Ngưng phục vụ"}]} />
+                <Filter value={quantity} onChange={setQuantity} label="Tất cả số lượng" items={[{id:"available",name:"Còn sách"},{id:"empty",name:"Hết sách"}]} />
+            </div></div></div>
+
+            <div className="table-responsive management-table">
+                <table className="table table-hover align-middle mb-0"><thead><tr><th>Sách</th><th>Thể loại</th><th>Kệ</th><th>Số lượng</th><th>Trạng thái</th><th className="text-end">Thao tác</th></tr></thead>
+                    <tbody>{loading ? <tr><td colSpan="6" className="text-center py-5">Đang tải dữ liệu...</td></tr> : filteredBooks.length === 0 ? <tr><td colSpan="6" className="text-center text-muted py-5">Không có sách phù hợp.</td></tr> : filteredBooks.map(book => <tr key={book.id}>
+                        <td><div className="fw-bold">{book.title}</div><small className="text-muted">{book.author}</small></td>
+                        <td>{getCategory(book.categoryId)?.name || "—"}</td><td>{getShelf(book.shelfId)?.name || "—"}<small className="d-block text-muted">{getShelf(book.shelfId)?.location}</small></td>
+                        <td><strong>{available(book)}/{book.totalCopies}</strong> có thể mượn<small className="d-block text-muted">Đang mượn: {book.borrowedCopies} · Hỏng: {book.damagedCopies} · Mất: {book.lostCopies}</small></td>
+                        <td><span className={`badge ${book.is_active ? "text-bg-success" : "text-bg-secondary"}`}>{book.is_active ? "Đang phục vụ" : "Ngưng phục vụ"}</span></td>
+                        <td className="text-end text-nowrap"><button className="btn btn-sm btn-outline-dark me-2" onClick={() => editBook(book)}><Edit size={15} /> Sửa</button><button className={`btn btn-sm me-2 ${book.is_active ? "btn-outline-warning" : "btn-outline-success"}`} onClick={() => toggleStatus(book)}>{book.is_active ? "Ngừng phục vụ" : "Mở phục vụ"}</button><button className="btn btn-sm btn-outline-danger" onClick={() => deleteBook(book)} title="Xóa vĩnh viễn"><Trash2 size={15} /> Xóa</button></td>
+                    </tr>)}</tbody>
                 </table>
             </div>
-
-            <Pagination totalPage={5} />
-
-            {/* Modal Thêm Sách Mới (Custom Overlay) */}
-            {showModal && (
-                <div className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050 }}>
-                    <div className="card border-dark shadow-lg rounded-4" style={{ width: '600px', maxHeight: '90vh', overflowY: 'auto' }}>
-                        <div className="card-header bg-dark text-white py-3 d-flex justify-content-between align-items-center">
-                            <h5 className="mb-0 fw-bold">Thêm sách mới</h5>
-                            <button className="btn-close btn-close-white" onClick={() => setShowModal(false)}></button>
-                        </div>
-                        <div className="card-body p-4">
-                            <form>
-                                <div className="mb-3">
-                                    <label className="form-label fw-bold">Tên sách</label>
-                                    <input type="text" className="form-control border-dark" required />
-                                </div>
-                                <div className="row mb-3">
-                                    <div className="col-md-6">
-                                        <label className="form-label fw-bold">Tác giả</label>
-                                        <input type="text" className="form-control border-dark" required />
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label className="form-label fw-bold">Thể loại</label>
-                                        <select className="form-select border-dark" required>
-                                            <option value="">Chọn thể loại...</option>
-                                            <option value="IT">Công nghệ thông tin</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="row mb-3">
-                                    <div className="col-md-6">
-                                        <label className="form-label fw-bold">Vị trí kệ vật lý</label>
-                                        <select className="form-select border-dark" required>
-                                            <option value="">Chọn kệ...</option>
-                                            <option value="A1">Kệ A - Tầng 1</option>
-                                            <option value="B2">Kệ B - Tầng 2</option>
-                                        </select>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label className="form-label fw-bold">Số lượng</label>
-                                        <input type="number" min="1" className="form-control border-dark" required />
-                                    </div>
-                                </div>
-                                <div className="mb-4">
-                                    <label className="form-label fw-bold">Trạng thái</label>
-                                    <select className="form-select border-dark">
-                                        <option value="active">Đang phục vụ</option>
-                                        <option value="inactive">Ngưng phục vụ</option>
-                                    </select>
-                                </div>
-                                <div className="d-flex justify-content-end gap-2">
-                                    <button type="button" className="btn btn-light border-dark" onClick={() => setShowModal(false)}>Hủy</button>
-                                    <button type="submit" className="btn btn-dark">Lưu thông tin</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
-    )
+    );
 }
+
+function Field({ label, col, ...props }) { return <div className={col}><label className="form-label fw-semibold">{label}</label><input className="form-control" {...props} /></div>; }
+function NumberField({ col = "col-6 col-md-2", ...props }) { return <Field {...props} type="number" min="0" col={col} />; }
+function Filter({ value, onChange, label, items }) { return <div className="col-6 col-lg-2"><select className="form-select" value={value} onChange={e => onChange(e.target.value)}><option value="">{label}</option>{items.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}</select></div>; }
