@@ -23,6 +23,7 @@ import AdminBookDetail from "./pages/admin-pages/AdminBooksView"
 import AdminBookBorrowers from "./pages/admin-pages/AdminBookBorrowers"
 import AdminProfile from "./pages/admin-pages/AdminProfile"
 import AdminBorrowing from "./pages/admin-pages/AdminBorrowing"
+import AdminShelfList from "./pages/admin-pages/AdminShelfList"
 
 // Cần thêm Route thì thêm ở đây tuyệt đối không được thêm nơi khác.
 
@@ -36,6 +37,7 @@ export default function AppRouter() {
                         // Admin routes
                         <Route path="/admin" element={<AdminLayout />}>
                             <Route path="books" element={<AdminBookList />} />
+                            <Route path="shelves" element={<AdminShelfList />} />
                             <Route path="readers" element={<AdminReaderList />} />
                             <Route path="dashboard" element={<AdminDashboard />} />
                             <Route path="book-views" element={<AdminBooksView />} />

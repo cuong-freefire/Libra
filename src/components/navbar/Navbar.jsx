@@ -1,4 +1,4 @@
-import { BookOpen, House, LayoutDashboard, Users } from 'lucide-react';
+import { BookOpen, House, LayoutDashboard, ShelvingUnit, Users } from 'lucide-react';
 import { BookMarked } from 'lucide-react';
 import { FileText } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -25,6 +25,7 @@ export default function Navbar() {
         { name: "Tổng quan", link: "/admin/dashboard", icon: <LayoutDashboard size={20} />, isSelect: pathName.pathname === '/admin/dashboard' ? true : false },
         { name: "Phiếu mượn", link: "/admin/borrowing", icon: <FileText size={20} />, isSelect: pathName.pathname === '/admin/borrowing' ? true : false },
         { name: "Quản lý sách", link: "/admin/books", icon: <BookMarked size={20} />, isSelect: pathName.pathname === '/admin/books' ? true : false },
+        { name: "Kệ sách", link: "/admin/shelves", icon: <ShelvingUnit size={20} />, isSelect: pathName.pathname === '/admin/shelves' ? true : false },
         { name: "Quản lý Reader", link: "/admin/readers", icon: <Users size={20} />, isSelect: pathName.pathname === '/admin/readers' ? true : false }
     ]
     return (

@@ -12,6 +12,11 @@ export default function BookCard({ book }) {
 
     useEffect(() => {
         const fetchCondition = async () => {
+            if (!isAuthenticated || !user?.id) {
+                setCondition('none');
+                return;
+            }
+
             try {
                 const data = await checkBorrowingCondition(user.id, book.id);
                 if (data === 'pending') {
@@ -32,7 +37,7 @@ export default function BookCard({ book }) {
         }
         fetchCondition()
     },
-        [book.id, user.id, trigger])
+        [book.id, user?.id, isAuthenticated, trigger])
 
     const onCreate = async () => {
         try {

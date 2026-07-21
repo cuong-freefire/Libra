@@ -1,0 +1,8 @@
+.admin-management { color: #172033; }
+.management-card { border: 1px solid #d8dee8; border-radius: 14px; box-shadow: 0 4px 14px rgba(15, 23, 42, .06); }
+.management-card .form-control, .management-card .form-select { border-color: #b9c2cf; min-height: 42px; }
+.management-table { border: 1px solid #cfd7e3; border-radius: 12px; box-shadow: 0 4px 14px rgba(15, 23, 42, .06); }
+.management-table thead th { background: #d9effb; border-bottom: 1px solid #bddceb; padding: 14px 12px; white-space: nowrap; }
+.management-table tbody td { padding: 14px 12px; }
+.filter-icon { position: absolute; left: 26px; top: 50%; transform: translateY(-50%); color: #667085; z-index: 2; }
+.admin-management button svg { vertical-align: -3px; }
