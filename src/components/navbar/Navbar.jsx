@@ -39,12 +39,6 @@ export default function Navbar() {
             isSelect: pathname === "/"
         },
         {
-            name: "Tổng quan",
-            link: "/dashboard",
-            icon: <LayoutDashboard />,
-            isSelect: pathname === "/dashboard"
-        },
-        {
             name: "Sách của tôi",
             link: "/books",
             icon: <BookMarked />,
