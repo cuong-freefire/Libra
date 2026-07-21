@@ -101,24 +101,24 @@ export default function Navbar() {
         (user && user.role === "reader") || !user;
 
     return (
-        <div className="container-fluid bg-dark d-flex align-items-center py-3 m-0 fixed-top row">
-            <div className="col-3 d-flex align-items-center gap-2">
+        <div className="app-navbar container-fluid bg-dark d-flex align-items-center py-2 m-0 fixed-top row">
+            <div className="col-2 d-flex align-items-center gap-2">
                 <span className="bg-success px-2 py-2 rounded-2 rainbow">
                     <ZodiacLibra />
                 </span>
 
                 <span className="text-light">
-                    <h1>Libra</h1>
+                    <h1 className="mb-0">Libra</h1>
                 </span>
             </div>
 
-            <ul className="d-flex justify-content-evenly align-items-center m-0 p-0 col-6 list-unstyled">
+            <ul className="app-navbar__links d-flex justify-content-evenly align-items-center flex-nowrap m-0 p-0 col-7 list-unstyled">
                 {showUserMenu
                     ? userItem.map(item => (
                         <li
                             key={item.name}
                             className={
-                                `navItem py-3 px-3 ${
+                                `navItem py-2 px-2 ${
                                     item.isSelect
                                         ? "border border-white rounded"
                                         : ""
@@ -141,7 +141,7 @@ export default function Navbar() {
                         <li
                             key={item.name}
                             className={
-                                `navItem py-3 px-3 ${
+                                `navItem py-2 px-2 ${
                                     item.isSelect
                                         ? "border border-white rounded"
                                         : ""

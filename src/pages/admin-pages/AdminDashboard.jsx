@@ -1,16 +1,32 @@
-import React from 'react'
+import { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { RefreshCw } from 'lucide-react';
+import { axiosApi } from '../../api/axios';
+import { toast } from 'react-toastify';
 
-const statItems = [
-    { key: 'books', label: 'Sách active', value: 11, icon: 'book' },
-    { key: 'readers', label: 'Reader active', value: 8, icon: 'users' },
-    { key: 'pending', label: 'Chờ duyệt', value: 1, icon: 'clipboard' },
-    { key: 'borrowing', label: 'Đang mượn', value: 3, icon: 'shelves' },
-    { key: 'returned', label: 'Đã trả', value: 13, icon: 'check' },
-    { key: 'rejected', label: 'Từ chối', value: 10, icon: 'thumbsDown' },
-    { key: 'cancelled', label: 'Đã huỷ', value: 1, icon: 'xCircle' },
-    { key: 'overdue', label: 'Quá hạn', value: 3, icon: 'clock' },
-    { key: 'lost', label: 'Hỏng/mất', value: 9, icon: 'alert' },
-]
+function asCollection(payload) {
+    if (Array.isArray(payload)) return payload;
+    if (Array.isArray(payload?.data)) return payload.data;
+    return [];
+}
+
+function displayDate(value) {
+    if (!value) return '-';
+    const [year, month, day] = String(value).slice(0, 10).split('-');
+    return year ? `${day}/${month}/${year}` : '-';
+}
+
+function isOverdue(item) {
+    return item.status === 'borrowing' && item.dueDate && String(item.dueDate).slice(0, 10) < new Date().toISOString().slice(0, 10);
+}
+
+const statusLabels = {
+    pending: 'Chờ duyệt',
+    borrowing: 'Đang mượn',
+    returned: 'Đã trả',
+    rejected: 'Từ chối',
+    cancelled: 'Đã huỷ',
+};
 
 function Icon({ name }) {
     switch (name) {
@@ -38,11 +54,74 @@ function Icon({ name }) {
 }
 
 export default function AdminDashboard() {
+    const [data, setData] = useState({ books: [], users: [], borrowings: [] });
+    const [loading, setLoading] = useState(true);
+
+    const loadDashboard = async () => {
+        try {
+            setLoading(true);
+            const [booksResponse, usersResponse, borrowingResponse] = await Promise.all([
+                axiosApi.get('books'),
+                axiosApi.get('users'),
+                axiosApi.get('borrowings'),
+            ]);
+            setData({
+                books: asCollection(booksResponse.data),
+                users: asCollection(usersResponse.data),
+                borrowings: asCollection(borrowingResponse.data),
+            });
+        } catch (error) {
+            toast.error(error.message || 'Không thể tải dữ liệu tổng quan.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => { loadDashboard(); }, []);
+
+    const { statItems, recentRequests } = useMemo(() => {
+        const activeBooks = data.books.filter((book) => book.is_active !== false).length;
+        const activeReaders = data.users.filter((user) => user.role === 'reader' && user.is_active !== false).length;
+        const usersById = new Map(data.users.map((user) => [String(user.id), user]));
+        const booksById = new Map(data.books.map((book) => [String(book.id), book]));
+        const countByStatus = (currentStatus) => data.borrowings.filter((item) => item.status === currentStatus).length;
+        const damagedOrLost = data.borrowings.filter((item) => item.status === 'returned' && ['damaged', 'lost'].includes(item.returnCondition)).length;
+
+        return {
+            statItems: [
+                { key: 'books', label: 'Sách đang hiển thị', value: activeBooks, icon: 'book' },
+                { key: 'readers', label: 'Reader đang hoạt động', value: activeReaders, icon: 'users' },
+                { key: 'pending', label: 'Đơn chờ duyệt', value: countByStatus('pending'), icon: 'clipboard' },
+                { key: 'borrowing', label: 'Đang mượn', value: countByStatus('borrowing'), icon: 'shelves' },
+                { key: 'returned', label: 'Đã trả', value: countByStatus('returned'), icon: 'check' },
+                { key: 'rejected', label: 'Từ chối', value: countByStatus('rejected'), icon: 'thumbsDown' },
+                { key: 'cancelled', label: 'Đã huỷ', value: countByStatus('cancelled'), icon: 'xCircle' },
+                { key: 'overdue', label: 'Quá hạn', value: data.borrowings.filter(isOverdue).length, icon: 'clock' },
+                { key: 'lost', label: 'Hỏng / mất', value: damagedOrLost, icon: 'alert' },
+            ],
+            recentRequests: [...data.borrowings]
+                .sort((first, second) => String(second.requestDate || second.createdAt || second.borrowDate || '').localeCompare(String(first.requestDate || first.createdAt || first.borrowDate || '')))
+                .slice(0, 5)
+                .map((item) => ({
+                    ...item,
+                    reader: usersById.get(String(item.userId)),
+                    book: booksById.get(String(item.bookId)),
+                })),
+        };
+    }, [data]);
+
     return (
         <div className="p-4">
-            <h2 className="fw-bold text-uppercase text-secondary fs-6 mb-1">Admin</h2>
-            <h1 className="fw-bold fs-2 mb-2">Dashboard tổng quan</h1>
-            <p className="text-muted mb-4">Theo dõi sách active, reader active và toàn bộ trạng thái phiếu mượn.</p>
+            <div className="d-flex justify-content-between align-items-start gap-3 mb-4">
+                <div>
+                    <h2 className="fw-bold text-uppercase text-secondary fs-6 mb-1">Admin</h2>
+                    <h1 className="fw-bold fs-2 mb-2">Tổng quan thư viện</h1>
+                    <p className="text-muted mb-0">Theo dõi đơn Reader gửi, duyệt mượn và tình trạng trả sách theo thời gian thực.</p>
+                </div>
+                <button className="btn btn-dark d-flex align-items-center gap-2" onClick={loadDashboard} disabled={loading}>
+                    <RefreshCw size={16} className={loading ? 'is-spinning' : ''} /> Làm mới
+                </button>
+            </div>
 
             <div className="row g-3">
                 {statItems.map((s) => (
@@ -58,6 +137,23 @@ export default function AdminDashboard() {
                         </div>
                     </div>
                 ))}
+            </div>
+
+            <div className="card border mt-4 shadow-sm">
+                <div className="card-header bg-white d-flex justify-content-between align-items-center">
+                    <div><h2 className="h5 fw-bold mb-1">Đơn mượn mới nhất</h2><p className="text-muted small mb-0">Các đơn này được Reader tạo từ mục “Đơn mượn”.</p></div>
+                    <Link className="btn btn-outline-dark btn-sm" to="/admin/borrowing">Xem tất cả phiếu</Link>
+                </div>
+                <div className="table-responsive">
+                    <table className="table table-hover align-middle mb-0">
+                        <thead className="table-light"><tr><th className="ps-3">Mã đơn</th><th>Reader</th><th>Sách</th><th>Ngày gửi</th><th>Trạng thái</th></tr></thead>
+                        <tbody>
+                            {loading ? <tr><td className="text-center py-4" colSpan="5">Đang tải dữ liệu...</td></tr> : recentRequests.length === 0 ? <tr><td className="text-center py-4 text-muted" colSpan="5">Chưa có đơn mượn nào.</td></tr> : recentRequests.map((item) => <tr key={item.id}>
+                                <td className="ps-3">#{item.id}</td><td>{item.reader?.name || 'Reader không tồn tại'}</td><td>{item.book?.title || 'Sách không tồn tại'}</td><td>{displayDate(item.requestDate || item.createdAt || item.borrowDate)}</td><td><span className={`badge ${item.status === 'pending' ? 'text-bg-info' : item.status === 'borrowing' ? 'text-bg-primary' : item.status === 'returned' ? 'text-bg-success' : item.status === 'rejected' ? 'text-bg-danger' : 'text-bg-secondary'}`}>{statusLabels[item.status] || item.status}</span></td>
+                            </tr>)}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     )
