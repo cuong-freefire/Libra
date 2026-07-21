@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Search, Plus, Edit, Trash2, Eye, EyeOff, ChevronUp, ChevronDown } from "lucide-react";
+import { Search, Plus, Edit, Trash2, Eye, EyeOff } from "lucide-react";
 import { axiosApi } from "../../api/axios";
 import { toast } from "react-toastify";
 import Pagination from "../../components/pagination/Pagination";
@@ -9,8 +9,7 @@ export default function AdminCategory() {
     const [filteredCategories, setFilteredCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
-    const [sortBy, setSortBy] = useState("name"); // name, date
-    const [sortOrder, setSortOrder] = useState("asc"); // asc, desc
+    const [sortBy, setSortBy] = useState("name");
     const [showModal, setShowModal] = useState(false);
     const [editingId, setEditingId] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -68,20 +67,25 @@ export default function AdminCategory() {
             (cat.description && cat.description.toLowerCase().includes(searchTerm.toLowerCase()))
         );
 
-        // Sort
         filtered.sort((a, b) => {
-            let compareValue = 0;
             if (sortBy === "name") {
-                compareValue = a.name.localeCompare(b.name);
-            } else if (sortBy === "date") {
-                compareValue = new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+                return a.name.localeCompare(b.name, "vi");
             }
-            return sortOrder === "asc" ? compareValue : -compareValue;
+
+            if (sortBy === "date") {
+                return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+            }
+
+            if (sortBy === "bookCount") {
+                return (b.bookCount || 0) - (a.bookCount || 0);
+            }
+
+            return 0;
         });
 
         setFilteredCategories(filtered);
         setCurrentPage(1);
-    }, [searchTerm, categories, sortBy, sortOrder]);
+    }, [searchTerm, categories, sortBy]);
 
     // Handle form submit
     const handleSubmit = async (e) => {
@@ -236,19 +240,10 @@ export default function AdminCategory() {
                                 onChange={(e) => setSortBy(e.target.value)}
                             >
                                 <option value="name">Tên thể loại</option>
-                                <option value="date">Ngày tạo</option>
+                                <option value="date">Ngày tạo mới nhất</option>
+                                <option value="bookCount">Số lượng sách</option>
                             </select>
                         </div>
-                    </div>
-
-                    <div className="mt-3">
-                        <button
-                            className={`btn btn-sm ${sortOrder === 'asc' ? 'btn-dark' : 'btn-outline-dark'}`}
-                            onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-                        >
-                            {sortOrder === 'asc' ? <ChevronUp size={16} className="me-1" /> : <ChevronDown size={16} className="me-1" />}
-                            {sortOrder === 'asc' ? 'Tăng dần' : 'Giảm dần'}
-                        </button>
                     </div>
                 </div>
             </div>
@@ -258,9 +253,8 @@ export default function AdminCategory() {
                 <table className="table table-hover align-middle mb-0">
                     <thead className="table-dark">
                         <tr>
-                            <th className="py-3 px-3" style={{ cursor: 'pointer' }} onClick={() => setSortBy('name')}>
+                            <th className="py-3 px-3">
                                 Tên thể loại
-                                {sortBy === 'name' && (sortOrder === 'asc' ? <ChevronUp size={14} className="ms-1" style={{ display: 'inline' }} /> : <ChevronDown size={14} className="ms-1" style={{ display: 'inline' }} />)}
                             </th>
                             <th className="py-3">Mô tả</th>
                             <th className="py-3 text-center">Trạng thái</th>

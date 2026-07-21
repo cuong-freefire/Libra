@@ -16,7 +16,7 @@ export default function Navbar() {
     ]
     const userItem = [
         { name: "Trang chủ", link: "/", icon: <House />, isSelect: pathName.pathname === '/' ? true : false },
-        { name: "Tổng quan", link: "/dashboard", icon: <LayoutDashboard />, isSelect: pathName.pathname === '/dashboard' ? true : false },
+        
         { name: "Sách của tôi", link: "/books", icon: <BookMarked />, isSelect: pathName.pathname.split('/')[1] === 'books' ? true : false },
         { name: "Đơn mượn", link: "/my-borrowings", icon: <FileText />, isSelect: pathName.pathname.split('/')[1] === 'my-borrowings' ? true : false }
     ]
@@ -30,17 +30,17 @@ export default function Navbar() {
         { name: "Quản lý Reader", link: "/admin/readers", icon: <Users size={20} />, isSelect: pathName.pathname === '/admin/readers' ? true : false }
     ]
     return (
-        <div className="container-fluid bg-dark d-flex align-items-center py-3 m-0 fixed-top row">
-            <div className='col-3 d-flex align-items-center gap-2'>
-                <span className='bg-success px-2 py-2 rounded-2 rainbow'>
-                    <ZodiacLibra />
+        <div className="app-navbar container-fluid bg-dark d-flex align-items-center py-2 m-0 fixed-top row">
+            <div className='col-2 d-flex align-items-center gap-2'>
+                <span className='bg-success px-2 py-1 rounded-2 rainbow'>
+                    <ZodiacLibra size={22} />
                 </span>
-                <span className='text-light'><h1>Libra</h1></span>
+                <span className='text-light'><h1 className="m-0 fs-2">Libra</h1></span>
             </div>
-            <ul className='d-flex justify-content-evenly align-items-center m-0 p-0 col-6 list-unstyled'>
+            <ul className='d-flex justify-content-evenly align-items-center m-0 p-0 col-8 list-unstyled'>
                 {(user && user.role === 'reader') || !user ?
                     userItem.map(item =>
-                        <li key={item.name} className={`navItem py-3 px-3 ${item.isSelect ? 'border border-white rounded' : ''}`}>
+                        <li key={item.name} className={`navItem py-2 px-2 ${item.isSelect ? 'border border-white rounded' : ''}`}>
                             <Link to={item.link} className='text-decoration-none text-light'>
                                 <span className='me-2'>{item.icon}</span>
                                 <span>{item.name}</span>
@@ -48,7 +48,7 @@ export default function Navbar() {
                         </li>
                     ) :
                     adminItem.map(item =>
-                        <li key={item.name} className={`navItem py-3 px-3 ${item.isSelect ? 'border border-white rounded' : ''}`}>
+                        <li key={item.name} className={`navItem py-2 px-2 ${item.isSelect ? 'border border-white rounded' : ''}`}>
                             <Link to={item.link} className='text-decoration-none text-light'>
                                 <span className='me-2'>{item.icon}</span>
                                 <span>{item.name}</span>
@@ -57,13 +57,13 @@ export default function Navbar() {
                     )
                 }
             </ul >
-            <div className='col-3 d-flex justify-content-end'>
+            <div className='col-2 d-flex justify-content-end'>
                 {isAuthenticated && user ?
                     <UserMenu user={user} />
                     :
-                    <ul className='d-flex justify-content-evenly align-items-center m-0 p-0 col-6 list-unstyled'>
+                    <ul className='d-flex align-items-center gap-3 m-0 p-0 w-auto list-unstyled'>
                         {authItem.map(item =>
-                            <li key={item.name} className='navItem py-2 px-2'>
+                            <li key={item.name} className='navItem py-2 px-1'>
                                 <Link to={item.link} className='text-decoration-none text-light'>
                                     <span>{item.name}</span>
                                 </Link>
