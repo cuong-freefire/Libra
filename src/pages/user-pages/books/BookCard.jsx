@@ -19,6 +19,11 @@ export default function BookCard({ book }) {
         }
 
         const fetchCondition = async () => {
+            if (!isAuthenticated || !user?.id) {
+                setCondition('none');
+                return;
+            }
+
             try {
                 const data = await checkBorrowingCondition(user.id, book.id);
                 if (data === 'pending') {

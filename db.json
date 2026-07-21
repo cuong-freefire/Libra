@@ -79,14 +79,14 @@
       "id": "s1",
       "name": "Kệ A1",
       "location": "Tầng 1 - Khu Kỹ thuật",
-      "maxCapacity": 50,
+      "maxCapacity": 999,
       "is_active": true
     },
     {
       "id": "s2",
       "name": "Kệ A2",
       "location": "Tầng 1 - Dãy Công nghệ",
-      "maxCapacity": 40,
+      "maxCapacity": 999,
       "is_active": true
     },
     {
@@ -109,6 +109,20 @@
       "location": "Phòng đọc số 3",
       "maxCapacity": 100,
       "is_active": true
+    },
+    {
+      "name": "Kệ AA1",
+      "location": "Tầng 1 - Dãy Công nghệ",
+      "maxCapacity": 199,
+      "is_active": true,
+      "id": "YqS6wQeZvSo"
+    },
+    {
+      "name": "AAC1",
+      "location": "Phòng đọc số 3",
+      "maxCapacity": 89,
+      "is_active": true,
+      "id": "i0yFpAUQe1A"
     }
   ],
   "books": [
@@ -130,12 +144,12 @@
       "id": "2",
       "title": "Clean Code Thực Hành",
       "author": "Robert C. Martin",
-      "categoryId": "1",
+      "categoryId": "2",
       "shelfId": "s1",
       "description": "Các nguyên tắc viết mã dễ đọc, dễ bảo trì và dễ mở rộng.",
-      "totalCopies": 5,
+      "totalCopies": 80,
       "borrowedCopies": 0,
-      "damagedCopies": 0,
+      "damagedCopies": 1,
       "lostCopies": 0,
       "coverImage": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=900&q=80",
       "is_active": true
@@ -737,20 +751,6 @@
       "description": "Mobile application concepts including navigation, state, offline data, forms, and release workflow.",
       "totalCopies": 9,
       "borrowedCopies": 3,
-      "damagedCopies": 0,
-      "lostCopies": 0,
-      "coverImage": "https://picsum.photos/seed/book-45/900/1200",
-      "is_active": true
-    },
-    {
-      "id": "46",
-      "title": "test",
-      "author": "Pham Gia Han",
-      "categoryId": "1",
-      "shelfId": "s2",
-      "description": "test book.",
-      "totalCopies": 0,
-      "borrowedCopies": 0,
       "damagedCopies": 0,
       "lostCopies": 0,
       "coverImage": "https://picsum.photos/seed/book-45/900/1200",
