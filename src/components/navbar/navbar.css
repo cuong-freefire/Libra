@@ -1,3 +1,17 @@
+.app-navbar {
+    min-height: 76px;
+}
+
+.app-navbar .navItem {
+    font-size: 0.95rem;
+}
+
+.app-navbar .navItem a {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
 .navItem:hover {
     background-color: rgb(68, 67, 67);
     border-radius: 10px;
