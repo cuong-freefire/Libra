@@ -1,9 +1,15 @@
 import { axiosApi } from "../api/axios";
 
-export async function getCategories() {
+export async function getCategories(includeInactive = false) {
     try {
-        const { data } = await axiosApi.get(`categories`)
-        return data
+        const { data } = await axiosApi.get("categories");
+        const categories = data || [];
+
+        if (includeInactive) {
+            return categories;
+        }
+
+        return categories.filter((category) => category.is_active !== false);
     }
     catch (error) {
         if (error.response?.status === 404) {
