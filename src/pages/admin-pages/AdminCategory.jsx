@@ -240,7 +240,6 @@ export default function AdminCategory() {
                                 onChange={(e) => setSortBy(e.target.value)}
                             >
                                 <option value="name">Tên thể loại</option>
-                                <option value="date">Ngày tạo mới nhất</option>
                                 <option value="bookCount">Số lượng sách</option>
                             </select>
                         </div>
