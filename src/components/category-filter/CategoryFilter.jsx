@@ -55,10 +55,10 @@ export default function CategoryFilter() {
     return (
         <div className="my-3">
             <strong>Thể loại: </strong>
-            <select value={selected} className="form-select mt-2" onChange={(e) => {
+            <select value={selected} defaultValue={0} className="form-select mt-2" onChange={(e) => {
                 handleChange(e)
             }}>
-                <option selected value={0}>Tất cả</option>
+                <option value={0}>Tất cả</option>
                 {
                     categories.length > 0 &&
                     categories?.map(c => {
