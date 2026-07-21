@@ -11,6 +11,13 @@ export default function BookCard({ book }) {
     const [trigger, setTrigger] = useState(0)
 
     useEffect(() => {
+        // Khách chưa đăng nhập không có thông tin user. Chỉ kiểm tra điều kiện
+        // mượn khi đã có user để tránh đọc `user.id` từ null.
+        if (!isAuthenticated || !user?.id || !book?.id) {
+            setCondition(null);
+            return;
+        }
+
         const fetchCondition = async () => {
             try {
                 const data = await checkBorrowingCondition(user.id, book.id);
@@ -32,7 +39,7 @@ export default function BookCard({ book }) {
         }
         fetchCondition()
     },
-        [book.id, user.id, trigger])
+        [book?.id, isAuthenticated, user?.id, trigger])
 
     const onCreate = async () => {
         try {
@@ -40,7 +47,7 @@ export default function BookCard({ book }) {
             if (response.success && response.message) {
                 toast.dismiss()
                 toast.success(response.message);
-                setTrigger(trigger + 1);
+                setTrigger((current) => current + 1);
             }
         }
         catch (error) {
