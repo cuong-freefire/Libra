@@ -34,7 +34,7 @@ export default function BorrowingTable() {
                             <table border={2} className="table table-bordered table-hover">
                                 <thead className="table-dark">
                                     <tr>
-                                        <th>ID</th>
+                                        <th>NO</th>
                                         <th>Sách</th>
                                         <th>Trạng thái</th>
                                         <th>Ngày mượn</th>
@@ -46,11 +46,11 @@ export default function BorrowingTable() {
                                 </thead>
                                 <tbody>
                                     {
-                                        borrowings?.map(b => {
+                                        borrowings?.map((b,i) => {
                                             return (
                                                 <>
                                                     <tr key={b.id}>
-                                                        <td>{b.id}</td>
+                                                        <td>{i}</td>
                                                         <td>{b.book.title}</td>
                                                         <td>
                                                             <span

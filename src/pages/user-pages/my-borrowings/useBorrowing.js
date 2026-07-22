@@ -32,8 +32,8 @@ export default function useBorrowing() {
             catch (error) {
                 setBorrowings([]);
                 setTotalPage(0);
-                toast.error(error.message || 'Đăng nhập thất bại.')
-                toast.clearWaitingQueue();
+                // toast.error(error.message || 'Đăng nhập thất bại.')
+                // toast.clearWaitingQueue();
                 console.log("Lấy borrowings thất bại.")
             }
             finally {

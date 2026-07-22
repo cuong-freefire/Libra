@@ -3,9 +3,6 @@ import { LibraryBig } from 'lucide-react';
 import { FileText } from 'lucide-react';
 import { UserPen } from 'lucide-react';
 import './user_home.css';
-import { Handshake } from 'lucide-react';
-import { Sprout } from 'lucide-react';
-import { Users } from 'lucide-react';
 import { SquareChevronRight } from 'lucide-react';
 
 export default function UserHome() {
@@ -15,39 +12,6 @@ export default function UserHome() {
         { logo: <LibraryBig className="text-success mb-4" />, title: "Khám phá kho sách", content: "Tìm kiếm tựa sách yêu thích, tác giả hoặc thể loại phù hợp với bạn chỉ trong vài giây." },
         { logo: <FileText className="text-warning mb-4" />, title: "Mượn sách dễ dàng", content: "Đăng ký mượn trực tuyến nhanh chóng, dễ dàng theo dõi thời hạn và lịch sử đơn mượn sách." },
         { logo: <UserPen className="text-primary mb-4" />, title: "Quản lý tài khoản", content: "Xem thông tin cá nhân, cập nhật thông tin và quản lý mật khẩu." },
-    ]
-
-    const coFounder = [
-        {
-            name: 'Elon Musk',
-            image: '/images/elon_musk.png',
-        },
-        {
-            name: 'Bill Gates',
-            image: '/images/bill_gates.png',
-        },
-        {
-            name: 'Jensen Huang',
-            image: '/images/jensen_huang.png',
-        },
-    ]
-
-    const info = [
-        {
-            title: "Khởi Nguồn Từ Đêm Đông Năm 1896.",
-            content: "Vào những ngày cuối thế kỷ 19, giữa lòng khu phố cổ quanh năm bao phủ bởi màn sương mờ nhân ảnh, Libra tiền thân chỉ là một căn hầm sách nhỏ nằm khiêm tốn dưới hiên nhà của một học giả ẩn danh. Nơi đây ban đầu vốn là chốn lui tới bí mật của những triết gia, thi sĩ và những tâm hồn tự do thời bấy giờ. Họ đến không chỉ để tìm kiếm tri thức, mà còn để chiêm ngưỡng những bản thảo viết tay độc bản, được ghi chép tỉ mỉ bằng thứ mực tự chế từ vỏ cây kết hợp với những trang giấy da thuộc nhuốm màu thời gian, tỏa ra mùi hương trầm mặc đặc trưng của niên đại cũ.",
-            src: '/images/t1.png'
-        },
-        {
-            title: "Kiến Trúc Tinh Tú Và Mật Mã Thủ Thư.",
-            content: "Ít ai biết rằng, sơ đồ hình học và các lối đi giữa các kệ sách tại Libra được phác thảo dựa trên bản đồ chuyển động của các chòm sao vào mùa thu. Điểm kỳ bí nhất chính là hệ thống vòm kính trên trần nhà. Vào những đêm trăng rằm, ánh trăng thiên di sẽ soi rọi qua ô cửa vòm cổ kính, chiếu thẳng vào góc sâu nhất của thư viện – nơi đặt chiếc tủ gỗ sồi cổ đại. Đó là nơi mật truyền qua nhiều thế hệ thủ thư, cất giấu những cuốn thư tịch cổ quý hiếm về thiên văn học, triết học phương Đông và những mật mã thời gian chưa từng được công bố ra thế giới bên ngoài.",
-            src: '/images/t2.png'
-        },
-        {
-            title: "Ký Ức Trăm Năm Giữa Lòng Giấy Cũ.",
-            content: "Trải qua hơn một thế kỷ thăng trầm, đi qua những biến động dữ dội của lịch sử và sự đổi thay của thời đại, Libra không đơn thuần là một nơi mượn sách, mà đã hóa thành một chứng nhân thời gian tĩnh lặng. Nơi đây vẫn vẹn nguyên một truyền thống lãng mạn từ thuở sơ khai: lưu giữ những lá thư tay, những nhành hoa khô ép vội hay những lời nhắn gửi thanh xuân được người đọc vô tình kẹp lại trong trang sách cũ. Mỗi trang sách tại Libra vì thế không chỉ chở che tri thức nhân loại, mà còn chở nặng cả những mảnh vỡ ký ức và tâm tình của biết bao thế hệ mọt sách gửi lại cho tương lai.",
-            src: '/images/t3.png'
-        },
     ]
 
     return (
@@ -66,7 +30,7 @@ export default function UserHome() {
             <button className="btn btn-success" onClick={() => { navigate("/books") }}>Xem danh mục sách <SquareChevronRight className="ms-2 pb-1" size={20} /></button>
 
             <div className="row" style={{ marginTop: '100px', marginBottom: '150px' }}>
-                {contents.map((item, index) => {
+                {contents.map((item) => {
                     return (
                         <div className="col col-12 col-lg-6 col-xxl-4">
                             <div className="border border-1 border-secondary px-3 py-4 my-3 rounded-4 shadow">
@@ -78,7 +42,7 @@ export default function UserHome() {
                     )
                 })}
             </div>
-
+            {/* 
             <div>
                 <h1 className="fw-bold mb-5 text-decoration-underline"><Sprout className="text-success pb-3" size={58} /> Hành trình phát triển.</h1>
                 {info.map(item => (
@@ -156,7 +120,7 @@ export default function UserHome() {
                         Ngay trong tối hôm đó, bên ly cà phê trứng tại góc phố Hà Nội, một bản thỏa thuận đầu tư chung đã chính thức được ký kết. Ba vị tỷ phú quyết định không phá bỏ, mà gom nguồn lực khổng lồ của mình để <strong>đồng tài trợ và lột xác hoàn toàn cho nhà sách Libra</strong>. Sự kết hợp giữa nền tảng dữ liệu chuẩn mực của Bill, hạ tầng chip AI tối tân của Jensen và hệ thống xử lý đơn mượn siêu tốc của Elon đã biến căn hầm cổ năm ấy thành một thư viện số huyền thoại tại Việt Nam – nơi kết nối vẹn nguyên giá trị hoài cổ với hơi thở của công nghệ tương lai.
                     </p>
                 </div>
-            </div>
+            </div> */}
 
         </div>
     )

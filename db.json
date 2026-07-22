@@ -820,66 +820,6 @@
       "returnNote": ""
     },
     {
-      "id": "6",
-      "userId": "2",
-      "bookId": "5",
-      "borrowDate": null,
-      "dueDate": null,
-      "returnDate": null,
-      "status": "cancelled",
-      "rejectReason": "",
-      "returnCondition": null,
-      "returnNote": ""
-    },
-    {
-      "userId": "2",
-      "bookId": "1",
-      "borrowDate": null,
-      "dueDate": null,
-      "returnDate": null,
-      "status": "cancelled",
-      "rejectReason": "",
-      "returnCondition": null,
-      "returnNote": "",
-      "id": "7"
-    },
-    {
-      "userId": "2",
-      "bookId": "1",
-      "borrowDate": null,
-      "dueDate": null,
-      "returnDate": null,
-      "status": "cancelled",
-      "rejectReason": "",
-      "returnCondition": null,
-      "returnNote": "",
-      "id": "zDOg9K80R_g"
-    },
-    {
-      "userId": "2",
-      "bookId": "1",
-      "borrowDate": null,
-      "dueDate": null,
-      "returnDate": null,
-      "status": "cancelled",
-      "rejectReason": "",
-      "returnCondition": null,
-      "returnNote": "",
-      "id": "r2DX1XASlXA"
-    },
-    {
-      "userId": "2",
-      "bookId": "1",
-      "borrowDate": null,
-      "dueDate": null,
-      "returnDate": null,
-      "status": "cancelled",
-      "rejectReason": "",
-      "returnCondition": null,
-      "returnNote": "",
-      "id": "q1005I-n-I0"
-    },
-    {
       "userId": "2",
       "bookId": "1",
       "borrowDate": null,
