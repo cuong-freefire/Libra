@@ -161,6 +161,7 @@ export async function createPendingBorrowing(userId, bookId) {
     const newPending = {
         "userId": userId,
         "bookId": bookId,
+        "requestDate": new Date().toISOString().slice(0, 10),
         "borrowDate": null,
         "dueDate": null,
         "returnDate": null,

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Eye, Search, X } from "lucide-react";
+import { Eye, RefreshCw, Search, X } from "lucide-react";
 import { toast } from "react-toastify";
 import { axiosApi } from "../../api/axios";
 import "./admin-borrowing.css";
@@ -40,6 +40,12 @@ function isOverdue(item) {
     return item.status === "borrowing" && item.dueDate && toInputDate(item.dueDate) < new Date().toISOString().slice(0, 10);
 }
 
+function asCollection(payload) {
+    if (Array.isArray(payload)) return payload;
+    if (Array.isArray(payload?.data)) return payload.data;
+    return [];
+}
+
 export default function AdminBorrowing() {
     const [borrowings, setBorrowings] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -60,13 +66,19 @@ export default function AdminBorrowing() {
                 axiosApi.get("users"),
                 axiosApi.get("books"),
             ]);
-            const users = new Map(usersResponse.data.map((user) => [String(user.id), user]));
-            const books = new Map(booksResponse.data.map((book) => [String(book.id), book]));
-            setBorrowings(borrowingResponse.data.map((item) => ({
+            const users = new Map(asCollection(usersResponse.data).map((user) => [String(user.id), user]));
+            const books = new Map(asCollection(booksResponse.data).map((book) => [String(book.id), book]));
+            const readerRequests = asCollection(borrowingResponse.data).map((item) => ({
                 ...item,
                 reader: users.get(String(item.userId)),
                 book: books.get(String(item.bookId)),
-            })));
+            }));
+
+            setBorrowings(readerRequests.sort((first, second) => {
+                const firstDate = first.requestDate || first.createdAt || first.borrowDate || "";
+                const secondDate = second.requestDate || second.createdAt || second.borrowDate || "";
+                return String(secondDate).localeCompare(String(firstDate));
+            }));
         } catch (error) {
             toast.error(error.message || "Không thể tải danh sách phiếu mượn.");
         } finally {
@@ -138,9 +150,14 @@ export default function AdminBorrowing() {
     return (
         <section className="admin-borrowing">
             <header className="admin-borrowing__heading">
-                <span>ADMIN</span>
-                <h1>Quản lý phiếu mượn</h1>
-                <p>Duyệt, từ chối phiếu chờ duyệt và xác nhận trả sách.</p>
+                <div>
+                    <span>ADMIN</span>
+                    <h1>Quản lý phiếu mượn</h1>
+                    <p>Các đơn mượn do Reader gửi sẽ được duyệt và cập nhật tại đây.</p>
+                </div>
+                <button className="admin-borrowing__refresh" onClick={loadBorrowings} disabled={loading}>
+                    <RefreshCw size={16} className={loading ? "is-spinning" : ""} /> Làm mới đơn
+                </button>
             </header>
 
             <div className="admin-borrowing__filters">
@@ -156,15 +173,16 @@ export default function AdminBorrowing() {
 
             <div className="admin-borrowing__table-wrap">
                 <table className="admin-borrowing__table">
-                    <thead><tr><th>Reader</th><th>Trạng thái Reader</th><th>Sách</th><th>Trạng thái</th><th>Ngày mượn</th><th>Hạn trả</th><th>Ngày trả</th><th>Lý do</th><th>Thao tác</th></tr></thead>
+                    <thead><tr><th>Mã đơn</th><th>Reader</th><th>Sách</th><th>Ngày gửi</th><th>Trạng thái</th><th>Ngày mượn</th><th>Hạn trả</th><th>Ngày trả</th><th>Lý do</th><th>Thao tác</th></tr></thead>
                     <tbody>
-                        {loading ? <tr><td colSpan="9" className="admin-borrowing__empty">Đang tải dữ liệu...</td></tr> : visibleBorrowings.length === 0 ? <tr><td colSpan="9" className="admin-borrowing__empty">Không tìm thấy phiếu mượn phù hợp.</td></tr> : visibleBorrowings.map((item) => {
+                        {loading ? <tr><td colSpan="10" className="admin-borrowing__empty">Đang tải dữ liệu...</td></tr> : visibleBorrowings.length === 0 ? <tr><td colSpan="10" className="admin-borrowing__empty">Không tìm thấy phiếu mượn phù hợp.</td></tr> : visibleBorrowings.map((item) => {
                             const meta = item.status === "returned" ? conditionMeta[item.returnCondition] || statusMeta.returned : statusMeta[item.status];
                             const mayReturn = item.status === "borrowing";
                             return <tr key={item.id}>
+                                <td>#{item.id}</td>
                                 <td>{item.reader?.name || "Reader không tồn tại"}</td>
-                                <td><span className={`admin-borrowing__badge ${item.reader?.is_active ? "active" : "inactive"}`}>{item.reader?.is_active ? "Đang hoạt động" : "Đã khóa"}</span></td>
                                 <td>{item.book?.title || "Sách không tồn tại"}</td>
+                                <td>{displayDate(item.requestDate || item.createdAt)}</td>
                                 <td><div className="admin-borrowing__status"><span className={`admin-borrowing__badge ${meta?.className}`}>{meta?.label || item.status}</span>{isOverdue(item) && <span className="admin-borrowing__badge overdue">Quá hạn</span>}</div></td>
                                 <td>{displayDate(item.borrowDate)}</td><td>{displayDate(item.dueDate)}</td><td>{displayDate(item.returnDate)}</td>
                                 <td><button className="admin-borrowing__view" onClick={() => setSelected(item)} aria-label="Xem lý do và ghi chú"><Eye size={15} /> Xem</button></td>
@@ -182,7 +200,7 @@ export default function AdminBorrowing() {
             </div>
             {filteredBorrowings.length > 0 && <nav className="admin-borrowing__pagination" aria-label="Phân trang"><button disabled={page === 1} onClick={() => setPage((current) => current - 1)}>Trước</button>{Array.from({ length: totalPages }, (_, index) => <button key={index + 1} className={page === index + 1 ? "current" : ""} onClick={() => setPage(index + 1)}>{index + 1}</button>)}<button disabled={page === totalPages} onClick={() => setPage((current) => current + 1)}>Sau</button></nav>}
 
-            {selected && <div className="admin-borrowing__modal-backdrop" role="presentation" onMouseDown={() => setSelected(null)}><div className="admin-borrowing__modal" role="dialog" aria-modal="true" aria-labelledby="borrowing-modal-title" onMouseDown={(event) => event.stopPropagation()}><button className="admin-borrowing__close" onClick={() => setSelected(null)} aria-label="Đóng"><X /></button><h2 id="borrowing-modal-title">Thông tin phiếu mượn</h2><p><strong>Reader:</strong> {selected.reader?.name || "-"}</p><p><strong>Sách:</strong> {selected.book?.title || "-"}</p><p><strong>Lý do từ chối:</strong> {selected.rejectReason || "Không có"}</p><p><strong>Ghi chú trả sách:</strong> {selected.returnNote || "Không có"}</p></div></div>}
+            {selected && <div className="admin-borrowing__modal-backdrop" role="presentation" onMouseDown={() => setSelected(null)}><div className="admin-borrowing__modal" role="dialog" aria-modal="true" aria-labelledby="borrowing-modal-title" onMouseDown={(event) => event.stopPropagation()}><button className="admin-borrowing__close" onClick={() => setSelected(null)} aria-label="Đóng"><X /></button><h2 id="borrowing-modal-title">Thông tin đơn mượn #{selected.id}</h2><p><strong>Reader:</strong> {selected.reader?.name || "-"}</p><p><strong>Sách:</strong> {selected.book?.title || "-"}</p><p><strong>Ngày gửi đơn:</strong> {displayDate(selected.requestDate || selected.createdAt)}</p><p><strong>Lý do từ chối:</strong> {selected.rejectReason || "Không có"}</p><p><strong>Ghi chú trả sách:</strong> {selected.returnNote || "Không có"}</p></div></div>}
         </section>
     );
 }
