@@ -69,10 +69,9 @@
       "is_active": true
     },
     {
-      "name": "Truyện Tranh",
-      "description": "Trẻ em",
-      "is_active": true,
-      "id": "mriLPNgInlI"
+      "id": "5",
+      "name": "Tâm lý học",
+      "is_active": true
     }
   ],
   "shelves": [
@@ -621,7 +620,7 @@
       "id": "36",
       "title": "Psychology of Learning",
       "author": "Tran Thi My",
-      "categoryId": null,
+      "categoryId": "5",
       "shelfId": "s5",
       "description": "Learning theories, memory, motivation, feedback, habits, attention, and classroom applications.",
       "totalCopies": 9,
@@ -635,7 +634,7 @@
       "id": "37",
       "title": "Behavioral Science Basics",
       "author": "Pham Dinh Khang",
-      "categoryId": null,
+      "categoryId": "5",
       "shelfId": "s5",
       "description": "How people make decisions, form habits, respond to incentives, and process social information.",
       "totalCopies": 8,
@@ -649,7 +648,7 @@
       "id": "38",
       "title": "Mindfulness Practice",
       "author": "Le Bao Ngoc",
-      "categoryId": null,
+      "categoryId": "5",
       "shelfId": "s5",
       "description": "Simple mindfulness practices for attention, breathing, emotional awareness, and daily routines.",
       "totalCopies": 5,
@@ -663,7 +662,7 @@
       "id": "39",
       "title": "Communication Skills",
       "author": "Nguyen Ha Linh",
-      "categoryId": null,
+      "categoryId": "5",
       "shelfId": "s5",
       "description": "Listening, feedback, presentation structure, negotiation basics, conflict handling, and clarity.",
       "totalCopies": 10,
@@ -677,7 +676,7 @@
       "id": "40",
       "title": "Leadership Psychology",
       "author": "Do Van Phuc",
-      "categoryId": null,
+      "categoryId": "5",
       "shelfId": "s5",
       "description": "Leadership behavior, group dynamics, motivation, trust, decision making, and team culture.",
       "totalCopies": 6,
