@@ -118,19 +118,6 @@ export default function AdminCategory() {
         }
     };
 
-    // Handle delete
-    const handleDelete = async (id) => {
-        if (window.confirm("Bạn có chắc muốn xóa thể loại này?")) {
-            try {
-                await axiosApi.delete(`categories/${id}`);
-                toast.success("Xóa thể loại thành công");
-                loadCategories();
-            } catch (error) {
-                toast.error(error.message || "Lỗi xóa thể loại");
-            }
-        }
-    };
-
     const handleToggleVisibility = async (category) => {
         const nextValue = category.is_active === false ? true : false;
 
@@ -140,6 +127,23 @@ export default function AdminCategory() {
             loadCategories();
         } catch (error) {
             toast.error(error.message || "Lỗi cập nhật trạng thái hiển thị");
+        }
+    };
+
+    // Soft delete: preserve categories that may already be linked to books.
+    const handleDelete = async (category) => {
+        if (category.is_active === false) return;
+
+        if (!window.confirm(`Ẩn thể loại "${category.name}"? Thể loại sẽ không bị xóa khỏi dữ liệu.`)) {
+            return;
+        }
+
+        try {
+            await axiosApi.patch(`categories/${category.id}`, { is_active: false });
+            toast.success("Đã ẩn thể loại. Dữ liệu sách liên quan vẫn được giữ nguyên.");
+            loadCategories();
+        } catch (error) {
+            toast.error(error.message || "Không thể ẩn thể loại");
         }
     };
 
@@ -292,8 +296,9 @@ export default function AdminCategory() {
                                         </button>
                                         <button
                                             className="btn btn-sm btn-outline-danger"
-                                            onClick={() => handleDelete(category.id)}
-                                            title="Xóa"
+                                            onClick={() => handleDelete(category)}
+                                            disabled={category.is_active === false}
+                                            title={category.is_active === false ? "Thể loại đã ẩn" : "Ẩn thể loại"}
                                         >
                                             <Trash2 size={16} />
                                         </button>

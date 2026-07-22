@@ -122,9 +122,68 @@ export default function AdminBorrowing() {
         }
     };
 
-    const approve = (item) => {
-        const today = new Date().toISOString().slice(0, 10);
-        updateBorrowing(item, { status: "borrowing", borrowDate: today, dueDate: addDays(today, 14), rejectReason: "" }, "Đã duyệt phiếu mượn.");
+    const approve = async (item) => {
+        try {
+            setWorkingId(String(item.id));
+
+            // Read the latest data before approving so pending orders cannot exceed available copies.
+            const [bookResponse, borrowingResponse] = await Promise.all([
+                axiosApi.get(`books/${item.bookId}`),
+                axiosApi.get("borrowings"),
+            ]);
+            const book = bookResponse.data;
+            const availableCopies = Math.max(0,
+                Number(book.totalCopies || 0)
+                - Number(book.borrowedCopies || 0)
+                - Number(book.damagedCopies || 0)
+                - Number(book.lostCopies || 0)
+            );
+
+            if (book.is_active === false) {
+                toast.error("Đầu sách này đang ngừng phục vụ, không thể duyệt đơn.");
+                return;
+            }
+
+            if (availableCopies < 1) {
+                toast.error("Đầu sách không còn bản khả dụng. Không thể duyệt đơn này.");
+                return;
+            }
+
+            const otherPendingOrders = asCollection(borrowingResponse.data).filter((borrowing) =>
+                String(borrowing.bookId) === String(item.bookId)
+                && borrowing.status === "pending"
+                && String(borrowing.id) !== String(item.id)
+            );
+            const today = new Date().toISOString().slice(0, 10);
+
+            await Promise.all([
+                axiosApi.patch(`borrowings/${item.id}`, {
+                    status: "borrowing",
+                    borrowDate: today,
+                    dueDate: addDays(today, 14),
+                    rejectReason: "",
+                }),
+                axiosApi.patch(`books/${book.id}`, { borrowedCopies: Number(book.borrowedCopies || 0) + 1 }),
+            ]);
+
+            // If this was the last available copy, cancel every remaining pending request for it.
+            if (availableCopies === 1 && otherPendingOrders.length > 0) {
+                await Promise.all(otherPendingOrders.map((pendingOrder) => axiosApi.patch(`borrowings/${pendingOrder.id}`, {
+                    status: "cancelled",
+                    rejectReason: "Đơn được tự hủy vì đầu sách đã hết bản khả dụng.",
+                })));
+            }
+
+            await loadBorrowings();
+            const cancelledMessage = availableCopies === 1 && otherPendingOrders.length > 0
+                ? ` Đã tự hủy ${otherPendingOrders.length} đơn chờ khác vì đây là bản khả dụng cuối cùng.`
+                : "";
+            toast.success(`Đã duyệt phiếu mượn.${cancelledMessage}`);
+        } catch (error) {
+            toast.error(error.message || "Không thể duyệt phiếu mượn.");
+        } finally {
+            setWorkingId("");
+        }
     };
 
     const reject = (item) => {
@@ -133,15 +192,34 @@ export default function AdminBorrowing() {
         updateBorrowing(item, { status: "rejected", rejectReason: reason.trim() || "Không đủ điều kiện mượn sách." }, "Đã từ chối phiếu mượn.");
     };
 
-    const confirmReturn = (item, condition) => {
+    const confirmReturn = async (item, condition) => {
         const note = condition === "normal" ? "" : window.prompt(condition === "damaged" ? "Ghi chú tình trạng sách hỏng:" : "Ghi chú về sách mất:");
         if (note === null) return;
-        updateBorrowing(item, {
-            status: "returned",
-            returnDate: new Date().toISOString().slice(0, 10),
-            returnCondition: condition,
-            returnNote: note?.trim() || "",
-        }, condition === "normal" ? "Đã xác nhận trả sách." : "Đã cập nhật tình trạng sách.");
+        try {
+            setWorkingId(String(item.id));
+            const { data: book } = await axiosApi.get(`books/${item.bookId}`);
+            const bookChanges = {
+                borrowedCopies: Math.max(0, Number(book.borrowedCopies || 0) - 1),
+            };
+            if (condition === "damaged") bookChanges.damagedCopies = Number(book.damagedCopies || 0) + 1;
+            if (condition === "lost") bookChanges.lostCopies = Number(book.lostCopies || 0) + 1;
+
+            await Promise.all([
+                axiosApi.patch(`borrowings/${item.id}`, {
+                    status: "returned",
+                    returnDate: new Date().toISOString().slice(0, 10),
+                    returnCondition: condition,
+                    returnNote: note?.trim() || "",
+                }),
+                axiosApi.patch(`books/${book.id}`, bookChanges),
+            ]);
+            await loadBorrowings();
+            toast.success(condition === "normal" ? "Đã xác nhận trả sách." : "Đã cập nhật tình trạng sách.");
+        } catch (error) {
+            toast.error(error.message || "Không thể xác nhận trả sách.");
+        } finally {
+            setWorkingId("");
+        }
     };
 
     const isWorking = (item) => workingId === String(item.id);
