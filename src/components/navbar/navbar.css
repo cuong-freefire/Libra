@@ -1,35 +1,15 @@
 .app-navbar {
-    min-height: 72px;
+    min-height: 76px;
 }
 
 .app-navbar .navItem {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
 }
 
 .app-navbar .navItem a {
     display: flex;
     align-items: center;
     white-space: nowrap;
-}
-
-.app-navbar__links {
-    gap: .15rem;
-}
-
-.app-navbar h1 {
-    font-size: 2rem;
-    line-height: 1;
-}
-
-@media (max-width: 1200px) {
-    .app-navbar .navItem {
-        font-size: .8rem;
-    }
-
-    .app-navbar .navItem svg {
-        height: 18px;
-        width: 18px;
-    }
 }
 
 .navItem:hover {

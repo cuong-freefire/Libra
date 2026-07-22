@@ -78,7 +78,7 @@ export default function UserHome() {
                     )
                 })}
             </div>
-
+            {/* 
             <div>
                 <h1 className="fw-bold mb-5 text-decoration-underline"><Sprout className="text-success pb-3" size={58} /> Hành trình phát triển.</h1>
                 {info.map(item => (
@@ -156,7 +156,7 @@ export default function UserHome() {
                         Ngay trong tối hôm đó, bên ly cà phê trứng tại góc phố Hà Nội, một bản thỏa thuận đầu tư chung đã chính thức được ký kết. Ba vị tỷ phú quyết định không phá bỏ, mà gom nguồn lực khổng lồ của mình để <strong>đồng tài trợ và lột xác hoàn toàn cho nhà sách Libra</strong>. Sự kết hợp giữa nền tảng dữ liệu chuẩn mực của Bill, hạ tầng chip AI tối tân của Jensen và hệ thống xử lý đơn mượn siêu tốc của Elon đã biến căn hầm cổ năm ấy thành một thư viện số huyền thoại tại Việt Nam – nơi kết nối vẹn nguyên giá trị hoài cổ với hơi thở của công nghệ tương lai.
                     </p>
                 </div>
-            </div>
+            </div> */}
 
         </div>
     )
