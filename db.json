@@ -829,7 +829,8 @@
       "status": "returned",
       "rejectReason": "",
       "returnCondition": "normal",
-      "returnNote": ""
+      "returnNote": "",
+      "created_at": "2026-05-12T00:00:00.000Z"
     },
     {
       "id": "2",
@@ -841,7 +842,8 @@
       "status": "returned",
       "rejectReason": "",
       "returnCondition": "damaged",
-      "returnNote": "Bị rách bìa nhẹ"
+      "returnNote": "Bị rách bìa nhẹ",
+      "created_at": "2026-05-19T00:00:00.000Z"
     },
     {
       "id": "3",
@@ -853,7 +855,8 @@
       "status": "returned",
       "rejectReason": "",
       "returnCondition": "normal",
-      "returnNote": ""
+      "returnNote": "",
+      "created_at": "2026-05-28T00:00:00.000Z"
     },
     {
       "id": "4",
@@ -865,7 +868,8 @@
       "status": "rejected",
       "rejectReason": "Ko thích cho mượn",
       "returnCondition": null,
-      "returnNote": ""
+      "returnNote": "",
+      "created_at": "2026-01-01T00:00:00.000Z"
     },
     {
       "id": "5",
@@ -877,7 +881,8 @@
       "status": "rejected",
       "rejectReason": "Đầu sách hiện tại đang tạm dừng phục vụ.",
       "returnCondition": null,
-      "returnNote": ""
+      "returnNote": "",
+      "created_at": "2026-01-01T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -889,7 +894,8 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "dUciOMAVfcc"
+      "id": "dUciOMAVfcc",
+      "created_at": "2026-01-01T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -901,7 +907,8 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "ac1IGE2v0R8"
+      "id": "ac1IGE2v0R8",
+      "created_at": "2026-01-01T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -913,7 +920,8 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "Q51mW7StoV4"
+      "id": "Q51mW7StoV4",
+      "created_at": "2026-01-01T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -925,7 +933,8 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "e50bZ-krEW4"
+      "id": "e50bZ-krEW4",
+      "created_at": "2026-01-01T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -937,7 +946,8 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "3Fy7HULvxoM"
+      "id": "3Fy7HULvxoM",
+      "created_at": "2026-01-01T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -949,7 +959,8 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "cOeFDeS_ql8"
+      "id": "cOeFDeS_ql8",
+      "created_at": "2026-01-01T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -961,7 +972,8 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "mt_ufsbCq-I"
+      "id": "mt_ufsbCq-I",
+      "created_at": "2026-01-01T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -973,7 +985,8 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "gG8YVq5HTHk"
+      "id": "gG8YVq5HTHk",
+      "created_at": "2026-01-01T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -985,7 +998,8 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "x7WjW0_pyu8"
+      "id": "x7WjW0_pyu8",
+      "created_at": "2026-01-01T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -997,7 +1011,8 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "mkcFR01Mjd8"
+      "id": "mkcFR01Mjd8",
+      "created_at": "2026-01-01T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -1009,7 +1024,8 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "FjT8_WNpMaw"
+      "id": "FjT8_WNpMaw",
+      "created_at": "2026-01-01T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -1021,7 +1037,8 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "QS7LX6357CM"
+      "id": "QS7LX6357CM",
+      "created_at": "2026-01-01T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -1033,7 +1050,8 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "eRCn9O3uSog"
+      "id": "eRCn9O3uSog",
+      "created_at": "2026-07-21T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -1045,7 +1063,8 @@
       "rejectReason": "",
       "returnCondition": "damaged",
       "returnNote": "Hỏng",
-      "id": "0OnOvOeALX8"
+      "id": "0OnOvOeALX8",
+      "created_at": "2026-07-21T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -1057,7 +1076,8 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "M2HusJ9qWUM"
+      "id": "M2HusJ9qWUM",
+      "created_at": "2026-07-21T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -1069,7 +1089,8 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "u0LUtG00_5I"
+      "id": "u0LUtG00_5I",
+      "created_at": "2026-07-21T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -1082,7 +1103,8 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "CjdgAnEI9MI"
+      "id": "CjdgAnEI9MI",
+      "created_at": "2026-07-23T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -1095,7 +1117,8 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "0K4bUR8Anu0"
+      "id": "0K4bUR8Anu0",
+      "created_at": "2026-07-23T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -1108,7 +1131,8 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "ocR4FywhPvE"
+      "id": "ocR4FywhPvE",
+      "created_at": "2026-07-23T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -1121,7 +1145,8 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "08lHvPKWTAQ"
+      "id": "08lHvPKWTAQ",
+      "created_at": "2026-07-23T00:00:00.000Z"
     },
     {
       "userId": "2",
@@ -1134,7 +1159,8 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "5gWx3x32AJE"
+      "id": "5gWx3x32AJE",
+      "created_at": "2026-07-23T00:00:00.000Z"
     },
     {
       "userId": "3",
@@ -1147,7 +1173,22 @@
       "rejectReason": "Đơn được tự hủy vì đầu sách đã hết bản khả dụng.",
       "returnCondition": null,
       "returnNote": "",
-      "id": "zujj9Mu1NQU"
+      "id": "zujj9Mu1NQU",
+      "created_at": "2026-07-23T00:00:00.000Z"
+    },
+    {
+      "userId": "4bi4sizerVw",
+      "bookId": "1",
+      "requestDate": "2026-07-23",
+      "borrowDate": null,
+      "dueDate": null,
+      "returnDate": null,
+      "status": "pending",
+      "rejectReason": "",
+      "returnCondition": null,
+      "returnNote": "",
+      "id": "uXCxvZUfHQc",
+      "created_at": "2026-07-23T00:00:00.000Z"
     }
   ],
   "favorites": [
@@ -1156,6 +1197,12 @@
       "bookId": "1",
       "createdAt": "2026-07-23T14:53:06.291Z",
       "id": "DUAlJlkN8K8"
+    },
+    {
+      "userId": "4bi4sizerVw",
+      "bookId": "1",
+      "createdAt": "2026-07-23T16:54:50.748Z",
+      "id": "B1cq8Wk3-ac"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

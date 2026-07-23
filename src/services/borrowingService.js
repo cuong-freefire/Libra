@@ -51,6 +51,7 @@ export async function getBorrowingList(page, limit, query, userId = 0, status = 
         const params = {
             _page: page,
             _per_page: limit,
+            _sort: '-created_at',
             _embed: 'book',
             _where: JSON.stringify(conditions)
         };
@@ -182,7 +183,8 @@ export async function createPendingBorrowing(userId, bookId) {
         "status": "pending",
         "rejectReason": "",
         "returnCondition": null,
-        "returnNote": ""
+        "returnNote": "",
+        "created_at": new Date().toISOString()
     }
     try {
         const response = await axiosApi.post(`borrowings`, newPending)
