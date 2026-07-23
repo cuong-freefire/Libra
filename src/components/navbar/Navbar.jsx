@@ -1,0 +1,59 @@
+import { House } from 'lucide-react';
+import { BookMarked } from 'lucide-react';
+import { FileText } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import './navbar.css';
+import { ZodiacLibra } from 'lucide-react';
+import { useAuthContext } from '../../context/AuthContext';
+import UserMenu from '../user-menu/UserMenu';
+
+export default function Navbar() {
+    const { user, isAuthenticated } = useAuthContext();
+    const pathName = useLocation();
+    const authItem = [
+        { name: "Đăng nhập", link: "/login" },
+        { name: "Đăng ký", link: "/register" }
+    ]
+    const navItem = [
+        { name: "Trang chủ", link: "/", icon: <House />, isSelect: pathName.pathname === '/' ? true : false },
+        { name: "Sách của tôi", link: "/books", icon: <BookMarked />, isSelect: pathName.pathname.split('/')[1] === 'books' ? true : false },
+        { name: "Đơn mượn", link: "/my-borrowings", icon: <FileText />, isSelect:  pathName.pathname.split('/')[1] === 'my-borrowings' ? true : false }
+    ]
+    return (
+        <div className="container-fluid bg-dark d-flex align-items-center py-3 m-0 fixed-top row">
+            <div className='col-3 d-flex align-items-center gap-2'>
+                <span className='bg-success px-2 py-2 rounded-2 rainbow'>
+                    <ZodiacLibra />
+                </span>
+                <span className='text-light'><h1>Libra</h1></span>
+            </div>
+            <ul className='d-flex justify-content-evenly align-items-center m-0 p-0 col-6 list-unstyled'>
+                {navItem.map(item =>
+                    <li key={item.name} className={`navItem py-3 px-3 ${item.isSelect ? 'border border-white rounded' : ''}`}>
+                        <Link to={item.link} className='text-decoration-none text-light'>
+                            <span className='me-2'>{item.icon}</span>
+                            <span>{item.name}</span>
+                        </Link>
+                    </li>
+                )
+                }
+            </ul >
+            <div className='col-3 d-flex justify-content-end'>
+                {isAuthenticated && user ?
+                    <UserMenu user={user} />
+                    :
+                    <ul className='d-flex justify-content-evenly align-items-center m-0 p-0 col-6 list-unstyled'>
+                        {authItem.map(item =>
+                            <li key={item.name} className='navItem py-2 px-2'>
+                                <Link to={item.link} className='text-decoration-none text-light'>
+                                    <span>{item.name}</span>
+                                </Link>
+                            </li>
+                        )
+                        }
+                    </ul>
+                }
+            </div>
+        </div >
+    )
+}
