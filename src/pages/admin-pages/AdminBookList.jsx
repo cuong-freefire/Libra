@@ -2,7 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import { Edit, Plus, Save, Search, Trash2, X } from "lucide-react";
 import { toast } from "react-toastify";
 import { axiosApi } from "../../api/axios";
+import AdminPagination from "../../components/admin-pagination/AdminPagination";
 import "./adminManagement.css";
+
+const PAGE_SIZE = 10;
 
 const emptyForm = {
     title: "", author: "", categoryId: "", shelfId: "", description: "",
@@ -24,6 +27,7 @@ export default function AdminBookList() {
     const [shelf, setShelf] = useState("");
     const [status, setStatus] = useState("");
     const [quantity, setQuantity] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
 
     const loadData = async () => {
         setLoading(true);
@@ -58,6 +62,22 @@ export default function AdminBookList() {
         const matchesQuantity = !quantity || (quantity === "available" ? available(book) > 0 : available(book) === 0);
         return matchesQuery && matchesCategory && matchesShelf && matchesStatus && matchesQuantity;
     }), [books, query, category, shelf, status, quantity]);
+
+    const totalPages = Math.max(1, Math.ceil(filteredBooks.length / PAGE_SIZE));
+    const paginatedBooks = useMemo(() => {
+        const start = (currentPage - 1) * PAGE_SIZE;
+        return filteredBooks.slice(start, start + PAGE_SIZE);
+    }, [filteredBooks, currentPage]);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [query, category, shelf, status, quantity]);
+
+    useEffect(() => {
+        if (currentPage > totalPages) {
+            setCurrentPage(totalPages);
+        }
+    }, [currentPage, totalPages]);
 
     const onChange = event => {
         const { name, value, type, checked } = event.target;
@@ -189,7 +209,7 @@ export default function AdminBookList() {
 
             <div className="table-responsive management-table">
                 <table className="table table-hover align-middle mb-0"><thead><tr><th>Sách</th><th>Thể loại</th><th>Kệ</th><th>Số lượng</th><th>Trạng thái</th><th className="text-end">Thao tác</th></tr></thead>
-                    <tbody>{loading ? <tr><td colSpan="6" className="text-center py-5">Đang tải dữ liệu...</td></tr> : filteredBooks.length === 0 ? <tr><td colSpan="6" className="text-center text-muted py-5">Không có sách phù hợp.</td></tr> : filteredBooks.map(book => <tr key={book.id}>
+                    <tbody>{loading ? <tr><td colSpan="6" className="text-center py-5">Đang tải dữ liệu...</td></tr> : filteredBooks.length === 0 ? <tr><td colSpan="6" className="text-center text-muted py-5">Không có sách phù hợp.</td></tr> : paginatedBooks.map(book => <tr key={book.id}>
                         <td><div className="fw-bold">{book.title}</div><small className="text-muted">{book.author}</small></td>
                         <td>{getCategory(book.categoryId)?.name || "—"}</td><td>{getShelf(book.shelfId)?.name || "—"}<small className="d-block text-muted">{getShelf(book.shelfId)?.location}</small></td>
                         <td><strong>{available(book)}/{book.totalCopies}</strong> có thể mượn<small className="d-block text-muted">Đang mượn: {book.borrowedCopies} · Hỏng: {book.damagedCopies} · Mất: {book.lostCopies}</small></td>
@@ -198,6 +218,14 @@ export default function AdminBookList() {
                     </tr>)}</tbody>
                 </table>
             </div>
+
+            {!loading && (
+                <AdminPagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                />
+            )}
         </div>
     );
 }

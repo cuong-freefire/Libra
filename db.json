@@ -784,6 +784,20 @@
       "lostCopies": 0,
       "coverImage": "https://picsum.photos/seed/book-45/900/1200",
       "is_active": true
+    },
+    {
+      "title": "Clean Code Thực Hành 2",
+      "author": "Trần Minh",
+      "categoryId": "1",
+      "shelfId": "s1",
+      "description": "Sach hay",
+      "totalCopies": 1,
+      "borrowedCopies": 0,
+      "damagedCopies": 0,
+      "lostCopies": 0,
+      "coverImage": "",
+      "is_active": true,
+      "id": "tZM9TPMEGTI"
     }
   ],
   "borrowings": [
