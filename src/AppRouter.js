@@ -14,6 +14,7 @@ import UserHome from "./pages/user-pages/user-home/UserHome";
 import Dashboard from "./pages/user-pages/dashboard/Dashboard";
 import BookPage from "./pages/user-pages/books/BookPage";
 import BorrowingPage from "./pages/user-pages/my-borrowings/BorrowingPage";
+import FavoritesPage from "./pages/user-pages/favorites/FavoritesPage";
 import BookDetail from "./pages/user-pages/books/BookDetail";
 import { useAuthContext } from "./context/AuthContext";
 import AdminLayout from "./layouts/AdminLayout";
@@ -134,6 +135,11 @@ export default function AppRouter() {
                         <Route
                             path="my-borrowings"
                             element={<BorrowingPage />}
+                        />
+
+                        <Route
+                            path="favorites"
+                            element={<FavoritesPage />}
                         />
                     </Route>
                 )}

@@ -56,7 +56,7 @@
       "name": "Khoa học dữ liệu",
       "description": "",
       "id": "2",
-      "is_active": true
+      "is_active": false
     },
     {
       "id": "3",
@@ -69,9 +69,10 @@
       "is_active": true
     },
     {
-      "id": "5",
-      "name": "Tâm lý học",
-      "is_active": true
+      "name": "Chính Kịch",
+      "description": "Nghệ thuật đương đại",
+      "is_active": true,
+      "id": "4edCkNrxEWE"
     }
   ],
   "shelves": [
@@ -620,7 +621,7 @@
       "id": "36",
       "title": "Psychology of Learning",
       "author": "Tran Thi My",
-      "categoryId": "5",
+      "categoryId": null,
       "shelfId": "s5",
       "description": "Learning theories, memory, motivation, feedback, habits, attention, and classroom applications.",
       "totalCopies": 9,
@@ -634,7 +635,7 @@
       "id": "37",
       "title": "Behavioral Science Basics",
       "author": "Pham Dinh Khang",
-      "categoryId": "5",
+      "categoryId": null,
       "shelfId": "s5",
       "description": "How people make decisions, form habits, respond to incentives, and process social information.",
       "totalCopies": 8,
@@ -648,7 +649,7 @@
       "id": "38",
       "title": "Mindfulness Practice",
       "author": "Le Bao Ngoc",
-      "categoryId": "5",
+      "categoryId": null,
       "shelfId": "s5",
       "description": "Simple mindfulness practices for attention, breathing, emotional awareness, and daily routines.",
       "totalCopies": 5,
@@ -662,7 +663,7 @@
       "id": "39",
       "title": "Communication Skills",
       "author": "Nguyen Ha Linh",
-      "categoryId": "5",
+      "categoryId": null,
       "shelfId": "s5",
       "description": "Listening, feedback, presentation structure, negotiation basics, conflict handling, and clarity.",
       "totalCopies": 10,
@@ -676,7 +677,7 @@
       "id": "40",
       "title": "Leadership Psychology",
       "author": "Do Van Phuc",
-      "categoryId": "5",
+      "categoryId": null,
       "shelfId": "s5",
       "description": "Leadership behavior, group dynamics, motivation, trust, decision making, and team culture.",
       "totalCopies": 6,
@@ -755,6 +756,20 @@
       "lostCopies": 0,
       "coverImage": "https://picsum.photos/seed/book-45/900/1200",
       "is_active": true
+    },
+    {
+      "id": "46",
+      "title": "Test",
+      "author": "Pham Gia Han",
+      "categoryId": "1",
+      "shelfId": "s2",
+      "description": "Mobile application concepts including navigation, state, offline data, forms, and release workflow.",
+      "totalCopies": 1,
+      "borrowedCopies": 1,
+      "damagedCopies": 0,
+      "lostCopies": 0,
+      "coverImage": "https://picsum.photos/seed/book-45/900/1200",
+      "is_active": true
     }
   ],
   "borrowings": [
@@ -801,8 +816,8 @@
       "borrowDate": null,
       "dueDate": null,
       "returnDate": null,
-      "status": "pending",
-      "rejectReason": "",
+      "status": "rejected",
+      "rejectReason": "Ko thích cho mượn",
       "returnCondition": null,
       "returnNote": ""
     },

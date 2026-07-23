@@ -1,0 +1,158 @@
+/* ---------- User Menu Dropdown ---------- */
+.user-dropdown {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #312e81 100%);
+    border: 1px solid rgba(99, 102, 241, 0.25);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(99, 102, 241, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 16px;
+    width: 280px;
+    z-index: 9999;
+}
+
+/* ---------- Avatar Button ---------- */
+.user-menu-btn {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 50%;
+}
+
+.user-menu-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 16px rgba(99, 102, 241, 0.4);
+}
+
+.user-menu-btn:focus-visible {
+    outline: 2px solid rgba(99, 102, 241, 0.6);
+    outline-offset: 2px;
+}
+
+/* ---------- Avatar Image & Fallback ---------- */
+.user-menu-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(99, 102, 241, 0.4);
+    transition: border-color 0.2s ease;
+}
+
+.user-menu-btn:hover .user-menu-avatar {
+    border-color: rgba(129, 140, 248, 0.7);
+}
+
+.user-menu-avatar-fallback {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(99, 102, 241, 0.4);
+    transition: border-color 0.2s ease;
+}
+
+.user-menu-btn:hover .user-menu-avatar-fallback {
+    border-color: rgba(129, 140, 248, 0.7);
+}
+
+/* ---------- Dropdown Large Avatar ---------- */
+.user-dropdown-avatar {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(99, 102, 241, 0.5);
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+}
+
+.user-dropdown-avatar-fallback {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6, #a78bfa);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid rgba(99, 102, 241, 0.5);
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+}
+
+/* ---------- User Name ---------- */
+.user-dropdown-name {
+    color: #e2e8f0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* ---------- Divider ---------- */
+.user-dropdown-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.4), transparent);
+    border: none;
+    margin: 0;
+}
+
+/* ---------- Menu Items ---------- */
+.user-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #c7d2fe;
+    background: transparent;
+    border: 1px solid transparent;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.user-dropdown-item:hover {
+    background: rgba(99, 102, 241, 0.2);
+    color: #ffffff;
+    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.15);
+}
+
+/* ---------- Info Item (Profile) ---------- */
+.user-dropdown-item-info {
+    color: #c7d2fe;
+    background: rgba(99, 102, 241, 0.1);
+    border-color: rgba(99, 102, 241, 0.15);
+}
+
+.user-dropdown-item-info:hover {
+    background: rgba(99, 102, 241, 0.25);
+    color: #ffffff;
+    border-color: rgba(99, 102, 241, 0.4);
+}
+
+/* ---------- Logout Item ---------- */
+.user-dropdown-item-logout {
+    color: #fca5a5;
+    border-color: rgba(248, 113, 113, 0.2);
+    background: rgba(248, 113, 113, 0.08);
+}
+
+.user-dropdown-item-logout:hover {
+    background: rgba(248, 113, 113, 0.2);
+    color: #fecaca;
+    border-color: rgba(248, 113, 113, 0.4);
+    box-shadow: 0 2px 8px rgba(248, 113, 113, 0.15);
+}
