@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuthContext } from "../../../context/AuthContext";
 import { getFavoritesByUser, removeFavorite } from "../../../services/favoriteService";
@@ -14,14 +14,13 @@ export default function useFavorite() {
     const limit = 8;
     const [trigger, setTrigger] = useState(0);
     const { user, isAuthenticated } = useAuthContext();
-    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchData() {
             try {
                 setIsLoading(true);
                 if (!isAuthenticated) {
-                    navigate('/login');
+                    setIsLoading(false);
                     return;
                 }
                 const { data, totalPage } = await getFavoritesByUser(user?.id, page, limit);
@@ -38,7 +37,7 @@ export default function useFavorite() {
         }
 
         fetchData();
-    }, [page, trigger, navigate, user?.id, isAuthenticated]);
+    }, [page, trigger, user?.id, isAuthenticated]);
 
     async function removeFavoriteAction(favoriteId) {
         try {

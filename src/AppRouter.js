@@ -16,6 +16,8 @@ import BookPage from "./pages/user-pages/books/BookPage";
 import BorrowingPage from "./pages/user-pages/my-borrowings/BorrowingPage";
 import FavoritesPage from "./pages/user-pages/favorites/FavoritesPage";
 import BookDetail from "./pages/user-pages/books/BookDetail";
+import UserProfile from "./pages/user-pages/profile/UserProfile";
+import ChangePassword from "./pages/user-pages/change-password/ChangePassword";
 import { useAuthContext } from "./context/AuthContext";
 import AdminLayout from "./layouts/AdminLayout";
 import NotFoundPage from "./components/NotFountPage";
@@ -25,7 +27,6 @@ import AdminDashboard from "./pages/admin-pages/AdminDashboard";
 import AdminBooksView from "./pages/admin-pages/AdminBooksView";
 import AdminBookDetail from "./pages/admin-pages/AdminBookDetail";
 import AdminBookBorrowers from "./pages/admin-pages/AdminBookBorrowers";
-import AdminProfile from "./pages/admin-pages/AdminProfile";
 import AdminBorrowing from "./pages/admin-pages/AdminBorrowing";
 import AdminShelfList from "./pages/admin-pages/AdminShelfList";
 import AdminCategory from "./pages/admin-pages/AdminCategory.jsx";
@@ -103,13 +104,17 @@ export default function AppRouter() {
                             />
 
                             <Route
+                                path="borrowing"
+                                element={<AdminBorrowing />}
+                            />
+                            <Route
                                 path="profile"
-                                element={<AdminProfile />}
+                                element={<UserProfile />}
                             />
 
                             <Route
-                                path="borrowing"
-                                element={<AdminBorrowing />}
+                                path="change-password"
+                                element={<ChangePassword />}
                             />
                         </Route>
                     </>
@@ -140,6 +145,16 @@ export default function AppRouter() {
                         <Route
                             path="favorites"
                             element={<FavoritesPage />}
+                        />
+
+                        <Route
+                            path="profile"
+                            element={<UserProfile />}
+                        />
+
+                        <Route
+                            path="change-password"
+                            element={<ChangePassword />}
                         />
                     </Route>
                 )}

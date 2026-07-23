@@ -53,10 +53,12 @@ export async function RegisterService(data) {
             throw new Error('Tên tài khoản đã tồn tại vui lòng chọn tên khác.')
         }
 
+        const { confirmPassword, ...userData } = data;
         const res = await axiosApi.post('users', {
-            ...data,
+            ...userData,
             role: 'reader',
-            active: true
+            is_active: true,
+            image: 'https://m.yodycdn.com/blog/anh-cho-meme-yody-vn30.jpg'
         })
 
         const user = res.data; // post sẽ trả về 1 object vừa tạo

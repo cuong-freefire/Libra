@@ -7,7 +7,7 @@
       "password": "Admin123@",
       "role": "admin",
       "is_active": true,
-      "image": "https://randomuser.me/api/portraits/men/75.jpg"
+      "image": "https://m.yodycdn.com/blog/anh-cho-meme-yody-vn30.jpg"
     },
     {
       "id": "2",
@@ -44,6 +44,24 @@
       "role": "reader",
       "is_active": true,
       "image": "https://randomuser.me/api/portraits/women/44.jpg"
+    },
+    {
+      "name": "Gấu bông không lồ",
+      "username": "ngobakha",
+      "password": "Cuong25092005@",
+      "role": "reader",
+      "is_active": true,
+      "image": "https://m.yodycdn.com/blog/anh-cho-meme-yody-vn30.jpg",
+      "id": "LKnLAHToyoY"
+    },
+    {
+      "name": "William Shakespeare",
+      "username": "khoailangthang",
+      "password": "Cuong25092005@",
+      "role": "reader",
+      "is_active": true,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvO7ea6kQ52GM_fTDEgkt_TVHVau_N6_2J-AWIG3D7Iw&s=10",
+      "id": "4bi4sizerVw"
     }
   ],
   "categories": [

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { LogOut, Info } from 'lucide-react';
+import { LogOut, Info, Lock } from 'lucide-react';
 import { Link, useNavigate } from "react-router-dom";
 import { LogOut as LogOutAction } from "../../services/authService";
 import { useAuthContext } from "../../context/AuthContext";
@@ -10,8 +10,12 @@ export default function UserMenu({ user }) {
     const navigate = useNavigate();
     const { removeUser } = useAuthContext();
 
+    const profileLink = user?.role === 'admin' ? '/admin/profile' : '/profile';
+    const passwordLink = user?.role === 'admin' ? '/admin/change-password' : '/change-password';
+
     const menuItem = [
-        { name: 'Thông tin cá nhân', link: '#', icon: <Info size={18} /> },
+        { name: 'Thông tin cá nhân', link: profileLink, icon: <Info size={18} /> },
+        { name: 'Đổi mật khẩu', link: passwordLink, icon: <Lock size={18} /> },
     ];
 
     return (

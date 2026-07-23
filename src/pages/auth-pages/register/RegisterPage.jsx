@@ -1,4 +1,4 @@
-import { House, ZodiacLibra } from "lucide-react";
+import { ZodiacLibra, UserPlus, User, Lock, ShieldCheck, Loader } from "lucide-react";
 import useOnlineStatus from "../../../hooks/useOnlineStatus"
 import useRegisterPage from "./useRegisterPage"
 import { Link } from "react-router-dom"
@@ -11,12 +11,14 @@ export default function RegisterPage() {
         <div className="container-fluid d-flex align-items-center justify-content-center min-vh-100" style={{ backgroundColor: "#f3f4f6" }}>
             <div className="row w-100 shadow-sm" style={{ maxWidth: "900px", borderRadius: "12px", overflow: "hidden" }}>
 
-                {/* Cột trái: Giới thiệu hệ thống */}
+                {/* Cột trái: Biểu tượng + Giới thiệu */}
                 <div className="col-md-5 d-flex flex-column justify-content-between p-5" style={{ backgroundColor: "#e5e7eb", color: "#111827" }}>
                     <div>
-                        <Link to={'/'} className="btn btn-dark mb-3"><House /> Home</Link>
+                        <Link to={'/'} className="text-dark small fw-semibold text-decoration-none mb-4 d-inline-block">
+                            ← Về trang chủ
+                        </Link>
+
                         <div className="d-flex align-items-center gap-2 mb-5">
-                            {/* Icon chìa khóa SVG tối giản */}
                             <div className='col-3 d-flex align-items-center gap-2'>
                                 <span className='bg-success px-2 py-2 rounded-2 rainbow'>
                                     <ZodiacLibra />
@@ -24,16 +26,25 @@ export default function RegisterPage() {
                                 <span className='text-dark'><h1>Libra</h1></span>
                             </div>
                         </div>
-
-                        <h1 className="fw-black display-6 mb-4" style={{ fontWeight: "800", letterSpacing: "-0.5px" }}>
-                            Đăng ký tài khoản
-                        </h1>
                     </div>
 
-                    <p className="text-secondary small mb-0" style={{ lineHeight: "1.6" }}>
-                        Reader tra cứu và mượn sách.<br />
-                        Admin quản lý sách, phiếu mượn và người đọc.
-                    </p>
+                    <div className="text-center">
+                        <div
+                            className="rounded-circle bg-dark d-flex align-items-center justify-content-center mx-auto mb-4 text-white"
+                            style={{ width: "100px", height: "100px" }}
+                        >
+                            <UserPlus size={40} />
+                        </div>
+                        <h3 className="fw-bold mb-3" style={{ fontWeight: "700" }}>
+                            Đăng ký tài khoản
+                        </h3>
+                        <p className="text-muted small mb-0" style={{ lineHeight: "1.6" }}>
+                            Reader tra cứu và mượn sách.<br />
+                            Admin quản lý sách, phiếu mượn và người đọc.
+                        </p>
+                    </div>
+
+                    <div></div>
                 </div>
 
                 {/* Cột phải: Form Đăng ký */}
@@ -43,16 +54,21 @@ export default function RegisterPage() {
                     <form onSubmit={submitHandler}>
                         {/* Tên hiển thị */}
                         <div className="mb-3">
-                            <label htmlFor="name" className="form-label small fw-semibold text-muted mb-1">
+                            <label htmlFor="name" className="form-label small fw-semibold text-muted mb-2">
                                 Tên hiển thị
                             </label>
-                            <input
-                                type="text"
-                                className={`form-control rounded-2 py-2 px-3 ${errors.name ? 'is-invalid' : ''}`}
-                                id="name"
-                                style={{ borderColor: "#d1d5db", backgroundColor: "#f9fafb" }}
-                                {...register("name")}
-                            />
+                            <div className="input-group">
+                                <span className="input-group-text" style={{ borderColor: "#d1d5db", backgroundColor: "#f9fafb" }}>
+                                    <User size={18} />
+                                </span>
+                                <input
+                                    type="text"
+                                    className={`form-control rounded-2 py-2 px-3 ${errors.name ? 'is-invalid' : ''}`}
+                                    id="name"
+                                    style={{ borderColor: "#d1d5db", backgroundColor: "#f9fafb" }}
+                                    {...register("name")}
+                                />
+                            </div>
                             {errors.name?.message && (
                                 <div className="text-danger small mt-1">
                                     {errors.name?.message}
@@ -62,16 +78,21 @@ export default function RegisterPage() {
 
                         {/* Tài khoản */}
                         <div className="mb-3">
-                            <label htmlFor="username" className="form-label small fw-semibold text-muted mb-1">
+                            <label htmlFor="username" className="form-label small fw-semibold text-muted mb-2">
                                 Tài khoản
                             </label>
-                            <input
-                                type="text"
-                                className={`form-control rounded-2 py-2 px-3 ${errors.username ? 'is-invalid' : ''}`}
-                                id="username"
-                                style={{ borderColor: "#d1d5db", backgroundColor: "#f9fafb" }}
-                                {...register("username")}
-                            />
+                            <div className="input-group">
+                                <span className="input-group-text" style={{ borderColor: "#d1d5db", backgroundColor: "#f9fafb" }}>
+                                    <User size={18} />
+                                </span>
+                                <input
+                                    type="text"
+                                    className={`form-control rounded-2 py-2 px-3 ${errors.username ? 'is-invalid' : ''}`}
+                                    id="username"
+                                    style={{ borderColor: "#d1d5db", backgroundColor: "#f9fafb" }}
+                                    {...register("username")}
+                                />
+                            </div>
                             {errors.username?.message && (
                                 <div className="text-danger small mt-1">
                                     {errors.username?.message}
@@ -81,16 +102,21 @@ export default function RegisterPage() {
 
                         {/* Mật khẩu */}
                         <div className="mb-3">
-                            <label htmlFor="password" className="form-label small fw-semibold text-muted mb-1">
+                            <label htmlFor="password" className="form-label small fw-semibold text-muted mb-2">
                                 Mật khẩu
                             </label>
-                            <input
-                                type="password"
-                                className={`form-control rounded-2 py-2 px-3 ${errors.password ? 'is-invalid' : ''}`}
-                                id="password"
-                                style={{ borderColor: "#d1d5db", backgroundColor: "#f9fafb" }}
-                                {...register("password")}
-                            />
+                            <div className="input-group">
+                                <span className="input-group-text" style={{ borderColor: "#d1d5db", backgroundColor: "#f9fafb" }}>
+                                    <Lock size={18} />
+                                </span>
+                                <input
+                                    type="password"
+                                    className={`form-control rounded-2 py-2 px-3 ${errors.password ? 'is-invalid' : ''}`}
+                                    id="password"
+                                    style={{ borderColor: "#d1d5db", backgroundColor: "#f9fafb" }}
+                                    {...register("password")}
+                                />
+                            </div>
                             {errors.password?.message && (
                                 <div className="text-danger small mt-1">
                                     {errors.password?.message}
@@ -100,16 +126,21 @@ export default function RegisterPage() {
 
                         {/* Mật khẩu xác nhận */}
                         <div className="mb-4">
-                            <label htmlFor="confirmPassword" className="form-label small fw-semibold text-muted mb-1">
+                            <label htmlFor="confirmPassword" className="form-label small fw-semibold text-muted mb-2">
                                 Mật khẩu xác nhận
                             </label>
-                            <input
-                                type="password"
-                                className={`form-control rounded-2 py-2 px-3 ${errors.confirmPassword ? 'is-invalid' : ''}`}
-                                id="confirmPassword"
-                                style={{ borderColor: "#d1d5db", backgroundColor: "#f9fafb" }}
-                                {...register("confirmPassword")}
-                            />
+                            <div className="input-group">
+                                <span className="input-group-text" style={{ borderColor: "#d1d5db", backgroundColor: "#f9fafb" }}>
+                                    <ShieldCheck size={18} />
+                                </span>
+                                <input
+                                    type="password"
+                                    className={`form-control rounded-2 py-2 px-3 ${errors.confirmPassword ? 'is-invalid' : ''}`}
+                                    id="confirmPassword"
+                                    style={{ borderColor: "#d1d5db", backgroundColor: "#f9fafb" }}
+                                    {...register("confirmPassword")}
+                                />
+                            </div>
                             {errors.confirmPassword?.message && (
                                 <div className="text-danger small mt-1">
                                     {errors.confirmPassword?.message}
@@ -120,7 +151,7 @@ export default function RegisterPage() {
                         {/* Nút đăng ký */}
                         <button
                             type="submit"
-                            className="btn w-100 py-2.5 fw-semibold mb-3 border-0 rounded-2 transition-all"
+                            className="btn w-100 py-2 fw-semibold border-0 rounded-2 d-flex align-items-center justify-content-center gap-2"
                             style={{
                                 backgroundColor: (!isOnline || isLoading) ? "#9ca3af" : "#111827",
                                 color: "#ffffff",
@@ -128,7 +159,13 @@ export default function RegisterPage() {
                             }}
                             disabled={!isOnline || isLoading}
                         >
-                            {!isOnline ? '...Mất kết nối' : isLoading ? '...Đang xử lý' : 'Đăng ký'}
+                            {!isOnline ? (
+                                <><Loader size={18} className="animate-spin" /> Mất kết nối</>
+                            ) : isLoading ? (
+                                <><Loader size={18} className="animate-spin" /> Đang xử lý...</>
+                            ) : (
+                                <><UserPlus size={18} /> Đăng ký</>
+                            )}
                         </button>
 
                         {/* Điều hướng về đăng nhập */}
