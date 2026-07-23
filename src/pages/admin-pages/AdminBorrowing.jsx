@@ -202,7 +202,7 @@ export default function AdminBorrowing() {
             // If this was the last available copy, cancel every remaining pending request for it.
             if (availableCopies === 1 && otherPendingOrders.length > 0) {
                 await Promise.all(otherPendingOrders.map((pendingOrder) => axiosApi.patch(`borrowings/${pendingOrder.id}`, {
-                    status: "cancelled",
+                    status: "rejected",
                     rejectReason: "Đơn được tự hủy vì đầu sách đã hết bản khả dụng.",
                 })));
             }

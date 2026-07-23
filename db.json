@@ -770,6 +770,20 @@
       "lostCopies": 0,
       "coverImage": "https://picsum.photos/seed/book-45/900/1200",
       "is_active": true
+    },
+    {
+      "id": "47",
+      "title": "Test2",
+      "author": "Pham Gia Han2",
+      "categoryId": "1",
+      "shelfId": "s2",
+      "description": "Mobile application concepts including navigation, state, offline data, forms, and release workflow.",
+      "totalCopies": 1,
+      "borrowedCopies": 1,
+      "damagedCopies": 0,
+      "lostCopies": 0,
+      "coverImage": "https://picsum.photos/seed/book-45/900/1200",
+      "is_active": true
     }
   ],
   "borrowings": [
@@ -1076,6 +1090,40 @@
       "returnCondition": null,
       "returnNote": "",
       "id": "08lHvPKWTAQ"
+    },
+    {
+      "userId": "2",
+      "bookId": "47",
+      "requestDate": "2026-07-23",
+      "borrowDate": "2026-07-23",
+      "dueDate": "2026-08-05",
+      "returnDate": null,
+      "status": "borrowing",
+      "rejectReason": "",
+      "returnCondition": null,
+      "returnNote": "",
+      "id": "5gWx3x32AJE"
+    },
+    {
+      "userId": "3",
+      "bookId": "47",
+      "requestDate": "2026-07-23",
+      "borrowDate": null,
+      "dueDate": null,
+      "returnDate": null,
+      "status": "cancelled",
+      "rejectReason": "Đơn được tự hủy vì đầu sách đã hết bản khả dụng.",
+      "returnCondition": null,
+      "returnNote": "",
+      "id": "zujj9Mu1NQU"
+    }
+  ],
+  "favorites": [
+    {
+      "userId": "2",
+      "bookId": "1",
+      "createdAt": "2026-07-23T14:53:06.291Z",
+      "id": "DUAlJlkN8K8"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
