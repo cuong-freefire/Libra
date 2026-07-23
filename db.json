@@ -56,7 +56,7 @@
       "name": "Khoa học dữ liệu",
       "description": "",
       "id": "2",
-      "is_active": true
+      "is_active": false
     },
     {
       "id": "3",
@@ -756,6 +756,20 @@
       "lostCopies": 0,
       "coverImage": "https://picsum.photos/seed/book-45/900/1200",
       "is_active": true
+    },
+    {
+      "id": "46",
+      "title": "Test",
+      "author": "Pham Gia Han",
+      "categoryId": "1",
+      "shelfId": "s2",
+      "description": "Mobile application concepts including navigation, state, offline data, forms, and release workflow.",
+      "totalCopies": 1,
+      "borrowedCopies": 1,
+      "damagedCopies": 0,
+      "lostCopies": 0,
+      "coverImage": "https://picsum.photos/seed/book-45/900/1200",
+      "is_active": true
     }
   ],
   "borrowings": [
@@ -1010,6 +1024,58 @@
       "returnCondition": null,
       "returnNote": "",
       "id": "u0LUtG00_5I"
+    },
+    {
+      "userId": "2",
+      "bookId": "7",
+      "requestDate": "2026-07-23",
+      "borrowDate": null,
+      "dueDate": null,
+      "returnDate": null,
+      "status": "cancelled",
+      "rejectReason": "",
+      "returnCondition": null,
+      "returnNote": "",
+      "id": "BdSBJhtyUwg"
+    },
+    {
+      "userId": "2",
+      "bookId": "46",
+      "requestDate": "2026-07-23",
+      "borrowDate": "2026-07-23",
+      "dueDate": "2026-08-05",
+      "returnDate": "2026-07-23",
+      "status": "returned",
+      "rejectReason": "",
+      "returnCondition": "normal",
+      "returnNote": "",
+      "id": "X80-MEOoJsw"
+    },
+    {
+      "userId": "3",
+      "bookId": "46",
+      "requestDate": "2026-07-23",
+      "borrowDate": null,
+      "dueDate": null,
+      "returnDate": null,
+      "status": "cancelled",
+      "rejectReason": "Đơn được tự hủy vì đầu sách đã hết bản khả dụng.",
+      "returnCondition": null,
+      "returnNote": "",
+      "id": "Fc_Sa-947Bo"
+    },
+    {
+      "userId": "2",
+      "bookId": "5",
+      "requestDate": "2026-07-23",
+      "borrowDate": "2026-07-23",
+      "dueDate": "2026-08-05",
+      "returnDate": null,
+      "status": "borrowing",
+      "rejectReason": "",
+      "returnCondition": null,
+      "returnNote": "",
+      "id": "MALuZG3hU-0"
     }
   ],
   "favorites": [
