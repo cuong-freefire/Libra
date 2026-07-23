@@ -1,74 +1,91 @@
 import { axiosApi } from "../api/axios";
 
-export async function getBorrowingList(page, limit, query, userId = 0) {
+export async function getBorrowingList(page, limit, query, userId = 0, status = '', fromDate = '', toDate = '') {
     try {
-        const bookWithQuery = await axiosApi.get('books', {
-            params: {
-                _where: JSON.stringify({
-                    or: [
-                        { title: { contains: query } },
-                        { author: { contains: query } }
-                    ]
-                })
-            }
-        })
+        const conditions = {};
 
-        console.log('bookWithQuery:', bookWithQuery)
-
-        if (bookWithQuery.data.length === 0) {
-            throw new Error("Không tìm thấy danh sách!")
+        // User filter
+        if (userId !== 0) {
+            conditions.userId = { eq: userId };
         }
 
-        const bookIds = bookWithQuery.data.map(b => b.id.toString());
-
-        const borrowings = await axiosApi.get('borrowings', {
-            params: {
-                _where: JSON.stringify({
-                    bookId: { in: bookIds },
-                    ...(userId !== 0 && { userId: { eq: userId } })
-                }),
-                _page: page,
-                _per_page: limit,
-                _embed: 'book'
-            }
-        })
-
-        // console.log('borrowings:', borrowings)
-
-        if (borrowings.data.data.length === 0) {
-            throw new Error("Không tìm thấy danh sách!")
+        // Status filter
+        if (status) {
+            conditions.status = { eq: status };
         }
+
+        // Date range filter
+        const borrowDate = {};
+        if (fromDate) {
+            borrowDate.gte = fromDate;
+        }
+        if (toDate) {
+            borrowDate.lte = toDate;
+        }
+        if (Object.keys(borrowDate).length > 0) {
+            conditions.borrowDate = borrowDate;
+        }
+
+        // If query is provided, filter by book title/author first
+        if (query) {
+            const bookWithQuery = await axiosApi.get('books', {
+                params: {
+                    _where: JSON.stringify({
+                        or: [
+                            { title: { contains: query } },
+                            { author: { contains: query } }
+                        ]
+                    })
+                }
+            });
+
+            const bookIds = bookWithQuery.data.map(b => b.id.toString());
+
+            if (bookIds.length === 0) {
+                return { data: [], totalPage: 0 };
+            }
+
+            conditions.bookId = { in: bookIds };
+        }
+
+        const params = {
+            _page: page,
+            _per_page: limit,
+            _embed: 'book',
+            _where: JSON.stringify(conditions)
+        };
+
+        const borrowings = await axiosApi.get('borrowings', { params });
+
         return {
-            data: borrowings.data.data,
-            totalPage: borrowings.data.pages
-        }
+            data: borrowings.data.data || [],
+            totalPage: borrowings.data.pages || 0
+        };
     }
     catch (error) {
         if (error.response?.status === 404) {
-            throw new Error("Không tìm thấy API!")
+            return { data: [], totalPage: 0 };
         }
         if (error.request && !error.response) {
-            throw new Error("Server mất kết nối!")
+            throw new Error("Server mất kết nối!");
         }
         if (error.code === 'ECONNABORTED') {
             throw new Error("Server phản hồi quá lâu. Vui lòng thử lại.");
         }
-        throw error
+        throw error;
     }
 }
 
 export async function getPendingBorrowingByUserIdAndBookId(userId, bookId) {
-    const conditions = {
-        _where: JSON.stringify({
-            userId: { eq: userId },
-            bookId: { eq: bookId },
-            status: { eq: 'pending' }
-        })
-    }
-
     try {
         const res = await axiosApi.get(`borrowings`, {
-            params: conditions
+            params: {
+                _where: JSON.stringify({
+                    userId: { eq: userId },
+                    bookId: { eq: bookId },
+                    status: { eq: 'pending' }
+                })
+            }
         })
 
         return res.data
@@ -94,7 +111,6 @@ export async function cancelPending(borrowing_id) {
 
     try {
         const res = await axiosApi.patch(`borrowings/${borrowing_id}`, changed)
-        // console.log("Dữ liệu sau patch là: ", res.data)
         if (res.status === 200) {
             return {
                 success: true,
@@ -117,16 +133,14 @@ export async function cancelPending(borrowing_id) {
 }
 
 export async function checkBorrowingCondition(userId, bookId) {
-    const conditions = {
-        _where: JSON.stringify({
-            'userId': { eq: userId },
-            'bookId': { eq: bookId }
-        })
-    }
-
     try {
         const { data } = await axiosApi.get(`borrowings`, {
-            params: conditions
+            params: {
+                _where: JSON.stringify({
+                    userId: { eq: userId },
+                    bookId: { eq: bookId }
+                })
+            }
         })
 
         console.log(data)
@@ -161,6 +175,7 @@ export async function createPendingBorrowing(userId, bookId) {
     const newPending = {
         "userId": userId,
         "bookId": bookId,
+        "requestDate": new Date().toISOString().slice(0, 10),
         "borrowDate": null,
         "dueDate": null,
         "returnDate": null,

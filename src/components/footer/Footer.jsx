@@ -2,16 +2,16 @@ import { ExternalLink, ZodiacLibra } from "lucide-react";
 
 export default function Footer() {
     return (
-        <footer className="bg-dark text-light mt-5 py-4">
+        <footer className="app-footer mt-5 py-4">
             <div className="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
                 <div>
                     <div className="d-flex align-items-center gap-2 mb-2">
-                        <span className="bg-success px-2 py-2 rounded-2 d-inline-flex rainbow text-dark">
+                        <span className="footer-logo-icon">
                             <ZodiacLibra size={22} />
                         </span>
-                        <h5 className="mb-0">Nhà sách Libra</h5>
+                        <h5 className="footer-logo-text mb-0">Nhà sách Libra</h5>
                     </div>
-                    <p className="mb-0 text-light">
+                    <p className="footer-desc mb-0">
                         Nơi chia sẻ những cuốn sách hay, giúp bạn dễ dàng tìm kiếm và lưu giữ tri thức mỗi ngày.
                     </p>
                 </div>
@@ -21,7 +21,7 @@ export default function Footer() {
                         href="https://github.com/"
                         target="_blank"
                         rel="noreferrer"
-                        className="text-light text-decoration-none d-flex align-items-center gap-2"
+                        className="footer-link d-flex align-items-center gap-2"
                     >
                         <ExternalLink size={18} />
                         <span>GitHub</span>
@@ -30,7 +30,7 @@ export default function Footer() {
                         href="https://facebook.com/"
                         target="_blank"
                         rel="noreferrer"
-                        className="text-light text-decoration-none d-flex align-items-center gap-2"
+                        className="footer-link d-flex align-items-center gap-2"
                     >
                         <ExternalLink size={18} />
                         <span>Facebook</span>

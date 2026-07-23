@@ -53,9 +53,10 @@
       "is_active": true
     },
     {
-      "id": "2",
       "name": "Khoa học dữ liệu",
-      "is_active": true
+      "description": "",
+      "id": "2",
+      "is_active": false
     },
     {
       "id": "3",
@@ -68,9 +69,10 @@
       "is_active": true
     },
     {
-      "id": "5",
-      "name": "Tâm lý học",
-      "is_active": true
+      "name": "Chính Kịch",
+      "description": "Nghệ thuật đương đại",
+      "is_active": true,
+      "id": "4edCkNrxEWE"
     }
   ],
   "shelves": [
@@ -78,14 +80,14 @@
       "id": "s1",
       "name": "Kệ A1",
       "location": "Tầng 1 - Khu Kỹ thuật",
-      "maxCapacity": 50,
+      "maxCapacity": 999,
       "is_active": true
     },
     {
       "id": "s2",
       "name": "Kệ A2",
       "location": "Tầng 1 - Dãy Công nghệ",
-      "maxCapacity": 40,
+      "maxCapacity": 999,
       "is_active": true
     },
     {
@@ -108,6 +110,20 @@
       "location": "Phòng đọc số 3",
       "maxCapacity": 100,
       "is_active": true
+    },
+    {
+      "name": "Kệ AA1",
+      "location": "Tầng 1 - Dãy Công nghệ",
+      "maxCapacity": 199,
+      "is_active": true,
+      "id": "YqS6wQeZvSo"
+    },
+    {
+      "name": "AAC1",
+      "location": "Phòng đọc số 3",
+      "maxCapacity": 89,
+      "is_active": true,
+      "id": "i0yFpAUQe1A"
     }
   ],
   "books": [
@@ -129,12 +145,12 @@
       "id": "2",
       "title": "Clean Code Thực Hành",
       "author": "Robert C. Martin",
-      "categoryId": "1",
+      "categoryId": "2",
       "shelfId": "s1",
       "description": "Các nguyên tắc viết mã dễ đọc, dễ bảo trì và dễ mở rộng.",
-      "totalCopies": 5,
+      "totalCopies": 80,
       "borrowedCopies": 0,
-      "damagedCopies": 0,
+      "damagedCopies": 1,
       "lostCopies": 0,
       "coverImage": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=900&q=80",
       "is_active": true
@@ -605,7 +621,7 @@
       "id": "36",
       "title": "Psychology of Learning",
       "author": "Tran Thi My",
-      "categoryId": "5",
+      "categoryId": null,
       "shelfId": "s5",
       "description": "Learning theories, memory, motivation, feedback, habits, attention, and classroom applications.",
       "totalCopies": 9,
@@ -619,7 +635,7 @@
       "id": "37",
       "title": "Behavioral Science Basics",
       "author": "Pham Dinh Khang",
-      "categoryId": "5",
+      "categoryId": null,
       "shelfId": "s5",
       "description": "How people make decisions, form habits, respond to incentives, and process social information.",
       "totalCopies": 8,
@@ -633,7 +649,7 @@
       "id": "38",
       "title": "Mindfulness Practice",
       "author": "Le Bao Ngoc",
-      "categoryId": "5",
+      "categoryId": null,
       "shelfId": "s5",
       "description": "Simple mindfulness practices for attention, breathing, emotional awareness, and daily routines.",
       "totalCopies": 5,
@@ -647,7 +663,7 @@
       "id": "39",
       "title": "Communication Skills",
       "author": "Nguyen Ha Linh",
-      "categoryId": "5",
+      "categoryId": null,
       "shelfId": "s5",
       "description": "Listening, feedback, presentation structure, negotiation basics, conflict handling, and clarity.",
       "totalCopies": 10,
@@ -661,7 +677,7 @@
       "id": "40",
       "title": "Leadership Psychology",
       "author": "Do Van Phuc",
-      "categoryId": "5",
+      "categoryId": null,
       "shelfId": "s5",
       "description": "Leadership behavior, group dynamics, motivation, trust, decision making, and team culture.",
       "totalCopies": 6,
@@ -743,13 +759,13 @@
     },
     {
       "id": "46",
-      "title": "test",
+      "title": "Test",
       "author": "Pham Gia Han",
       "categoryId": "1",
       "shelfId": "s2",
-      "description": "test book.",
-      "totalCopies": 0,
-      "borrowedCopies": 0,
+      "description": "Mobile application concepts including navigation, state, offline data, forms, and release workflow.",
+      "totalCopies": 1,
+      "borrowedCopies": 1,
       "damagedCopies": 0,
       "lostCopies": 0,
       "coverImage": "https://picsum.photos/seed/book-45/900/1200",
@@ -787,10 +803,10 @@
       "bookId": "1",
       "borrowDate": "2026-05-28",
       "dueDate": "2026-06-11",
-      "returnDate": null,
-      "status": "borrowing",
+      "returnDate": "2026-07-18",
+      "status": "returned",
       "rejectReason": "",
-      "returnCondition": null,
+      "returnCondition": "normal",
       "returnNote": ""
     },
     {
@@ -800,8 +816,8 @@
       "borrowDate": null,
       "dueDate": null,
       "returnDate": null,
-      "status": "pending",
-      "rejectReason": "",
+      "status": "rejected",
+      "rejectReason": "Ko thích cho mượn",
       "returnCondition": null,
       "returnNote": ""
     },
@@ -816,66 +832,6 @@
       "rejectReason": "Đầu sách hiện tại đang tạm dừng phục vụ.",
       "returnCondition": null,
       "returnNote": ""
-    },
-    {
-      "id": "6",
-      "userId": "2",
-      "bookId": "5",
-      "borrowDate": null,
-      "dueDate": null,
-      "returnDate": null,
-      "status": "cancelled",
-      "rejectReason": "",
-      "returnCondition": null,
-      "returnNote": ""
-    },
-    {
-      "userId": "2",
-      "bookId": "1",
-      "borrowDate": null,
-      "dueDate": null,
-      "returnDate": null,
-      "status": "cancelled",
-      "rejectReason": "",
-      "returnCondition": null,
-      "returnNote": "",
-      "id": "7"
-    },
-    {
-      "userId": "2",
-      "bookId": "1",
-      "borrowDate": null,
-      "dueDate": null,
-      "returnDate": null,
-      "status": "cancelled",
-      "rejectReason": "",
-      "returnCondition": null,
-      "returnNote": "",
-      "id": "zDOg9K80R_g"
-    },
-    {
-      "userId": "2",
-      "bookId": "1",
-      "borrowDate": null,
-      "dueDate": null,
-      "returnDate": null,
-      "status": "cancelled",
-      "rejectReason": "",
-      "returnCondition": null,
-      "returnNote": "",
-      "id": "r2DX1XASlXA"
-    },
-    {
-      "userId": "2",
-      "bookId": "1",
-      "borrowDate": null,
-      "dueDate": null,
-      "returnDate": null,
-      "status": "cancelled",
-      "rejectReason": "",
-      "returnCondition": null,
-      "returnNote": "",
-      "id": "q1005I-n-I0"
     },
     {
       "userId": "2",
@@ -1024,14 +980,110 @@
     {
       "userId": "2",
       "bookId": "8",
-      "borrowDate": null,
-      "dueDate": null,
+      "borrowDate": "2026-07-21",
+      "dueDate": "2026-08-03",
       "returnDate": null,
-      "status": "pending",
+      "status": "borrowing",
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
       "id": "eRCn9O3uSog"
+    },
+    {
+      "userId": "2",
+      "bookId": "1",
+      "borrowDate": "2026-07-21",
+      "dueDate": "2026-08-03",
+      "returnDate": null,
+      "status": "borrowing",
+      "rejectReason": "",
+      "returnCondition": null,
+      "returnNote": "",
+      "id": "0OnOvOeALX8"
+    },
+    {
+      "userId": "2",
+      "bookId": "2",
+      "borrowDate": "2026-07-21",
+      "dueDate": "2026-08-03",
+      "returnDate": null,
+      "status": "borrowing",
+      "rejectReason": "",
+      "returnCondition": null,
+      "returnNote": "",
+      "id": "M2HusJ9qWUM"
+    },
+    {
+      "userId": "2",
+      "bookId": "3",
+      "borrowDate": "2026-07-21",
+      "dueDate": "2026-08-03",
+      "returnDate": null,
+      "status": "borrowing",
+      "rejectReason": "",
+      "returnCondition": null,
+      "returnNote": "",
+      "id": "u0LUtG00_5I"
+    },
+    {
+      "userId": "2",
+      "bookId": "7",
+      "requestDate": "2026-07-23",
+      "borrowDate": null,
+      "dueDate": null,
+      "returnDate": null,
+      "status": "cancelled",
+      "rejectReason": "",
+      "returnCondition": null,
+      "returnNote": "",
+      "id": "BdSBJhtyUwg"
+    },
+    {
+      "userId": "2",
+      "bookId": "46",
+      "requestDate": "2026-07-23",
+      "borrowDate": "2026-07-23",
+      "dueDate": "2026-08-05",
+      "returnDate": "2026-07-23",
+      "status": "returned",
+      "rejectReason": "",
+      "returnCondition": "normal",
+      "returnNote": "",
+      "id": "X80-MEOoJsw"
+    },
+    {
+      "userId": "3",
+      "bookId": "46",
+      "requestDate": "2026-07-23",
+      "borrowDate": null,
+      "dueDate": null,
+      "returnDate": null,
+      "status": "cancelled",
+      "rejectReason": "Đơn được tự hủy vì đầu sách đã hết bản khả dụng.",
+      "returnCondition": null,
+      "returnNote": "",
+      "id": "Fc_Sa-947Bo"
+    },
+    {
+      "userId": "2",
+      "bookId": "5",
+      "requestDate": "2026-07-23",
+      "borrowDate": "2026-07-23",
+      "dueDate": "2026-08-05",
+      "returnDate": null,
+      "status": "borrowing",
+      "rejectReason": "",
+      "returnCondition": null,
+      "returnNote": "",
+      "id": "MALuZG3hU-0"
+    }
+  ],
+  "favorites": [
+    {
+      "userId": "2",
+      "bookId": "1",
+      "createdAt": "2026-07-23T09:44:03.166Z",
+      "id": "v6dUMg_So0w"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

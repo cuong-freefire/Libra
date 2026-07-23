@@ -6,7 +6,7 @@ export default function AdminLayout() {
     return (
         <div className="vh-100 d-flex flex-column">
             <Navbar />
-            <main className="flex-grow-1 container" style={{ marginTop: '110px' }}>
+            <main className="flex-grow-1 container" style={{ marginTop: '72px' }}>
                 <Outlet />
             </main>
             <Footer />

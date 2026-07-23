@@ -1,19 +1,90 @@
+.app-navbar {
+    min-height: 62px;
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #312e81 100%);
+    border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.app-navbar .navItem {
+    font-size: 0.9rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.app-navbar .navItem a {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    gap: 6px;
+    font-weight: 500;
+    color: #c7d2fe;
+}
+
 .navItem:hover {
-    background-color: rgb(68, 67, 67);
+    background-color: rgba(99, 102, 241, 0.25);
+    border-radius: 8px;
+}
+
+.navItem:hover a {
+    color: #ffffff;
+}
+
+.navItem.border {
+    background-color: rgba(99, 102, 241, 0.35) !important;
+    border: 1px solid rgba(129, 140, 248, 0.5) !important;
+    border-radius: 8px;
+    box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);
+}
+
+.navItem.border a {
+    color: #ffffff !important;
+}
+
+/* ---------- Logo Container ---------- */
+.app-navbar .logo-icon {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6, #a78bfa);
+    padding: 6px 10px;
     border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(99, 102, 241, 0.4);
+    display: inline-flex;
+    align-items: center;
+    color: #fff;
 }
 
-.rainbow {
-    background: linear-gradient(90deg,
-            #ff0055,
-            #ff7a00,
-            #ffee00,
-            #00ff85,
-            #00cfff,
-            #7a5cff,
-            #ff00c8);
+.app-navbar .logo-text {
+    background: linear-gradient(135deg, #e2e8f0, #a5b4fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+    letter-spacing: -0.01em;
 }
 
+/* ---------- Auth Nav Items ---------- */
+.auth-nav-item {
+    font-size: 0.9rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.auth-nav-item:hover {
+    background-color: rgba(99, 102, 241, 0.25);
+    border-radius: 8px;
+}
+
+.auth-nav-item a {
+    color: #c7d2fe;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.auth-nav-item:hover a {
+    color: #ffffff;
+}
+
+/* ---------- Keep old gradients for reference ---------- */
 .royal-gold {
     background: linear-gradient(
         90deg,

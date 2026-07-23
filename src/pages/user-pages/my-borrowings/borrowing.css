@@ -1,7 +1,393 @@
-.description {
-    height: 200px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    /* white-space: pre-wrap; */
-    overflow-wrap: break-word;
+/* ===== Filter Bar ===== */
+.filter-bar {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e9ecef;
+}
+
+.filter-bar-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    color: #343a40;
+    margin-bottom: 14px;
+}
+
+/* Status Tabs */
+.filter-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.filter-tab {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #6c757d;
+    background: #f8f9fa;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.filter-tab:hover {
+    color: #4361ee;
+    background: #eef1ff;
+    border-color: #c7d2fe;
+}
+
+.filter-tab.active {
+    color: #fff;
+    background: #4361ee;
+    border-color: #4361ee;
+}
+
+/* Date Range Filter */
+.filter-date-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid #e9ecef;
+}
+
+.filter-date-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.filter-date-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.filter-date-input {
+    padding: 7px 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #343a40;
+    background: #fff;
+    transition: border-color 0.2s;
+    outline: none;
+}
+
+.filter-date-input:focus {
+    border-color: #4361ee;
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+}
+
+.filter-date-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    height: 36px;
+}
+
+.filter-date-btn-apply {
+    background: #4361ee;
+    color: #fff;
+}
+
+.filter-date-btn-apply:hover {
+    background: #3651d4;
+}
+
+.filter-date-btn-clear {
+    background: #f8f9fa;
+    color: #6c757d;
+    border: 1px solid #dee2e6;
+}
+
+.filter-date-btn-clear:hover {
+    background: #e9ecef;
+    color: #343a40;
+}
+
+/* ===== Borrowing Container ===== */
+.borrowing-container {
+    min-height: 60vh;
+}
+
+/* ===== Table ===== */
+.borrowing-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e9ecef;
+    overflow: hidden;
+}
+
+.borrowing-table {
+    margin-bottom: 0;
+}
+
+.borrowing-table thead th {
+    background: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 14px 16px;
+    border-bottom: 2px solid #dee2e6;
+    vertical-align: middle;
+}
+
+.borrowing-table tbody td {
+    padding: 14px 16px;
+    vertical-align: middle;
+    font-size: 14px;
+    color: #343a40;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+.borrowing-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.borrowing-table tbody tr:hover {
+    background: #f8f9ff;
+}
+
+.book-title-cell {
+    font-weight: 500;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ===== Overdue Row ===== */
+.overdue-row {
+    background: #fff5f5 !important;
+    border-left: 3px solid #e53e3e !important;
+}
+
+.overdue-row:hover {
+    background: #fff0f0 !important;
+}
+
+.overdue-date {
+    color: #e53e3e;
+    font-weight: 600;
+}
+
+.overdue-badge {
+    background: #e53e3e !important;
+    color: #fff !important;
+    animation: overdue-pulse 2s ease-in-out infinite;
+}
+
+@keyframes overdue-pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.75;
+    }
+}
+
+/* ===== Status Badge ===== */
+.borrowing-status-badge {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 10px;
+}
+
+/* ===== Action Buttons ===== */
+.borrowing-btn {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.borrowing-btn-info {
+    background: #eef1ff;
+    color: #4361ee;
+}
+
+.borrowing-btn-info:hover:not(.disabled) {
+    background: #4361ee;
+    color: #fff;
+}
+
+.borrowing-btn-danger {
+    background: #fee2e2;
+    color: #dc3545;
+}
+
+.borrowing-btn-danger:hover:not(.disabled) {
+    background: #dc3545;
+    color: #fff;
+}
+
+.borrowing-btn.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ===== Loading ===== */
+.borrowing-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+}
+
+/* ===== Empty State ===== */
+.borrowing-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    color: #adb5bd;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e9ecef;
+}
+
+.borrowing-empty h5 {
+    margin-top: 16px;
+    color: #495057;
+}
+
+/* ===== Reason Modal ===== */
+.borrowing-reason-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.borrowing-reason-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px;
+    max-width: 480px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    position: relative;
+}
+
+.borrowing-reason-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.borrowing-reason-header h3 {
+    margin: 0;
+    color: #343a40;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.borrowing-reason-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: none;
+    background: #f8f9fa;
+    color: #6c757d;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.borrowing-reason-close-btn:hover {
+    background: #e9ecef;
+    color: #343a40;
+}
+
+.borrowing-reason-body {
+    color: #495057;
+}
+
+.borrowing-reason-book-title {
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #343a40;
+}
+
+.borrowing-reason-content {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 14px 16px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+}
+
+.borrowing-reason-content p {
+    margin: 0;
+    color: #495057;
+}
+
+.borrowing-reason-content .text-muted {
+    color: #adb5bd !important;
+    font-style: italic;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .filter-date-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-date-input {
+        width: 100%;
+    }
+
+    .filter-date-btn {
+        justify-content: center;
+    }
+
+    .filter-tabs {
+        gap: 4px;
+    }
+
+    .filter-tab {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
 }
