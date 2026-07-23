@@ -26,7 +26,6 @@ import AdminReaderList from "./pages/admin-pages/AdminReaderList";
 import AdminDashboard from "./pages/admin-pages/AdminDashboard";
 import AdminBooksView from "./pages/admin-pages/AdminBooksView";
 import AdminBookDetail from "./pages/admin-pages/AdminBookDetail";
-import AdminBookBorrowers from "./pages/admin-pages/AdminBookBorrowers";
 import AdminBorrowing from "./pages/admin-pages/AdminBorrowing";
 import AdminShelfList from "./pages/admin-pages/AdminShelfList";
 import AdminCategory from "./pages/admin-pages/AdminCategory.jsx";
@@ -96,11 +95,6 @@ export default function AppRouter() {
                             <Route
                                 path="books/detail"
                                 element={<AdminBookDetail />}
-                            />
-
-                            <Route
-                                path="books/borrowers"
-                                element={<AdminBookBorrowers />}
                             />
 
                             <Route

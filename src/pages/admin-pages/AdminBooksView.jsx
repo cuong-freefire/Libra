@@ -1,5 +1,5 @@
 import { Link, useSearchParams } from "react-router-dom";
-import { Search as SearchIcon, Eye, Users, BookHeart, ShelvingUnit, Info } from "lucide-react";
+import { Search as SearchIcon, Eye, BookHeart, ShelvingUnit, Info } from "lucide-react";
 import { useDebouncedCallback } from "use-debounce";
 import Pagination from "../../components/pagination/Pagination"; // Chỉnh lại đường dẫn
 import useAdminBooksView from "./useAdminBooksView";
@@ -132,12 +132,6 @@ export default function AdminBooksView() {
                                                     to={`/admin/books/detail?id=${book.id}`}
                                                 >
                                                     <Eye size={16} /> Xem chi tiết sách
-                                                </Link>
-                                                <Link 
-                                                    className="btn btn-dark btn-sm w-100 d-flex justify-content-center align-items-center gap-2" 
-                                                    to={`/admin/books/borrowers?id=${book.id}`}
-                                                >
-                                                    <Users size={16} /> Chi tiết người mượn
                                                 </Link>
                                             </div>
                                         </div>

@@ -2,21 +2,21 @@
   "users": [
     {
       "id": "1",
-      "name": "Library Admin",
+      "name": "Admin",
       "username": "admin",
       "password": "Admin123@",
       "role": "admin",
       "is_active": true,
-      "image": "https://m.yodycdn.com/blog/anh-cho-meme-yody-vn30.jpg"
+      "image": "https://gocnhobecon.com/wp-content/uploads/2025/09/Con-cho-Anh-meme-che-vui-nhon-sieu.webp"
     },
     {
       "id": "2",
-      "name": "Nguyen Van Reader",
+      "name": "Ludwig van Beethoven",
       "username": "reader01",
       "password": "Reader123@",
       "role": "reader",
       "is_active": true,
-      "image": "https://randomuser.me/api/portraits/men/32.jpg"
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdJynUnuB9TWjDRODVBiZTAM9tS6gnL3ae6J1w5JPqMg&s=10"
     },
     {
       "id": "3",
@@ -265,7 +265,7 @@
       "shelfId": "s2",
       "description": "Build simple backend services with Node.js, routing, middleware, validation, and file structure.",
       "totalCopies": 6,
-      "borrowedCopies": 2,
+      "borrowedCopies": 1,
       "damagedCopies": 0,
       "lostCopies": 0,
       "coverImage": "https://picsum.photos/seed/book-9/900/1200",
@@ -1098,10 +1098,10 @@
       "requestDate": "2026-07-23",
       "borrowDate": "2026-07-23",
       "dueDate": "2026-08-05",
-      "returnDate": null,
-      "status": "borrowing",
+      "returnDate": "2026-07-23",
+      "status": "returned",
       "rejectReason": "",
-      "returnCondition": null,
+      "returnCondition": "normal",
       "returnNote": "",
       "id": "CjdgAnEI9MI",
       "created_at": "2026-07-23T00:00:00.000Z"

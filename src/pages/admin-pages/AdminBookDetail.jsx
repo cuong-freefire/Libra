@@ -53,7 +53,7 @@ export default function AdminBookDetail() {
                                     <Telescope className="text-secondary" /> <strong>Vị trí:</strong> {book.shelf?.location || 'N/A'}
                                 </div>
                                 <div className="d-flex align-items-center gap-2 fs-5">
-                                    <span className="fw-bold">Số lượng trong kho:</span> <span className="text-primary fw-bold fs-4">{book.quantity || 0}</span>
+                                    <span className="fw-bold">Số lượng trong kho:</span> <span className="text-primary fw-bold fs-4">{(book.totalCopies - book.borrowedCopies - book.damagedCopies - book.lostCopies) || 0}</span>
                                 </div>
                             </div>
                             <hr />
