@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { RefreshCw } from 'lucide-react';
 import { axiosApi } from '../../api/axios';
 import { toast } from 'react-toastify';
+import './admin-dashboard.css';
 
 function asCollection(payload) {
     if (Array.isArray(payload)) return payload;
@@ -89,15 +90,15 @@ export default function AdminDashboard() {
 
         return {
             statItems: [
-                { key: 'books', label: 'Sách đang hiển thị', value: activeBooks, icon: 'book' },
-                { key: 'readers', label: 'Reader đang hoạt động', value: activeReaders, icon: 'users' },
-                { key: 'pending', label: 'Đơn chờ duyệt', value: countByStatus('pending'), icon: 'clipboard' },
-                { key: 'borrowing', label: 'Đang mượn', value: countByStatus('borrowing'), icon: 'shelves' },
-                { key: 'returned', label: 'Đã trả', value: countByStatus('returned'), icon: 'check' },
-                { key: 'rejected', label: 'Từ chối', value: countByStatus('rejected'), icon: 'thumbsDown' },
-                { key: 'cancelled', label: 'Đã huỷ', value: countByStatus('cancelled'), icon: 'xCircle' },
-                { key: 'overdue', label: 'Quá hạn', value: data.borrowings.filter(isOverdue).length, icon: 'clock' },
-                { key: 'lost', label: 'Hỏng / mất', value: damagedOrLost, icon: 'alert' },
+                { key: 'books', label: 'Sách đang hiển thị', value: activeBooks, icon: 'book', tone: 'neutral' },
+                { key: 'readers', label: 'Reader đang hoạt động', value: activeReaders, icon: 'users', tone: 'neutral' },
+                { key: 'pending', label: 'Đơn chờ duyệt', value: countByStatus('pending'), icon: 'clipboard', tone: 'pending' },
+                { key: 'borrowing', label: 'Đang mượn', value: countByStatus('borrowing'), icon: 'shelves', tone: 'borrowing' },
+                { key: 'returned', label: 'Đã trả', value: countByStatus('returned'), icon: 'check', tone: 'returned' },
+                { key: 'rejected', label: 'Từ chối', value: countByStatus('rejected'), icon: 'thumbsDown', tone: 'rejected' },
+                { key: 'cancelled', label: 'Đã huỷ', value: countByStatus('cancelled'), icon: 'xCircle', tone: 'cancelled' },
+                { key: 'overdue', label: 'Quá hạn', value: data.borrowings.filter(isOverdue).length, icon: 'clock', tone: 'overdue' },
+                { key: 'lost', label: 'Hỏng / mất', value: damagedOrLost, icon: 'alert', tone: 'danger' },
             ],
             recentRequests: [...data.borrowings]
                 .sort((first, second) => String(second.requestDate || second.createdAt || second.borrowDate || '').localeCompare(String(first.requestDate || first.createdAt || first.borrowDate || '')))
@@ -111,41 +112,37 @@ export default function AdminDashboard() {
     }, [data]);
 
     return (
-        <div className="p-4">
-            <div className="d-flex justify-content-between align-items-start gap-3 mb-4">
+        <div className="admin-dashboard">
+            <div className="admin-dashboard__heading">
                 <div>
-                    <h2 className="fw-bold text-uppercase text-secondary fs-6 mb-1">Admin</h2>
-                    <h1 className="fw-bold fs-2 mb-2">Tổng quan thư viện</h1>
-                    <p className="text-muted mb-0">Theo dõi đơn Reader gửi, duyệt mượn và tình trạng trả sách theo thời gian thực.</p>
+                    <span className="admin-dashboard__eyebrow">Admin</span>
+                    <h1>Tổng quan thư viện</h1>
+                    <p>Theo dõi đơn Reader gửi, duyệt mượn và tình trạng trả sách theo thời gian thực.</p>
                 </div>
-                <button className="btn btn-dark d-flex align-items-center gap-2" onClick={loadDashboard} disabled={loading}>
+                <button className="admin-dashboard__refresh" onClick={loadDashboard} disabled={loading}>
                     <RefreshCw size={16} className={loading ? 'is-spinning' : ''} /> Làm mới
                 </button>
             </div>
 
-            <div className="row g-3">
+            <div className="admin-dashboard__stats">
                 {statItems.map((s) => (
-                    <div key={s.key} className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <div className="bg-white rounded-3 border p-3 h-100" style={{ minHeight: 120 }}>
-                            <div className="d-flex justify-content-between align-items-start mb-2">
-                                <div className="text-muted" style={{ fontSize: 14 }}>{s.label}</div>
-                                <div style={{ opacity: 0.9 }}><Icon name={s.icon} /></div>
-                            </div>
-                            <div className="d-flex align-items-center" style={{ height: '64px' }}>
-                                <div className="fw-bold" style={{ fontSize: 48, lineHeight: 1 }}>{s.value}</div>
-                            </div>
+                    <div key={s.key} className={`admin-dashboard__stat admin-dashboard__stat--${s.tone}`}>
+                        <div>
+                            <p>{s.label}</p>
+                            <strong>{s.value}</strong>
                         </div>
+                        <span className="admin-dashboard__icon"><Icon name={s.icon} /></span>
                     </div>
                 ))}
             </div>
 
-            <div className="card border mt-4 shadow-sm">
-                <div className="card-header bg-white d-flex justify-content-between align-items-center">
-                    <div><h2 className="h5 fw-bold mb-1">Đơn mượn mới nhất</h2><p className="text-muted small mb-0">Các đơn này được Reader tạo từ mục “Đơn mượn”.</p></div>
-                    <Link className="btn btn-outline-dark btn-sm" to="/admin/borrowing">Xem tất cả phiếu</Link>
+            <section className="admin-dashboard__recent">
+                <div className="admin-dashboard__recent-header">
+                    <div><h2>Đơn mượn mới nhất</h2><p>Các đơn này được Reader tạo từ mục “Đơn mượn”.</p></div>
+                    <Link className="admin-dashboard__view-all" to="/admin/borrowing">Xem tất cả phiếu</Link>
                 </div>
                 <div className="table-responsive">
-                    <table className="table table-hover align-middle mb-0">
+                    <table className="table table-hover align-middle mb-0 admin-dashboard__table">
                         <thead className="table-light"><tr><th className="ps-3">Mã đơn</th><th>Reader</th><th>Sách</th><th>Ngày gửi</th><th>Trạng thái</th></tr></thead>
                         <tbody>
                             {loading ? <tr><td className="text-center py-4" colSpan="5">Đang tải dữ liệu...</td></tr> : recentRequests.length === 0 ? <tr><td className="text-center py-4 text-muted" colSpan="5">Chưa có đơn mượn nào.</td></tr> : recentRequests.map((item) => <tr key={item.id}>
@@ -154,7 +151,7 @@ export default function AdminDashboard() {
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </section>
         </div>
     )
 }
