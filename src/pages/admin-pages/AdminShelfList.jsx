@@ -2,7 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import { Edit, Plus, Save, Search, Trash2, X } from "lucide-react";
 import { toast } from "react-toastify";
 import { axiosApi } from "../../api/axios";
+import AdminPagination from "../../components/admin-pagination/AdminPagination";
 import "./adminManagement.css";
+
+const PAGE_SIZE = 10;
 
 const emptyShelf = { name: "", location: "", maxCapacity: 1, is_active: true };
 
@@ -15,6 +18,7 @@ export default function AdminShelfList() {
     const [status, setStatus] = useState("");
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         Promise.all([axiosApi.get("shelves"), axiosApi.get("books")])
@@ -28,6 +32,22 @@ export default function AdminShelfList() {
         const keyword = query.trim().toLowerCase();
         return (!keyword || `${item.name} ${item.location}`.toLowerCase().includes(keyword)) && (!status || (status === "active" ? item.is_active : !item.is_active));
     }), [shelves, query, status]);
+    const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+    const paginatedShelves = useMemo(() => {
+        const start = (currentPage - 1) * PAGE_SIZE;
+        return filtered.slice(start, start + PAGE_SIZE);
+    }, [filtered, currentPage]);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [query, status]);
+
+    useEffect(() => {
+        if (currentPage > totalPages) {
+            setCurrentPage(totalPages);
+        }
+    }, [currentPage, totalPages]);
+
     const reset = () => { setForm(emptyShelf); setEditingId(null); };
 
     const submit = async event => {
@@ -88,7 +108,8 @@ export default function AdminShelfList() {
             </div></div></form>
         <div className="card management-card mb-3"><div className="card-body p-3"><div className="row g-2"><div className="col-md-8 position-relative"><Search className="filter-icon" size={18}/><input className="form-control ps-5" placeholder="Tìm theo tên hoặc vị trí kệ" value={query} onChange={e => setQuery(e.target.value)}/></div><div className="col-md-4"><select className="form-select" value={status} onChange={e => setStatus(e.target.value)}><option value="">Tất cả trạng thái</option><option value="active">Đang sử dụng</option><option value="inactive">Ngưng sử dụng</option></select></div></div></div></div>
         <div className="table-responsive management-table"><table className="table table-hover align-middle mb-0"><thead><tr><th>Tên kệ</th><th>Vị trí</th><th>Số bản sách</th><th>Sức chứa</th><th>Trạng thái</th><th className="text-end">Thao tác</th></tr></thead><tbody>
-            {loading ? <tr><td colSpan="6" className="text-center py-5">Đang tải dữ liệu...</td></tr> : filtered.length === 0 ? <tr><td colSpan="6" className="text-center text-muted py-5">Không có kệ phù hợp.</td></tr> : filtered.map(item => { const used=countBooks(item.id); return <tr key={item.id}><td className="fw-bold">{item.name}</td><td>{item.location}</td><td>{used}</td><td><strong>{used}/{item.maxCapacity}</strong><div className="progress mt-1" style={{height:6}}><div className={`progress-bar ${used > item.maxCapacity ? "bg-danger" : "bg-success"}`} style={{width:`${Math.min(100,used/item.maxCapacity*100)}%`}} /></div></td><td><span className={`badge ${item.is_active ? "text-bg-success" : "text-bg-secondary"}`}>{item.is_active ? "Đang sử dụng" : "Ngưng sử dụng"}</span></td><td className="text-end text-nowrap"><button className="btn btn-sm btn-outline-dark me-2" onClick={()=>edit(item)}><Edit size={15}/> Sửa</button><button className={`btn btn-sm me-2 ${item.is_active ? "btn-outline-warning" : "btn-outline-success"}`} onClick={()=>toggle(item)}>{item.is_active ? "Ẩn" : "Mở lại"}</button><button className="btn btn-sm btn-outline-danger" onClick={()=>remove(item)} title="Xóa vĩnh viễn"><Trash2 size={15}/> Xóa</button></td></tr>; })}
+            {loading ? <tr><td colSpan="6" className="text-center py-5">Đang tải dữ liệu...</td></tr> : filtered.length === 0 ? <tr><td colSpan="6" className="text-center text-muted py-5">Không có kệ phù hợp.</td></tr> : paginatedShelves.map(item => { const used=countBooks(item.id); return <tr key={item.id}><td className="fw-bold">{item.name}</td><td>{item.location}</td><td>{used}</td><td><strong>{used}/{item.maxCapacity}</strong><div className="progress mt-1" style={{height:6}}><div className={`progress-bar ${used > item.maxCapacity ? "bg-danger" : "bg-success"}`} style={{width:`${Math.min(100,used/item.maxCapacity*100)}%`}} /></div></td><td><span className={`badge ${item.is_active ? "text-bg-success" : "text-bg-secondary"}`}>{item.is_active ? "Đang sử dụng" : "Ngưng sử dụng"}</span></td><td className="text-end text-nowrap"><button className="btn btn-sm btn-outline-dark me-2" onClick={()=>edit(item)}><Edit size={15}/> Sửa</button><button className={`btn btn-sm me-2 ${item.is_active ? "btn-outline-warning" : "btn-outline-success"}`} onClick={()=>toggle(item)}>{item.is_active ? "Ẩn" : "Mở lại"}</button><button className="btn btn-sm btn-outline-danger" onClick={()=>remove(item)} title="Xóa vĩnh viễn"><Trash2 size={15}/> Xóa</button></td></tr>; })}
         </tbody></table></div>
+        {!loading && <AdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />}
     </div>;
 }
