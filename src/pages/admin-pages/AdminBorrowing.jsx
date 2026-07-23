@@ -170,6 +170,14 @@ export default function AdminBorrowing() {
                 && borrowing.status === "pending"
                 && String(borrowing.id) !== String(item.id)
             );
+
+            if (availableCopies === 1 && otherPendingOrders.length > 0) {
+                const confirmed = window.confirm(
+                    `"${book.title}" chỉ còn 1 sách khả dụng. Nếu duyệt đơn của ${item.reader?.name || "Reader này"}, ${otherPendingOrders.length} đơn chờ còn lại sẽ tự hủy. Bạn có muốn tiếp tục?`
+                );
+                if (!confirmed) return;
+            }
+
             const today = new Date().toISOString().slice(0, 10);
             const defaultDueDate = addDays(today, 14).split("-").reverse().join("-");
             const dueDateInput = window.prompt("Nhập hạn trả (VD: 05-08-2026):", defaultDueDate);
