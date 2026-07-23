@@ -1,4 +1,4 @@
-import { BookOpen, House, LayoutDashboard, Users, Tag } from 'lucide-react';
+import { BookOpen, Heart, House, LayoutDashboard, Users, Tag } from 'lucide-react';
 import { BookMarked } from 'lucide-react';
 import { FileText } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -18,7 +18,8 @@ export default function Navbar() {
         { name: "Trang chủ", link: "/", icon: <House />, isSelect: pathName.pathname === '/' ? true : false },
         
         { name: "Sách của tôi", link: "/books", icon: <BookMarked />, isSelect: pathName.pathname.split('/')[1] === 'books' ? true : false },
-        { name: "Đơn mượn", link: "/my-borrowings", icon: <FileText />, isSelect: pathName.pathname.split('/')[1] === 'my-borrowings' ? true : false }
+        { name: "Đơn mượn", link: "/my-borrowings", icon: <FileText />, isSelect: pathName.pathname.split('/')[1] === 'my-borrowings' ? true : false },
+        { name: "Sách yêu thích", link: "/favorites", icon: <Heart />, isSelect: pathName.pathname.split('/')[1] === 'favorites' ? true : false }
     ]
     
     const adminItem = [
@@ -30,12 +31,12 @@ export default function Navbar() {
         { name: "Quản lý Reader", link: "/admin/readers", icon: <Users size={20} />, isSelect: pathName.pathname === '/admin/readers' ? true : false }
     ]
     return (
-        <div className="app-navbar container-fluid bg-dark d-flex align-items-center py-2 m-0 fixed-top row">
+        <div className="app-navbar container-fluid d-flex align-items-center py-2 m-0 fixed-top row">
             <div className='col-2 d-flex align-items-center gap-2'>
-                <span className='bg-success px-2 py-1 rounded-2 rainbow'>
+                <span className='logo-icon'>
                     <ZodiacLibra size={22} />
                 </span>
-                <span className='text-light'><h1 className="m-0 fs-2">Libra</h1></span>
+                <span className='logo-text'><h1 className="m-0 fs-2">Libra</h1></span>
             </div>
             <ul className='d-flex justify-content-evenly align-items-center m-0 p-0 col-8 list-unstyled'>
                 {(user && user.role === 'reader') || !user ?
@@ -63,8 +64,8 @@ export default function Navbar() {
                     :
                     <ul className='d-flex align-items-center gap-3 m-0 p-0 w-auto list-unstyled'>
                         {authItem.map(item =>
-                            <li key={item.name} className='navItem py-2 px-1'>
-                                <Link to={item.link} className='text-decoration-none text-light'>
+                            <li key={item.name} className='auth-nav-item py-2 px-2'>
+                                <Link to={item.link}>
                                     <span>{item.name}</span>
                                 </Link>
                             </li>

@@ -1,10 +1,42 @@
-.rainbow {
-    background: linear-gradient(90deg,
-            #ff0055,
-            #ff7a00,
-            #ffee00,
-            #00ff85,
-            #00cfff,
-            #7a5cff,
-            #ff00c8);
+/* ---------- Footer ---------- */
+.app-footer {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #312e81 100%);
+    border-top: 2px solid transparent;
+    border-image: linear-gradient(90deg, #6366f1, #8b5cf6, #a78bfa) 1;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.app-footer .footer-logo-icon {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6, #a78bfa);
+    padding: 6px 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(99, 102, 241, 0.4);
+    display: inline-flex;
+    align-items: center;
+    color: #fff;
+}
+
+.app-footer .footer-logo-text {
+    background: linear-gradient(135deg, #e2e8f0, #a5b4fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+}
+
+.app-footer .footer-desc {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.app-footer .footer-link {
+    color: #a5b4fc;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.app-footer .footer-link:hover {
+    color: #c7d2fe;
 }

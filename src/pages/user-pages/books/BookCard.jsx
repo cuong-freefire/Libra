@@ -2,13 +2,18 @@ import { Link } from "react-router-dom";
 import { useAuthContext } from "../../../context/AuthContext";
 import { useEffect, useState } from "react";
 import { cancelPending, checkBorrowingCondition, createPendingBorrowing, getPendingBorrowingByUserIdAndBookId } from "../../../services/borrowingService";
+import { addFavorite, checkIsFavorite, removeFavorite } from "../../../services/favoriteService";
 import { toast } from "react-toastify";
+import { Heart } from "lucide-react";
 
 export default function BookCard({ book }) {
     const { isAuthenticated, user } = useAuthContext();
     const [condition, setCondition] = useState(null);
     const availableBook = (book.totalCopies - (book.borrowedCopies + book.damagedCopies + book.lostCopies));
-    const [trigger, setTrigger] = useState(0)
+    const [trigger, setTrigger] = useState(0);
+    const [isFav, setIsFav] = useState(false);
+    const [favoriteId, setFavoriteId] = useState(null);
+    const [favLoading, setFavLoading] = useState(false);
 
     useEffect(() => {
         // Khách chưa đăng nhập không có thông tin user. Chỉ kiểm tra điều kiện
@@ -46,6 +51,26 @@ export default function BookCard({ book }) {
     },
         [book?.id, isAuthenticated, user?.id, trigger])
 
+    useEffect(() => {
+        if (!isAuthenticated || !user?.id || !book?.id) {
+            setIsFav(false);
+            setFavoriteId(null);
+            return;
+        }
+
+        const fetchFavStatus = async () => {
+            try {
+                const { isFavorite, favoriteId } = await checkIsFavorite(user.id, book.id);
+                setIsFav(isFavorite);
+                setFavoriteId(favoriteId);
+            } catch (error) {
+                setIsFav(false);
+                setFavoriteId(null);
+            }
+        };
+        fetchFavStatus();
+    }, [book?.id, isAuthenticated, user?.id, trigger]);
+
     const onCreate = async () => {
         try {
             const response = await createPendingBorrowing(user.id, book.id);
@@ -60,6 +85,35 @@ export default function BookCard({ book }) {
             toast.error(error.message || 'Đăng nhập thất bại.')
         }
     }
+
+    const handleToggleFavorite = async () => {
+        if (!isAuthenticated) return;
+        try {
+            setFavLoading(true);
+            if (isFav && favoriteId) {
+                const res = await removeFavorite(favoriteId);
+                if (res.success) {
+                    toast.dismiss();
+                    toast.success(res.message);
+                    setIsFav(false);
+                    setFavoriteId(null);
+                }
+            } else {
+                const res = await addFavorite(user.id, book.id);
+                if (res.success) {
+                    toast.dismiss();
+                    toast.success(res.message);
+                    setIsFav(true);
+                    setFavoriteId(res.data?.id || null);
+                }
+            }
+        } catch (error) {
+            toast.dismiss();
+            toast.error(error.message || 'Có lỗi xảy ra.');
+        } finally {
+            setFavLoading(false);
+        }
+    };
 
     const oncancel = async () => {
         try {
@@ -83,63 +137,105 @@ export default function BookCard({ book }) {
         }
     }
 
+    const renderBadge = () => {
+        if (availableBook <= 0) {
+            return <span className="book-card-badge badge bg-danger">Hết sách</span>;
+        }
+        if (condition === 'pending') {
+            return <span className="book-card-badge badge bg-info">Chờ duyệt</span>;
+        }
+        if (condition === 'borrowing') {
+            return <span className="book-card-badge badge bg-success">Đã mượn</span>;
+        }
+        return <span className="book-card-badge badge bg-warning text-dark">Còn {availableBook}</span>;
+    };
+
+    const renderActions = () => {
+        if (!isAuthenticated) {
+            return (
+                <div className="book-card-actions">
+                    <Link className="book-card-btn book-card-btn-outline" to={'/login'}>
+                        Xem chi tiết
+                    </Link>
+                </div>
+            );
+        }
+        if (availableBook <= 0) {
+            return (
+                <div className="book-card-actions">
+                    <Link className="book-card-btn book-card-btn-outline" to={`/books/detail?id=${book.id}`}>
+                        Xem chi tiết
+                    </Link>
+                    <button className="book-card-btn book-card-btn-disabled" disabled>Hết sách</button>
+                </div>
+            );
+        }
+        if (condition === 'pending') {
+            return (
+                <div className="book-card-actions">
+                    <Link className="book-card-btn book-card-btn-outline" to={`/books/detail?id=${book.id}`}>
+                        Xem chi tiết
+                    </Link>
+                    <button className="book-card-btn book-card-btn-danger" onClick={() => { oncancel() }}>
+                        Huỷ đơn
+                    </button>
+                </div>
+            );
+        }
+        if (condition === 'borrowing') {
+            return (
+                <div className="book-card-actions">
+                    <Link className="book-card-btn book-card-btn-outline" to={`/books/detail?id=${book.id}`}>
+                        Xem chi tiết
+                    </Link>
+                    <button className="book-card-btn book-card-btn-success">Đã mượn</button>
+                </div>
+            );
+        }
+        return (
+            <div className="book-card-actions">
+                <Link className="book-card-btn book-card-btn-outline" to={`/books/detail?id=${book.id}`}>
+                    Xem chi tiết
+                </Link>
+                <button className="book-card-btn book-card-btn-primary" onClick={() => { onCreate() }}>
+                    Mượn sách
+                </button>
+            </div>
+        );
+    };
+
     return (
-        <div className="card border border-dark shadow" style={{ height: '36rem' }}>
-            {
-                availableBook <= 0 ?
-                    <span className="badge pill-rounded text-bg-danger position-absolute top-0 end-0 p-2 mx-1 my-1">Hết sách</span>
-                    :
-                    condition === 'pending' ?
-                        <span className="badge pill-rounded text-bg-info position-absolute top-0 end-0 p-2 mx-1 my-1">Chờ duyệt</span>
-                        :
-                        condition === 'borrowing' ?
-                            <span className="badge pill-rounded text-bg-success position-absolute top-0 end-0 p-2 mx-1 my-1">Đã mượn</span>
-                            :
-                            <span className="badge pill-rounded text-bg-warning position-absolute top-0 end-0 p-2 mx-1 my-1">Sách khả dụng: {availableBook}</span>
-            }
-            <img
-                className="card-img-top positon-relative"
-                src={book.coverImage}
-                alt={book.title}
-                style={{ height: '180px' }}
-            />
-            <div className="card-body">
-                <h5 className="card-title text-one-line">
-                    {book.title}
-                </h5>
-                <p className="card-text text-one-line">Tác giả: {book.author}</p>
-                <div className="story border border-dark rounded px-3">
-                    <p className="card-text">{book.description}</p>
-                </div>
-                <div className="mt-5 d-flex justify-content-center alig-items-center">
-                    {
-                        !isAuthenticated ?
-                            <Link className="btn btn-dark" to={'/login'}>Xem chi tiêt</Link>
-                            :
-                            (availableBook <= 0) ?
-                                <div className="d-flex justify-content-center gap-3 ">
-                                    <Link className="btn btn-dark" to={`/books/detail?id=${book.id}`}>Xem chi tiêt</Link>
-                                    <button className="btn btn-danger" disabled>Hết sách...</button>
-                                </div>
-                                :
-                                (condition === 'pending') ?
-                                    <div className="d-flex justify-content-center gap-3">
-                                        <Link className="btn btn-dark" to={`/books/detail?id=${book.id}`}>Xem chi tiêt</Link>
-                                        <button className="btn btn-danger" onClick={() => { oncancel() }}>Huỷ đơn</button>
-                                    </div>
-                                    :
-                                    (condition === 'borrowing') ?
-                                        <div className="d-flex justify-content-center gap-3 ">
-                                            <Link className="btn btn-dark" to={`/books/detail?id=${book.id}`}>Xem chi tiêt</Link>
-                                            <button className="btn btn-success shadow-lg">Đã mượn</button>
-                                        </div>
-                                        :
-                                        <div className="d-flex justify-content-center gap-3 ">
-                                            <Link className="btn btn-dark" to={`/books/detail?id=${book.id}`}>Xem chi tiêt</Link>
-                                            <button className="btn btn-dark" onClick={() => { onCreate() }}>Mượn sách</button>
-                                        </div>
-                    }
-                </div>
+        <div className="book-card shadow-sm">
+            <div className="book-card-image-wrapper">
+                <img
+                    src={book.coverImage}
+                    alt={book.title}
+                />
+                <div className="book-card-image-overlay"></div>
+                {isAuthenticated &&
+                    <button
+                        className="book-card-fav-btn"
+                        onClick={handleToggleFavorite}
+                        disabled={favLoading}
+                        title={isFav ? 'Bỏ yêu thích' : 'Thêm yêu thích'}
+                    >
+                        <Heart
+                            size={18}
+                            fill={isFav ? '#dc3545' : 'none'}
+                            color={isFav ? '#dc3545' : '#6c757d'}
+                        />
+                    </button>
+                }
+                {renderBadge()}
+            </div>
+            <div className="book-card-body">
+                {book.category?.name &&
+                    <span className="book-card-category">{book.category.name}</span>
+                }
+                <h5 className="book-card-title">{book.title}</h5>
+                <p className="book-card-author">Tác giả: {book.author}</p>
+                <p className="book-card-desc">{book.description}</p>
+                {renderActions()}
             </div>
         </div>
     )

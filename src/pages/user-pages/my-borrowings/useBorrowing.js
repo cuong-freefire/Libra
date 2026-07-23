@@ -13,18 +13,26 @@ export default function useBorrowing() {
     const page = Number(searchParams.get('page')) || 1;
     const limit = 10;
     const query = searchParams.get('query') || '';
+    const status = searchParams.get('status') || '';
+    const fromDate = searchParams.get('fromDate') || '';
+    const toDate = searchParams.get('toDate') || '';
     const [trigger, setTrigger] = useState(0);
     const { user, isAuthenticated } = useAuthContext();
     const navigate = useNavigate();
+
+    // "overdue" is a virtual status — actual DB status is "borrowing"
+    const apiStatus = status === 'overdue' ? 'borrowing' : status;
+
     useEffect(() => {
+        if (!isAuthenticated) {
+            navigate('/login');
+            return;
+        }
+
         async function fetchData() {
             try {
                 setIsLoading(true);
-                if (!isAuthenticated) {
-                    navigate('/login');
-                    return
-                }
-                const { data, totalPage } = await getBorrowingList(page, limit, query, user?.id);
+                const { data, totalPage } = await getBorrowingList(page, limit, query, user?.id, apiStatus, fromDate, toDate);
                 console.log('API Response of Borrowings: ', data);
                 setBorrowings(data);
                 setTotalPage(totalPage);
@@ -32,8 +40,6 @@ export default function useBorrowing() {
             catch (error) {
                 setBorrowings([]);
                 setTotalPage(0);
-                // toast.error(error.message || 'Đăng nhập thất bại.')
-                // toast.clearWaitingQueue();
                 console.log("Lấy borrowings thất bại.")
             }
             finally {
@@ -42,7 +48,11 @@ export default function useBorrowing() {
         }
 
         fetchData();
-    }, [page, query, trigger, navigate, user.id])
+    }, [page, query, apiStatus, fromDate, toDate, trigger, navigate, user.id, isAuthenticated])
+
+    function isOverdue(b) {
+        return b.status === 'borrowing' && b.dueDate && new Date(b.dueDate) < new Date() && !b.returnDate;
+    }
 
     async function cancelPendingAction(borrowing_id) {
         try {
@@ -64,5 +74,5 @@ export default function useBorrowing() {
         }
     }
 
-    return { isLoading, borrowings, totalPage, cancelPendingAction, isActionLoading }
+    return { isLoading, borrowings, totalPage, cancelPendingAction, isActionLoading, isOverdue, status }
 }

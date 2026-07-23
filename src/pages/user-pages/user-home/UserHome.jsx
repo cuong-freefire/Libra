@@ -1,163 +1,112 @@
 import { useNavigate } from "react-router-dom";
-import { LibraryBig } from 'lucide-react';
-import { FileText } from 'lucide-react';
-import { UserPen } from 'lucide-react';
+import { BookOpen, Library, BookMarked, Heart, ArrowRight } from 'lucide-react';
 import './user_home.css';
-import { Handshake } from 'lucide-react';
-import { Sprout } from 'lucide-react';
-import { Users } from 'lucide-react';
-import { SquareChevronRight } from 'lucide-react';
 
 export default function UserHome() {
     const navigate = useNavigate();
 
-    const contents = [
-        { logo: <LibraryBig className="text-success mb-4" />, title: "Khám phá kho sách", content: "Tìm kiếm tựa sách yêu thích, tác giả hoặc thể loại phù hợp với bạn chỉ trong vài giây." },
-        { logo: <FileText className="text-warning mb-4" />, title: "Mượn sách dễ dàng", content: "Đăng ký mượn trực tuyến nhanh chóng, dễ dàng theo dõi thời hạn và lịch sử đơn mượn sách." },
-        { logo: <UserPen className="text-primary mb-4" />, title: "Quản lý tài khoản", content: "Xem thông tin cá nhân, cập nhật thông tin và quản lý mật khẩu." },
-    ]
-
-    const coFounder = [
+    const navItems = [
         {
-            name: 'Elon Musk',
-            image: '/images/elon_musk.png',
+            icon: <BookOpen size={32} />,
+            title: "Khám phá sách",
+            description: "Duyệt qua hàng trăm đầu sách chất lượng từ lập trình, khoa học đến văn học.",
+            action: "Xem thư viện",
+            path: "/books",
+            color: "nav-blue"
         },
         {
-            name: 'Bill Gates',
-            image: '/images/bill_gates.png',
+            icon: <BookMarked size={32} />,
+            title: "Đơn mượn của tôi",
+            description: "Theo dõi tình trạng đơn mượn, lịch sử mượn trả và gia hạn sách.",
+            action: "Xem đơn mượn",
+            path: "/my-borrowings",
+            color: "nav-green"
         },
         {
-            name: 'Jensen Huang',
-            image: '/images/jensen_huang.png',
+            icon: <Heart size={32} />,
+            title: "Sách yêu thích",
+            description: "Xem lại danh sách những cuốn sách bạn đã đánh dấu yêu thích.",
+            action: "Xem yêu thích",
+            path: "/favorites",
+            color: "nav-rose"
         },
-    ]
-
-    const info = [
-        {
-            title: "Khởi Nguồn Từ Đêm Đông Năm 1896.",
-            content: "Vào những ngày cuối thế kỷ 19, giữa lòng khu phố cổ quanh năm bao phủ bởi màn sương mờ nhân ảnh, Libra tiền thân chỉ là một căn hầm sách nhỏ nằm khiêm tốn dưới hiên nhà của một học giả ẩn danh. Nơi đây ban đầu vốn là chốn lui tới bí mật của những triết gia, thi sĩ và những tâm hồn tự do thời bấy giờ. Họ đến không chỉ để tìm kiếm tri thức, mà còn để chiêm ngưỡng những bản thảo viết tay độc bản, được ghi chép tỉ mỉ bằng thứ mực tự chế từ vỏ cây kết hợp với những trang giấy da thuộc nhuốm màu thời gian, tỏa ra mùi hương trầm mặc đặc trưng của niên đại cũ.",
-            src: '/images/t1.png'
-        },
-        {
-            title: "Kiến Trúc Tinh Tú Và Mật Mã Thủ Thư.",
-            content: "Ít ai biết rằng, sơ đồ hình học và các lối đi giữa các kệ sách tại Libra được phác thảo dựa trên bản đồ chuyển động của các chòm sao vào mùa thu. Điểm kỳ bí nhất chính là hệ thống vòm kính trên trần nhà. Vào những đêm trăng rằm, ánh trăng thiên di sẽ soi rọi qua ô cửa vòm cổ kính, chiếu thẳng vào góc sâu nhất của thư viện – nơi đặt chiếc tủ gỗ sồi cổ đại. Đó là nơi mật truyền qua nhiều thế hệ thủ thư, cất giấu những cuốn thư tịch cổ quý hiếm về thiên văn học, triết học phương Đông và những mật mã thời gian chưa từng được công bố ra thế giới bên ngoài.",
-            src: '/images/t2.png'
-        },
-        {
-            title: "Ký Ức Trăm Năm Giữa Lòng Giấy Cũ.",
-            content: "Trải qua hơn một thế kỷ thăng trầm, đi qua những biến động dữ dội của lịch sử và sự đổi thay của thời đại, Libra không đơn thuần là một nơi mượn sách, mà đã hóa thành một chứng nhân thời gian tĩnh lặng. Nơi đây vẫn vẹn nguyên một truyền thống lãng mạn từ thuở sơ khai: lưu giữ những lá thư tay, những nhành hoa khô ép vội hay những lời nhắn gửi thanh xuân được người đọc vô tình kẹp lại trong trang sách cũ. Mỗi trang sách tại Libra vì thế không chỉ chở che tri thức nhân loại, mà còn chở nặng cả những mảnh vỡ ký ức và tâm tình của biết bao thế hệ mọt sách gửi lại cho tương lai.",
-            src: '/images/t3.png'
-        },
-    ]
+    ];
 
     return (
-        <div>
-            <div className="my-5 row">
-                <div className="col-12 col-md-6 col-xl-8">
-                    <h1 className="fw-bold mb-5" style={{ fontSize: '60px' }}>Chào mừng bạn đến với Libra!</h1>
-                    <p className="fw-lighter fs-6 ms-2">Không gian kết nối bạn với kho tàng tri thức.</p>
-                    <p className="fw-lighter fs-6 ms-2"> Tìm kiếm cuốn sách yêu thích, đăng ký mượn trực tuyến nhanh chóng và theo dõi lịch trình đọc sách cá nhân của bạn.</p>
-                </div>
-                <div className="col-12 col-md-6 col-xl-4">
-                    <img src="/images/libra.jpg" className="rounded-4 img-fluid" alt="Libra Banner" style={{ height: '100%', objectFit: 'cover' }} />
-                </div>
-            </div>
-
-            <button className="btn btn-success" onClick={() => { navigate("/books") }}>Xem danh mục sách <SquareChevronRight className="ms-2 pb-1" size={20} /></button>
-
-            <div className="row" style={{ marginTop: '100px', marginBottom: '150px' }}>
-                {contents.map((item, index) => {
-                    return (
-                        <div className="col col-12 col-lg-6 col-xxl-4">
-                            <div className="border border-1 border-secondary px-3 py-4 my-3 rounded-4 shadow">
-                                {item.logo}
-                                <h3>{item.title}</h3>
-                                <p>{item.content}</p>
-                            </div>
-                        </div>
-                    )
-                })}
-            </div>
-            {/* 
-            <div>
-                <h1 className="fw-bold mb-5 text-decoration-underline"><Sprout className="text-success pb-3" size={58} /> Hành trình phát triển.</h1>
-                {info.map(item => (
-                    <div className="row mb-5 py-4 rounded-4 shadow hover">
-                        <div className="col col-12 col-md-7 col-lg-8 col-xl-9">
-                            <h3 className="fw-bold text-decoration-underline pb-3">{item.title}</h3>
-                            <p>{item.content}</p>
-                        </div>
-                        <div className="col col-12 col-md-5 col-lg-4 col-xl-3">
-                            <img src={item.src} className="rounded" alt="not Found" />
-                        </div>
+        <div className="home-page">
+            {/* ========== Hero Banner ========== */}
+            <section className="home-hero">
+                <div className="home-hero-overlay"></div>
+                <div className="home-hero-content">
+                    <div className="home-hero-badge">
+                        <Library size={18} />
+                        <span>Thư viện trực tuyến Libra</span>
                     </div>
-                ))}
-            </div>
-
-            <div className="" style={{ marginTop: '100px' }}>
-                <h1 className="fw-bold mb-5 text-decoration-underline"><Users className="text-primary pb-3" size={58} />Đồng sáng lập thư viện.</h1>
-                <div className="row">
-                    {coFounder.map(item => {
-                        return (
-                            <div className="col-12 col-md-6 col-xl-4">
-                                <div className="d-flex flex-column justify-content-center align-items-center gap-2">
-                                    <img src={item.image} alt={item.name} className="img-fluid rounded-circle border border-4 border-success" style={{ width: '200px', height: '200px' }} />
-                                    <h3>{item.name}</h3>
-                                </div>
-                            </div>
-                        )
-                    })}
+                    <h1 className="home-hero-title">
+                        Khám phá thế giới<br />
+                        <span className="home-hero-highlight">tri thức</span> cùng Libra
+                    </h1>
+                    <p className="home-hero-subtitle">
+                        Hàng trăm đầu sách chất lượng từ lập trình, khoa học đến văn học.<br />
+                        Mượn sách trực tuyến dễ dàng – nhanh chóng – miễn phí.
+                    </p>
+                    <div className="home-hero-actions">
+                        <button className="home-hero-btn home-hero-btn-primary" onClick={() => navigate('/books')}>
+                            <BookOpen size={18} />
+                            Khám phá ngay
+                        </button>
+                        <button className="home-hero-btn home-hero-btn-outline" onClick={() => navigate('/my-borrowings')}>
+                            <BookMarked size={18} />
+                            Đơn mượn của tôi
+                        </button>
+                    </div>
                 </div>
-                <div className="px-5 py-4 border border-3 border-secondary rounded-4 story mt-4 shadow">
-                    <h4 className="fw-bold text-dark mb-4 text-center d-flex align-items-center justify-content-center gap-2">
-                        <Handshake className="text-primary" size={28} />
-                        <span>KHÁM PHÁ CĂN HẦM CỔ VÀ CÁI BẮT TAY THẾ KỶ</span>
-                    </h4>
-
-                    <p className="text-secondary text-justify lh-lg mb-3">
-                        Vào một buổi chiều mùa thu Hà Nội, <strong>Elon</strong>, <strong>Bill</strong> và <strong>Jensen</strong> cùng nhau rảo bước qua những con ngõ nhỏ của khu phố cổ để tìm kiếm một không gian yên tĩnh sau chuỗi sự kiện công nghệ căng thẳng. Đi sâu vào một lối nhỏ hun hút, cả ba vô tình đứng trước một cánh cửa gỗ sồi đã bạc màu thời gian. Phía trên hiên treo một tấm biển đồng rỉ sét khắc vỏn vẹn bốn chữ: <span className="text-primary fw-semibold">Nhà sách Libra</span>. Tò mò trước vẻ huyền bí đó, họ khẽ đẩy cửa bước vào và hoàn toàn sững sờ trước những gì hiện ra trước mắt.
-                    </p>
-
-                    <p className="text-secondary text-justify lh-lg mb-4">
-                        Đó là một căn hầm sách cổ kính, ngập tràn mùi hương của gỗ sồi và những trang giấy da thuộc cũ kỹ. Giữa không gian nhuốm màu niên đại ấy, hàng chục bạn sinh viên Việt Nam đang ngồi say sưa đọc sách dưới ánh đèn vàng ấm áp. Có bạn vừa gặm bánh mì vừa miệt mài gõ code, có bạn lại đang chật vật lật dở những cuốn tài liệu chuyên ngành bản quyền dày cộp đã sờn gáy. Chứng kiến hình ảnh những người trẻ tuổi tràn đầy năng lượng nhưng phải học tập trong một không gian lưu trữ thủ công và hạn chế, <em>ba vị tỷ phú chợt nhìn nhau, và một ý tưởng lớn ngay lập tức được thắp lên</em>.
-                    </p>
-
-                    <h5 className="fw-bold text-dark h6 mb-3">
-                        Ý tưởng đột phá từ cuộc thảo luận của ba vị tỷ phú:
-                    </h5>
-
-                    <ul className="list-unstyled ps-0 mb-4">
-                        <li className="d-flex align-items-start gap-2 text-secondary text-justify lh-lg mb-3">
-                            <span className="text-primary fw-bold">•</span>
-                            <div>
-                                <strong>Bill Gates</strong> bước đến bên một kệ sách lớn, khẽ chạm tay vào lớp bụi thời gian rồi lên tiếng:
-                                <span className="text-muted italic"> "Các ông nhìn xem, Libra sở hữu một kho tàng bản thảo và tri thức vô giá, nhưng cách quản lý giấy tờ thủ công này đang kiềm hãm sức mạnh của nó. Người trẻ ở đây có tinh thần hiếu học đến kinh ngạc, cái họ thiếu là một bệ phóng số hóa. Tôi muốn đầu tư vào đây, biến Libra thành một <strong>'hệ điều hành tri thức'</strong> thực thụ, số hóa toàn bộ kho lưu trữ này để bất kỳ ai cũng có thể tiếp cận chỉ trong một cú click."</span>
-                            </div>
-                        </li>
-
-                        <li className="d-flex align-items-start gap-2 text-secondary text-justify lh-lg mb-3">
-                            <span className="text-success fw-bold">•</span>
-                            <div>
-                                <strong>Jensen Huang</strong>, lúc này đang lật giở một cuốn sách thiên văn cổ, mắt sáng lên đầy phấn khích khi nhìn ra sự dịch chuyển của làn sóng công nghệ tại Việt Nam:
-                                <span className="text-muted italic"> "Đúng vậy! Bản thân cấu trúc cổ kính của Libra đã là một kiệt tác, nhưng nó cần một bộ não thế hệ mới. Hãy nhìn tốc độ học và ứng dụng AI của các bạn sinh viên xung quanh chúng ta xem. Tôi sẽ cùng các ông đầu tư nâng cấp nơi này, biến Libra thành một <strong>thư viện số thông minh</strong>, được tối ưu bằng chip xử lý Real-time để hệ thống tự động thấu hiểu người đọc."</span>
-                            </div>
-                        </li>
-
-                        <li className="d-flex align-items-start gap-2 text-secondary text-justify lh-lg mb-3">
-                            <span className="text-warning fw-bold">•</span>
-                            <div>
-                                <strong>Elon Musk</strong>, sau khi quan sát một bạn sinh viên phải làm thủ tục viết phiếu mượn qua ba bốn bước rườm rà, liền đập tay xuống chiếc bàn gỗ sồi:
-                                <span className="text-muted italic"> "Thật lãng phí thời gian! Tốc độ chạy deadline của sinh viên Việt Nam nhanh như chớp, mà quy trình mượn trả lại chậm chạp thế này sao? Nếu chúng ta cùng đầu tư, tôi sẽ tối ưu toàn bộ luồng xử lý đơn mượn trực tuyến trực tiếp trên nền tảng web của Libra. <strong>Đăng ký mượn một chạm, hệ thống duyệt đơn chớp nhoáng</strong>, mọi trải nghiệm phải đạt đến tốc độ thần tốc!"</span>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <p className="text-secondary text-justify lh-lg mb-0">
-                        Ngay trong tối hôm đó, bên ly cà phê trứng tại góc phố Hà Nội, một bản thỏa thuận đầu tư chung đã chính thức được ký kết. Ba vị tỷ phú quyết định không phá bỏ, mà gom nguồn lực khổng lồ của mình để <strong>đồng tài trợ và lột xác hoàn toàn cho nhà sách Libra</strong>. Sự kết hợp giữa nền tảng dữ liệu chuẩn mực của Bill, hạ tầng chip AI tối tân của Jensen và hệ thống xử lý đơn mượn siêu tốc của Elon đã biến căn hầm cổ năm ấy thành một thư viện số huyền thoại tại Việt Nam – nơi kết nối vẹn nguyên giá trị hoài cổ với hơi thở của công nghệ tương lai.
-                    </p>
+                <div className="home-hero-shapes">
+                    <div className="home-hero-shape home-hero-shape-1"></div>
+                    <div className="home-hero-shape home-hero-shape-2"></div>
+                    <div className="home-hero-shape home-hero-shape-3"></div>
                 </div>
-            </div> */}
+            </section>
 
+            {/* ========== Quick Navigation Cards ========== */}
+            <section className="home-navigation">
+                <div className="home-section-header">
+                    <div>
+                        <h2 className="home-section-title">Bắt đầu khám phá</h2>
+                        <p className="home-section-desc">Truy cập nhanh đến các chức năng chính của thư viện</p>
+                    </div>
+                </div>
+                <div className="home-nav-grid">
+                    {navItems.map((item, index) => (
+                        <div
+                            key={index}
+                            className={`home-nav-card ${item.color}`}
+                            onClick={() => navigate(item.path)}
+                        >
+                            <div className="home-nav-card-icon">{item.icon}</div>
+                            <h3 className="home-nav-card-title">{item.title}</h3>
+                            <p className="home-nav-card-desc">{item.description}</p>
+                            <span className="home-nav-card-action">
+                                {item.action} <ArrowRight size={14} />
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
+            {/* ========== CTA Section ========== */}
+            <section className="home-cta">
+                <div className="home-cta-content">
+                    <h2 className="home-cta-title">Sẵn sàng khám phá thế giới sách?</h2>
+                    <p className="home-cta-desc">
+                        Hãy ghé thăm thư viện để tìm cho mình những cuốn sách thú vị và bắt đầu hành trình đọc sách ngay hôm nay.
+                    </p>
+                    <button className="home-hero-btn home-hero-btn-primary" onClick={() => navigate('/books')}>
+                        <BookOpen size={18} />
+                        Khám phá thư viện
+                    </button>
+                </div>
+            </section>
         </div>
-    )
+    );
 }
