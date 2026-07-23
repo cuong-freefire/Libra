@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Search, Plus, Edit, Trash2, Eye, EyeOff } from "lucide-react";
+import { Search, Plus, Edit, Eye, EyeOff } from "lucide-react";
 import { axiosApi } from "../../api/axios";
 import { toast } from "react-toastify";
 import Pagination from "../../components/pagination/Pagination";
@@ -115,19 +115,6 @@ export default function AdminCategory() {
             loadCategories();
         } catch (error) {
             toast.error(error.message || "Lỗi xử lý thể loại");
-        }
-    };
-
-    // Handle delete
-    const handleDelete = async (id) => {
-        if (window.confirm("Bạn có chắc muốn xóa thể loại này?")) {
-            try {
-                await axiosApi.delete(`categories/${id}`);
-                toast.success("Xóa thể loại thành công");
-                loadCategories();
-            } catch (error) {
-                toast.error(error.message || "Lỗi xóa thể loại");
-            }
         }
     };
 
@@ -289,13 +276,6 @@ export default function AdminCategory() {
                                             title="Cập nhật"
                                         >
                                             <Edit size={16} />
-                                        </button>
-                                        <button
-                                            className="btn btn-sm btn-outline-danger"
-                                            onClick={() => handleDelete(category.id)}
-                                            title="Xóa"
-                                        >
-                                            <Trash2 size={16} />
                                         </button>
                                     </td>
                                 </tr>

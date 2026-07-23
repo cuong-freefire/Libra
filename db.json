@@ -33,7 +33,7 @@
       "username": "locked01",
       "password": "Reader123@",
       "role": "reader",
-      "is_active": false,
+      "is_active": true,
       "image": "https://randomuser.me/api/portraits/men/12.jpg"
     },
     {
@@ -135,8 +135,8 @@
       "shelfId": "s1",
       "description": "Hướng dẫn từng bước xây dựng ứng dụng React với component, state, route và API.",
       "totalCopies": 9,
-      "borrowedCopies": 1,
-      "damagedCopies": 1,
+      "borrowedCopies": 0,
+      "damagedCopies": 2,
       "lostCopies": 2,
       "coverImage": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=900&q=80",
       "is_active": true
@@ -247,7 +247,7 @@
       "shelfId": "s2",
       "description": "Build simple backend services with Node.js, routing, middleware, validation, and file structure.",
       "totalCopies": 6,
-      "borrowedCopies": 1,
+      "borrowedCopies": 2,
       "damagedCopies": 0,
       "lostCopies": 0,
       "coverImage": "https://picsum.photos/seed/book-9/900/1200",
@@ -275,7 +275,7 @@
       "shelfId": "s1",
       "description": "Testing user interfaces with unit tests, integration tests, mocks, and browser-based checks.",
       "totalCopies": 5,
-      "borrowedCopies": 0,
+      "borrowedCopies": 1,
       "damagedCopies": 0,
       "lostCopies": 0,
       "coverImage": "https://picsum.photos/seed/book-11/900/1200",
@@ -994,11 +994,11 @@
       "bookId": "1",
       "borrowDate": "2026-07-21",
       "dueDate": "2026-08-03",
-      "returnDate": null,
-      "status": "borrowing",
+      "returnDate": "2026-07-23",
+      "status": "returned",
       "rejectReason": "",
-      "returnCondition": null,
-      "returnNote": "",
+      "returnCondition": "damaged",
+      "returnNote": "Hỏng",
       "id": "0OnOvOeALX8"
     },
     {
@@ -1027,46 +1027,7 @@
     },
     {
       "userId": "2",
-      "bookId": "7",
-      "requestDate": "2026-07-23",
-      "borrowDate": null,
-      "dueDate": null,
-      "returnDate": null,
-      "status": "cancelled",
-      "rejectReason": "",
-      "returnCondition": null,
-      "returnNote": "",
-      "id": "BdSBJhtyUwg"
-    },
-    {
-      "userId": "2",
-      "bookId": "46",
-      "requestDate": "2026-07-23",
-      "borrowDate": "2026-07-23",
-      "dueDate": "2026-08-05",
-      "returnDate": "2026-07-23",
-      "status": "returned",
-      "rejectReason": "",
-      "returnCondition": "normal",
-      "returnNote": "",
-      "id": "X80-MEOoJsw"
-    },
-    {
-      "userId": "3",
-      "bookId": "46",
-      "requestDate": "2026-07-23",
-      "borrowDate": null,
-      "dueDate": null,
-      "returnDate": null,
-      "status": "cancelled",
-      "rejectReason": "Đơn được tự hủy vì đầu sách đã hết bản khả dụng.",
-      "returnCondition": null,
-      "returnNote": "",
-      "id": "Fc_Sa-947Bo"
-    },
-    {
-      "userId": "2",
-      "bookId": "5",
+      "bookId": "9",
       "requestDate": "2026-07-23",
       "borrowDate": "2026-07-23",
       "dueDate": "2026-08-05",
@@ -1075,15 +1036,46 @@
       "rejectReason": "",
       "returnCondition": null,
       "returnNote": "",
-      "id": "MALuZG3hU-0"
-    }
-  ],
-  "favorites": [
+      "id": "CjdgAnEI9MI"
+    },
     {
       "userId": "2",
-      "bookId": "1",
-      "createdAt": "2026-07-23T09:44:03.166Z",
-      "id": "v6dUMg_So0w"
+      "bookId": "11",
+      "requestDate": "2026-07-23",
+      "borrowDate": "2026-07-23",
+      "dueDate": "2026-12-05",
+      "returnDate": null,
+      "status": "borrowing",
+      "rejectReason": "",
+      "returnCondition": null,
+      "returnNote": "",
+      "id": "0K4bUR8Anu0"
+    },
+    {
+      "userId": "2",
+      "bookId": "7",
+      "requestDate": "2026-07-23",
+      "borrowDate": null,
+      "dueDate": null,
+      "returnDate": null,
+      "status": "pending",
+      "rejectReason": "",
+      "returnCondition": null,
+      "returnNote": "",
+      "id": "ocR4FywhPvE"
+    },
+    {
+      "userId": "2",
+      "bookId": "6",
+      "requestDate": "2026-07-23",
+      "borrowDate": null,
+      "dueDate": null,
+      "returnDate": null,
+      "status": "pending",
+      "rejectReason": "",
+      "returnCondition": null,
+      "returnNote": "",
+      "id": "08lHvPKWTAQ"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
