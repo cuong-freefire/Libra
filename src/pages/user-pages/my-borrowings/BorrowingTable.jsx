@@ -124,6 +124,9 @@ export default function BorrowingTable() {
                 {/* Date Range Filter */}
                 <form className="filter-date-form" onSubmit={handleDateApply}>
                     <div className="filter-date-group">
+                        <h6>Ngày mượn: </h6>
+                    </div>
+                    <div className="filter-date-group">
                         <label className="filter-date-label">Từ ngày</label>
                         <input
                             type="date"
