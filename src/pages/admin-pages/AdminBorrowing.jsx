@@ -36,6 +36,22 @@ function addDays(date, amount) {
     return result.toISOString().slice(0, 10);
 }
 
+function toIsoDueDate(value, today) {
+    const match = value.match(/^(\d{2})-(\d{2})-(\d{4})$/);
+    if (!match) return null;
+
+    const [, day, month, year] = match;
+    const isoDate = `${year}-${month}-${day}`;
+    const date = new Date(Number(year), Number(month) - 1, Number(day));
+    const isRealDate = date.getFullYear() === Number(year)
+        && date.getMonth() === Number(month) - 1
+        && date.getDate() === Number(day);
+    if (!isRealDate || isoDate < today) {
+        return null;
+    }
+    return isoDate;
+}
+
 function isOverdue(item) {
     return item.status === "borrowing" && item.dueDate && toInputDate(item.dueDate) < new Date().toISOString().slice(0, 10);
 }
@@ -155,12 +171,21 @@ export default function AdminBorrowing() {
                 && String(borrowing.id) !== String(item.id)
             );
             const today = new Date().toISOString().slice(0, 10);
+            const defaultDueDate = addDays(today, 14).split("-").reverse().join("-");
+            const dueDateInput = window.prompt("Nhập hạn trả (VD: 05-08-2026):", defaultDueDate);
+            if (dueDateInput === null) return;
+
+            const dueDate = toIsoDueDate(dueDateInput.trim(), today);
+            if (!dueDate) {
+                toast.error("Hạn trả phải đúng định dạng và không được trước ngày duyệt.");
+                return;
+            }
 
             await Promise.all([
                 axiosApi.patch(`borrowings/${item.id}`, {
                     status: "borrowing",
                     borrowDate: today,
-                    dueDate: addDays(today, 14),
+                    dueDate,
                     rejectReason: "",
                 }),
                 axiosApi.patch(`books/${book.id}`, { borrowedCopies: Number(book.borrowedCopies || 0) + 1 }),

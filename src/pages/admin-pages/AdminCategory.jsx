@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Search, Plus, Edit, Trash2, Eye, EyeOff } from "lucide-react";
+import { Search, Plus, Edit, Eye, EyeOff } from "lucide-react";
 import { axiosApi } from "../../api/axios";
 import { toast } from "react-toastify";
 import Pagination from "../../components/pagination/Pagination";
@@ -127,23 +127,6 @@ export default function AdminCategory() {
             loadCategories();
         } catch (error) {
             toast.error(error.message || "Lỗi cập nhật trạng thái hiển thị");
-        }
-    };
-
-    // Soft delete: preserve categories that may already be linked to books.
-    const handleDelete = async (category) => {
-        if (category.is_active === false) return;
-
-        if (!window.confirm(`Ẩn thể loại "${category.name}"? Thể loại sẽ không bị xóa khỏi dữ liệu.`)) {
-            return;
-        }
-
-        try {
-            await axiosApi.patch(`categories/${category.id}`, { is_active: false });
-            toast.success("Đã ẩn thể loại. Dữ liệu sách liên quan vẫn được giữ nguyên.");
-            loadCategories();
-        } catch (error) {
-            toast.error(error.message || "Không thể ẩn thể loại");
         }
     };
 
@@ -293,14 +276,6 @@ export default function AdminCategory() {
                                             title="Cập nhật"
                                         >
                                             <Edit size={16} />
-                                        </button>
-                                        <button
-                                            className="btn btn-sm btn-outline-danger"
-                                            onClick={() => handleDelete(category)}
-                                            disabled={category.is_active === false}
-                                            title={category.is_active === false ? "Thể loại đã ẩn" : "Ẩn thể loại"}
-                                        >
-                                            <Trash2 size={16} />
                                         </button>
                                     </td>
                                 </tr>
